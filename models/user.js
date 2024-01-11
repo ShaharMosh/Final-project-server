@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
 
-const Schema = mongoose.Schema;
-const User = new Schema({
+const UserSchema = mongoose.Schema({
     email: {
         type: String,
         required: true
@@ -15,4 +14,11 @@ const User = new Schema({
         required: true
     }
 });
-export default mongoose.model('User', User);
+const User =  mongoose.model('User', UserSchema);
+
+// Connect to the MongoDB server
+mongoose.connect('mongodb://127.0.0.1:27017/db_server', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
+export default User;
