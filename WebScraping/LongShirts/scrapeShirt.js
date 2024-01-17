@@ -11,8 +11,8 @@ async function scrapeWebsite(url, config) {
 
     $(config.nameSelector).each((index, element) => {
       const productName = $(element).find(config.nameSelector).text().trim();
-      //   const productPrice = $(element).find(config.priceSelector).text().trim();
-      //   const productImage = $(element).find(config.imageSelector).attr("src");
+      const productPrice = $(element).find(config.priceSelector).text().trim();
+      const productImage = $(element).find(config.imageSelector).attr("src");
       console.log(productName);
       productInfo.push({
         name: productName,
