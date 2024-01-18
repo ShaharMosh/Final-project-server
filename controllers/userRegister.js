@@ -7,10 +7,14 @@ const createUser = async (req, res) => {
     req.body.email,
     req.body.firstName,
     req.body.lastName,
-    req.body.password
+    req.body.password,
+    req.body.confirmPassword
   );
+  console.log({"err" :error})
+  console.log({"exist" :exist})
 
   if (error === "" && !exist) {
+    
     const newUser = await userService.createUser(
       req.body.email,
       req.body.firstName,
@@ -19,7 +23,7 @@ const createUser = async (req, res) => {
     );
     res.json(newUser);
   } else if (exist) {
-    res.status(409).json({ error: "Username already exists" });
+    res.status(409).json({ error: "Email already exists" });
   } else {
     res.status(400).json({ error });
   }

@@ -7,7 +7,7 @@ const checkPassword = (password) => {
   return false;
 };
 
-const checkEmail = () => {
+const checkEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (email === "" || emailRegex.test(email) === false) {
     return false;
@@ -15,12 +15,19 @@ const checkEmail = () => {
   return true;
 };
 
-const isValidUser = (email, firstName, lastName, password) => {
-  const errorList = [];
+const CheckConfirmPassword = (password ,confirmPassword) => {
+  if (password === confirmPassword) {
+    return true;
+  }
+  return false;
+};
 
-  if (checkEmail(email)) {
+const isValidUser = (email, firstName, lastName, password, confirmPassword) => {
+  const errorList = [];
+  if (!checkEmail(email)) {
     errorList.push("email");
   }
+  
   if (firstName === "") {
     errorList.push("first name");
   }
@@ -30,6 +37,10 @@ const isValidUser = (email, firstName, lastName, password) => {
   if (!checkPassword(password)) {
     errorList.push("password");
   }
+  if(!CheckConfirmPassword(password, confirmPassword)){
+    errorList.push("confirm password");
+  }
+  console.log(errorList);
 
   return errorList.join(", ");
 };
