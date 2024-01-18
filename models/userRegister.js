@@ -7,17 +7,17 @@ const UserPassNameSchema = new mongoose.Schema({
         required: true
     },
 
+    password: {
+        type: String,
+        required: true
+    },
+
     firstName: {
         type: String,
         required: true
     },
 
     lastName: {
-        type: String,
-        required: true
-    },
-
-    password: {
         type: String,
         required: true
     },
@@ -34,7 +34,7 @@ const UserPassNameSchema = new mongoose.Schema({
 const UserPassName = mongoose.model('Users', UserPassNameSchema);
 
 // Connect to the MongoDB server
-mongoose.connect('mongodb://127.0.0.1:27017/DB', {
+mongoose.connect('mongodb://127.0.0.1:27017/db_server', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
