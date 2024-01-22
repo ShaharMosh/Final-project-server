@@ -1,4 +1,3 @@
-import e from "express";
 import userService from "../services/userRegister.js";
 
 const createUser = async (req, res) => {
@@ -10,8 +9,6 @@ const createUser = async (req, res) => {
     req.body.password,
     req.body.confirmPassword
   );
-  console.log({"err" :error})
-  console.log({"exist" :exist})
 
   if (error === "" && !exist) {
     

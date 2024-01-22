@@ -20,8 +20,10 @@ console.log('PORT:', process.env.PORT)
 import cors from 'cors'
 app.use(cors());
 
-import router from './routes/userRegister.js'
-app.use('/api', router);
+import userRegister from './routes/userRegister.js'
+import userLogin from "./routes/userLogin.js";
+app.use('/api', userRegister);
+app.use('/api', userLogin);
 
 app.use(express.static('public'));
 

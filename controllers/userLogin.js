@@ -6,7 +6,7 @@ const login = async (req, res) => {
   if (token !== null) {
     res.json({ token });
   } else {
-    res.status(404).json({ error: "Invalid email or password" });
+    res.status(404).json({ error: " email or password" });
   }
 };
 
