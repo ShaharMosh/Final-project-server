@@ -22,8 +22,10 @@ app.use(cors());
 
 import userRegister from './routes/userRegister.js'
 import userLogin from "./routes/userLogin.js";
+import user from "./routes/user.js";
 app.use('/api', userRegister);
 app.use('/api', userLogin);
+app.use('/api', user);
 
 app.use(express.static('public'));
 
