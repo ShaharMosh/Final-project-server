@@ -27,6 +27,10 @@ app.use('/api', userRegister);
 app.use('/api', userLogin);
 app.use('/api', user);
 
+
+import item from "./services/item.js";
+item.createItem();
+
 app.use(express.static('public'));
 
 import { MongoClient } from "mongodb";
