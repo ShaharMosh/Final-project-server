@@ -16,7 +16,9 @@ async function scrapeWebsite(url, config) {
         .first()
         .text()
         .trim();
-      const productImage = $(element).find(config.imageSelector).attr("src");
+      const productImage =
+        $(element).find(config.imageSelector).attr("src") ||
+        $(element).find(config.imageSelector).attr("data-src");
       const productURL = $(element).find(config.URLSelector).attr("href");
 
       productInfo.push({

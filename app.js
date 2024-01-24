@@ -37,7 +37,6 @@ const server = http.createServer(app);
 server.listen(process.env.PORT);
 
 const websitesToScrape = {
-  // "https://www.castro.com/women/categories/tops_/_bodysuits/long_shirts": {
   "https://www.castro.com/sale/categories/men?color_group=1785": {
     itemSelector: ".products.list.items.product-items li",
     nameSelector: ".product-category-name.product-name a",
@@ -45,16 +44,23 @@ const websitesToScrape = {
     imageSelector: ".product-image-photo",
     URLSelector: ".quickview a.product_quickview",
   },
-  "https://www.renuar.co.il/women/midseasonsale/2for79.90/?prefn1=size&prefv1=41":
+  "https://www.renuar.co.il/women/shoes/?page=women": {
+    itemSelector: ".set-item.product-tile.js-product-tile.h-100",
+    nameSelector: ".tile-body h3",
+    priceSelector: ".value[content]",
+    imageSelector: ".tile-thumbnail img",
+    URLSelector: "a",
+  },
+  "https://adikastyle.com/collections/winter-collection?filter.v.price.lte=81&filter.v.availability=1&sort_by=manual":
     {
-      itemSelector: ".set-item.product-tile.js-product-tile.h-100",
-      nameSelector: ".tile-body h3",
-      priceSelector: ".value[content]",
-      imageSelector: ".tile-image.w-100.lazyloaded",
+      itemSelector: ".block-inner",
+      nameSelector: ".product-block__title",
+      priceSelector: ".product-price__item",
+      imageSelector: ".rimage-wrapper img.rimage__image",
       URLSelector: "a",
     },
 };
 
-const [firstUrl, firstConfig] = Object.entries(websitesToScrape)[1];
-const scrapedData = await scrapeWebsite(firstUrl, firstConfig);
+const [website, config] = Object.entries(websitesToScrape)[2];
+const scrapedData = await scrapeWebsite(website, config);
 console.log(scrapedData);
