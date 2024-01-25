@@ -7,13 +7,14 @@ const isLogin = async (email, password) => {
   if (!user) {
     return null;
   }
+  const name = user.firstName;
 
   // Generate a token
   const token = jwt.sign({ userId: user._id }, process.env.KEY, {
     expiresIn: "1h",
   });
 
-  return token;
+  return { name, token };;
 };
 
 export default {
