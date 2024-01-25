@@ -19,7 +19,6 @@ const getDetails = async (req, authorization) => {
 
     // Extract the user's ID from the decoded token
     const userId = decodedToken.userId;
-    console.log('id::', userId)
 
 
     try {

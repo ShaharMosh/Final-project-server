@@ -23,9 +23,12 @@ app.use(cors());
 import userRegister from './routes/userRegister.js'
 import userLogin from "./routes/userLogin.js";
 import user from "./routes/user.js";
+import details from "./routes/details.js";
 app.use('/api', userRegister);
 app.use('/api', userLogin);
 app.use('/api', user);
+console.log('appp')
+app.use('/api', details);
 
 
 import item from "./services/item.js";
