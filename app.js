@@ -1,27 +1,25 @@
-import {
-  scrapeWebsite,
-  scrapeMultipleWebsites,
-} from "./WebScraping/LongShirts/scrapeShirt.js";
+import { scrapeWebsite } from "./WebScraping/scraping.js";
 
-import express from 'express'
-import customEnv from 'custom-env'
-import http from 'http';
+import express from "express";
+import customEnv from "custom-env";
+import http from "http";
 
 const app = express();
 
-import bodyParser from 'body-parser'
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(express.json())
+import bodyParser from "body-parser";
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 
-customEnv.env(process.env.NODE_ENV, './config')
-console.log('CONNECTION_STRING:', process.env.CONNECTION_STRING)
-console.log('PORT:', process.env.PORT)
+customEnv.env(process.env.NODE_ENV, "./config");
+console.log("CONNECTION_STRING:", process.env.CONNECTION_STRING);
+console.log("PORT:", process.env.PORT);
 
-import cors from 'cors'
+import cors from "cors";
 app.use(cors());
 
-import userRegister from './routes/userRegister.js'
+import userRegister from "./routes/userRegister.js";
 import userLogin from "./routes/userLogin.js";
+
 import user from "./routes/user.js";
 import details from "./routes/details.js";
 app.use('/api', userRegister);
@@ -30,11 +28,10 @@ app.use('/api', user);
 console.log('appp')
 app.use('/api', details);
 
-
 import item from "./services/item.js";
 item.createItem();
 
-app.use(express.static('public'));
+app.use(express.static("public"));
 
 import { MongoClient } from "mongodb";
 const client = new MongoClient("mongodb://127.0.0.1:27017");
@@ -46,26 +43,33 @@ try {
   console.error("Error connecting to the database", error);
 }
 const server = http.createServer(app);
-server.listen(process.env.PORT)
+server.listen(process.env.PORT);
 
-// Example usage
-const websitesToScrape = [
-  {
-    url: "https://www.castro.com/women/categories/tops_/_bodysuits/long_shirts",
-    config: {
-      //   productSelector: ".product-class",
-      nameSelector: "#product_category_157204",
-      //   priceSelector: ".price-class",
-    },
+const websitesToScrape = {
+  "https://www.castro.com/sale/categories/men?color_group=1785": {
+    itemSelector: ".products.list.items.product-items li",
+    nameSelector: ".product-category-name.product-name a",
+    priceSelector: ".price-wrapper[data-price-amount]",
+    imageSelector: ".product-image-photo",
+    URLSelector: ".quickview a.product_quickview",
   },
-  //   {
-  //     url: "https://website2.com",
-  //     config: {
-  //       productSelector: ".item-class",
-  //       nameSelector: ".title-class",
-  //       priceSelector: ".cost-class",
-  //     },
-  //   },
-];
+  "https://www.renuar.co.il/women/shoes/?page=women": {
+    itemSelector: ".set-item.product-tile.js-product-tile.h-100",
+    nameSelector: ".tile-body h3",
+    priceSelector: ".value[content]",
+    imageSelector: ".tile-thumbnail img",
+    URLSelector: "a",
+  },
+  "https://adikastyle.com/collections/winter-collection?filter.v.price.lte=81&filter.v.availability=1&sort_by=manual":
+    {
+      itemSelector: ".block-inner",
+      nameSelector: ".product-block__title",
+      priceSelector: ".product-price__item",
+      imageSelector: ".rimage-wrapper img.rimage__image",
+      URLSelector: "a",
+    },
+};
 
-scrapeMultipleWebsites(websitesToScrape);
+const [website, config] = Object.entries(websitesToScrape)[2];
+const scrapedData = await scrapeWebsite(website, config);
+console.log(scrapedData);

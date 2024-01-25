@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
 const UserSchema = mongoose.Schema({
     email: {
@@ -17,13 +17,12 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: true
     }
-
 });
-const User =  mongoose.model('User', UserSchema);
+const User = mongoose.model("User", UserSchema);
 
 // Connect to the MongoDB server
-mongoose.connect('mongodb://127.0.0.1:27017/db_server', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+mongoose.connect("mongodb://127.0.0.1:27017/db_server", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 export default User;
