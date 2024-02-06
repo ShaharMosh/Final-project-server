@@ -22,11 +22,12 @@ import userLogin from "./routes/userLogin.js";
 
 import user from "./routes/user.js";
 import details from "./routes/details.js";
+import password from "./routes/password.js";
 app.use('/api', userRegister);
 app.use('/api', userLogin);
 app.use('/api', user);
-console.log('appp')
 app.use('/api', details);
+app.use('/api', password);
 
 import item from "./services/item.js";
 item.createItem();

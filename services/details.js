@@ -3,12 +3,6 @@ import jwt from 'jsonwebtoken'
 import { Types } from 'mongoose';
 
 
-const checkPassword = (password) => {
-  if (/^[A-Za-z0-9]*$/.test(password) === true && password.length >= 8) {
-    return true;
-  }
-  return false;
-};
 
 const checkEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -18,12 +12,6 @@ const checkEmail = (email) => {
   return true;
 };
 
-const CheckConfirmPassword = (password, confirmPassword) => {
-  if (password === confirmPassword) {
-    return true;
-  }
-  return false;
-};
 
 const isValidDetails = (email, firstName, lastName) => {
   const errorList = [];
@@ -43,7 +31,7 @@ const isValidDetails = (email, firstName, lastName) => {
   //   if(!CheckConfirmPassword(password, confirmPassword)){
   //     errorList.push("confirm password");
   //   }
-  //console.log(errorList);
+  console.log(errorList);
 
   return errorList.join(", ");
 };
