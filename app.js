@@ -47,10 +47,10 @@ const server = http.createServer(app);
 server.listen(process.env.PORT);
 
 const websitesToScrape = {
-  "https://www.castro.com/sale/categories/men?color_group=1785": {
+  "https://www.castro.com/shop-home/mood/flash_sale?price=8_15": {
     itemSelector: ".products.list.items.product-items li",
     nameSelector: ".product-category-name.product-name a",
-    priceSelector: ".price-wrapper[data-price-amount]",
+    priceSelector: ".price-wrapper .price:not(:contains('0.00'))",
     imageSelector: ".product-image-photo",
     URLSelector: ".quickview a.product_quickview",
   },
@@ -66,11 +66,22 @@ const websitesToScrape = {
       itemSelector: ".block-inner",
       nameSelector: ".product-block__title",
       priceSelector: ".product-price__item",
-      imageSelector: ".rimage-wrapper img.rimage__image",
+      imageSelector: ".rimage__image",
+      URLSelector: ".image-cont a",
+    },
+    "https://fashionclub.co.il/product-category/%d7%91%d7%92%d7%93%d7%99%d7%9d/%d7%9e%d7%9b%d7%a0%d7%a1%d7%99%d7%99%d7%9d/jeans?filter=category&pa_color%5B%5D=1384&pa_size%5B%5D=16&minPrice=0&maxPrice=139":
+    {
+      itemSelector: ".product-col",
+      nameSelector: ".product-title a",
+      priceSelector: ".amount bdi",
+      imageSelector: ".slide-img-wrap img",
       URLSelector: "a",
     },
+
+    // GOLF, H&0, תמנון, סטודיו פשה- shahar
+    // אורבניקה, Hoodies, twentyfourseven + colors - Adi
 };
 
-const [website, config] = Object.entries(websitesToScrape)[2];
+const [website, config] = Object.entries(websitesToScrape)[3];
 const scrapedData = await scrapeWebsite(website, config);
 console.log(scrapedData);
