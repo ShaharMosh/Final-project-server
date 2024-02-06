@@ -11,15 +11,30 @@ async function scrapeWebsite(url, config) {
 
     $(config.itemSelector).each((index, element) => {
       const productName = $(element).find(config.nameSelector).text().trim();
-      const productPrice = $(element)
-        .find(config.priceSelector)
-        .first()
-        .text()
-        .trim();
-      const productImage =
+
+      // Get an array of all prices within the current item
+      const prices = $(element).find(config.priceSelector).map(function () {
+        return parseFloat($(this).text().trim().replace(/[^\d.]/g, '')); // Remove non-numeric characters and convert to number
+      }).get();
+
+      // Find the minimum price
+      const productPrice = Math.min(...prices).toFixed(2);
+
+      var productImage =
         $(element).find(config.imageSelector).attr("src") ||
         $(element).find(config.imageSelector).attr("data-src");
-      const productURL = $(element).find(config.URLSelector).attr("href");
+      var productURL = $(element).find(config.URLSelector).attr("href");
+
+      var adikastyle = "adikastyle";
+      if (url.includes(adikastyle)) {
+        productURL = "https://adikastyle.com" + productURL;
+        productImage = productImage.replace('{width}', '480')
+      }
+
+      var renuar = "renuar";
+      if (url.includes(renuar)) {
+        productURL = "https://www.renuar.co.il" + productURL;
+      }
 
       productInfo.push({
         name: productName || "N/A",
