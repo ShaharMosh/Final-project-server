@@ -23,11 +23,11 @@ import userLogin from "./routes/userLogin.js";
 import user from "./routes/user.js";
 import details from "./routes/details.js";
 import password from "./routes/password.js";
-app.use('/api', userRegister);
-app.use('/api', userLogin);
-app.use('/api', user);
-app.use('/api', details);
-app.use('/api', password);
+app.use("/api", userRegister);
+app.use("/api", userLogin);
+app.use("/api", user);
+app.use("/api", details);
+app.use("/api", password);
 
 import item from "./services/item.js";
 item.createItem();
@@ -47,41 +47,42 @@ const server = http.createServer(app);
 server.listen(process.env.PORT);
 
 const websitesToScrape = {
-  "https://www.castro.com/shop-home/mood/flash_sale?price=8_15": {
-    itemSelector: ".products.list.items.product-items li",
-    nameSelector: ".product-category-name.product-name a",
-    priceSelector: ".price-wrapper .price:not(:contains('0.00'))",
-    imageSelector: ".product-image-photo",
-    URLSelector: ".quickview a.product_quickview",
-  },
+  "https://www.castro.com/women/our_favorites/new_arrivals?price=58_71&size=4842":
+    {
+      itemSelector: ".products.list.items.product-items li",
+      nameSelector: ".product-category-name.product-name a",
+      priceSelector: ".price-wrapper .price:not(:contains('0.00'))",
+      imageSelector: ".product-image-photo",
+      URLSelector: ".quickview a.product_quickview",
+      colorSelector: ".swatch-option",
+    },
   "https://www.renuar.co.il/women/shoes/?page=women": {
     itemSelector: ".set-item.product-tile.js-product-tile.h-100",
     nameSelector: ".tile-body h3",
     priceSelector: ".value[content]",
     imageSelector: ".tile-thumbnail img",
     URLSelector: "a",
+    colorSelector: ".swatch[src]",
   },
-  "https://adikastyle.com/collections/winter-collection?filter.v.price.lte=81&filter.v.availability=1&sort_by=manual":
-    {
-      itemSelector: ".block-inner",
-      nameSelector: ".product-block__title",
-      priceSelector: ".product-price__item",
-      imageSelector: ".rimage__image",
-      URLSelector: ".image-cont a",
-    },
-    "https://fashionclub.co.il/product-category/%d7%91%d7%92%d7%93%d7%99%d7%9d/%d7%9e%d7%9b%d7%a0%d7%a1%d7%99%d7%99%d7%9d/jeans?filter=category&pa_color%5B%5D=1384&pa_size%5B%5D=16&minPrice=0&maxPrice=139":
+  // "https://adikastyle.com/collections/winter-collection?filter.v.price.lte=81&filter.v.availability=1&sort_by=manual":
+  //   {
+  //     itemSelector: ".block-inner",
+  //     nameSelector: ".product-block__title",
+  //     priceSelector: ".product-price__item",
+  //     imageSelector: ".rimage__image",
+  //     URLSelector: ".image-cont a",
+  //   },
+  "https://fashionclub.co.il/product-category/%d7%91%d7%92%d7%93%d7%99%d7%9d/%d7%9e%d7%9b%d7%a0%d7%a1%d7%99%d7%99%d7%9d/jeans?filter=category&pa_color%5B%5D=1384&pa_size%5B%5D=16&minPrice=0&maxPrice=139":
     {
       itemSelector: ".product-col",
       nameSelector: ".product-title a",
       priceSelector: ".amount bdi",
       imageSelector: ".slide-img-wrap img",
       URLSelector: "a",
+      colorSelector: ".variable-item-span-color",
     },
-
-    // GOLF, H&0, תמנון, סטודיו פשה- shahar
-    // אורבניקה, Hoodies, twentyfourseven + colors - Adi
 };
 
-const [website, config] = Object.entries(websitesToScrape)[3];
+const [website, config] = Object.entries(websitesToScrape)[1];
 const scrapedData = await scrapeWebsite(website, config);
 console.log(scrapedData);

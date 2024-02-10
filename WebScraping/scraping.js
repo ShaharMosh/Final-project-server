@@ -1,7 +1,7 @@
 import axios from "axios";
 import cheerio from "cheerio";
 
-// Function to perform the web scraping for a single website
+// Function to perform the web scraping for a website
 async function scrapeWebsite(url, config) {
   try {
     const response = await axios.get(url);
@@ -13,9 +13,17 @@ async function scrapeWebsite(url, config) {
       const productName = $(element).find(config.nameSelector).text().trim();
 
       // Get an array of all prices within the current item
-      const prices = $(element).find(config.priceSelector).map(function () {
-        return parseFloat($(this).text().trim().replace(/[^\d.]/g, '')); // Remove non-numeric characters and convert to number
-      }).get();
+      const prices = $(element)
+        .find(config.priceSelector)
+        .map(function () {
+          return parseFloat(
+            $(this)
+              .text()
+              .trim()
+              .replace(/[^\d.]/g, "")
+          ); // Remove non-numeric characters and convert to number
+        })
+        .get();
 
       // Find the minimum price
       const productPrice = Math.min(...prices).toFixed(2);
@@ -23,28 +31,37 @@ async function scrapeWebsite(url, config) {
       var productImage =
         $(element).find(config.imageSelector).attr("src") ||
         $(element).find(config.imageSelector).attr("data-src");
+
       var productURL = $(element).find(config.URLSelector).attr("href");
 
-      var adikastyle = "adikastyle";
-      if (url.includes(adikastyle)) {
-        productURL = "https://adikastyle.com" + productURL;
-        productImage = productImage.replace('{width}', '480')
-      }
+      // var adikastyle = "adikastyle";
+      // if (url.includes(adikastyle)) {
+      //   productURL = "https://adikastyle.com" + productURL;
+      //   productImage = productImage.replace("{width}", "480");
+      // }
 
-      var renuar = "renuar";
-      if (url.includes(renuar)) {
+      // var renuar = "renuar";
+      if (url.includes("renuar")) {
         productURL = "https://www.renuar.co.il" + productURL;
       }
+
+      var productColors = $(element).find(config.colorSelector);
+      const productColor = [];
+      productColors.each(function () {
+        const backgroundColor =
+          $(this).attr("src") || $(this).css("background-color");
+        productColor.push(backgroundColor);
+      });
 
       productInfo.push({
         name: productName || "N/A",
         price: productPrice || "N/A",
         image: productImage || "N/A",
         URL: productURL || "N/A",
+        color: productColor || "N/A",
       });
     });
 
-    // console.log(`Scraped information from ${url}:`, productInfo);
     return productInfo;
   } catch (error) {
     console.error("Error scraping ${url}:", error.message);
