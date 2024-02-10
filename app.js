@@ -23,11 +23,11 @@ import userLogin from "./routes/userLogin.js";
 import user from "./routes/user.js";
 import details from "./routes/details.js";
 import password from "./routes/password.js";
-app.use('/api', userRegister);
-app.use('/api', userLogin);
-app.use('/api', user);
-app.use('/api', details);
-app.use('/api', password);
+app.use("/api", userRegister);
+app.use("/api", userLogin);
+app.use("/api", user);
+app.use("/api", details);
+app.use("/api", password);
 
 import item from "./services/item.js";
 item.createItem();
@@ -47,19 +47,22 @@ const server = http.createServer(app);
 server.listen(process.env.PORT);
 
 const websitesToScrape = {
-  "https://www.castro.com/shop-home/mood/flash_sale?price=8_15": {
-    itemSelector: ".products.list.items.product-items li",
-    nameSelector: ".product-category-name.product-name a",
-    priceSelector: ".price-wrapper .price:not(:contains('0.00'))",
-    imageSelector: ".product-image-photo",
-    URLSelector: ".quickview a.product_quickview",
-  },
+  "https://www.castro.com/women/our_favorites/new_arrivals?price=58_71&size=4842":
+    {
+      itemSelector: ".products.list.items.product-items li",
+      nameSelector: ".product-category-name.product-name a",
+      priceSelector: ".price-wrapper .price:not(:contains('0.00'))",
+      imageSelector: ".product-image-photo",
+      URLSelector: ".quickview a.product_quickview",
+      colorSelector: ".swatch-option",
+    },
   "https://www.renuar.co.il/women/shoes/?page=women": {
     itemSelector: ".set-item.product-tile.js-product-tile.h-100",
     nameSelector: ".tile-body h3",
     priceSelector: ".value[content]",
     imageSelector: ".tile-thumbnail img",
     URLSelector: "a",
+    colorSelector: ".swatch[src]",
   },
   "https://adikastyle.com/collections/winter-collection?filter.v.price.lte=81&filter.v.availability=1&sort_by=manual":
   {
@@ -75,7 +78,8 @@ const websitesToScrape = {
     nameSelector: ".product-detail .product-title a",
     priceSelector: ".amount bdi",
     imageSelector: ".slide-img-wrap img",
-    URLSelector: "a", ////////////////////////////////////////////////////////////////////////////////////////////////////fix
+    URLSelector: "a", // FIX IT!!!
+    colorSelector: ".variable-item-span-color",
   },
   "https://www.golf-il.co.il/women/sweater-and-knitted-shirts?size=2769":
   {
