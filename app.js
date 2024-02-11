@@ -23,11 +23,13 @@ import userLogin from "./routes/userLogin.js";
 import user from "./routes/user.js";
 import details from "./routes/details.js";
 import password from "./routes/password.js";
+import searchResults from "./routes/searchResults.js";
 app.use('/api', userRegister);
 app.use('/api', userLogin);
 app.use('/api', user);
 app.use('/api', details);
 app.use('/api', password);
+app.use('/api', searchResults);
 
 import item from "./services/item.js";
 item.createItem();
@@ -123,6 +125,8 @@ const websitesToScrape = {
   // תמנון
 };
 
-const [website, config] = Object.entries(websitesToScrape)[9];
+const [website, config] = Object.entries(websitesToScrape)[7];
 const scrapedData = await scrapeWebsite(website, config);
 console.log(scrapedData);
+
+

@@ -1,8 +1,5 @@
 import User from "../models/user.js";
 import jwt from 'jsonwebtoken'
-import { Types } from 'mongoose';
-
-
 
 const checkEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -11,7 +8,6 @@ const checkEmail = (email) => {
   }
   return true;
 };
-
 
 const isValidDetails = (email, firstName, lastName) => {
   const errorList = [];
