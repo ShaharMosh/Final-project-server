@@ -114,4 +114,39 @@ async function scrapeWebsite(url, config) {
   }
 }
 
-export { scrapeWebsite };
+// The function receives the URL of a particular item and the configuration.
+// Returns a list of images of the item
+async function getImages(url, config) {
+  try {
+    const browser = await chromium.launch();
+    const page = await browser.newPage();
+
+    await page.goto(url);
+
+    // Extract data from the webpage using Playwright's API
+    const content = await page.content();
+    const $ = cheerio.load(content);
+
+    const images = [];
+    $(config.specificItemSelector).each((index, element) => {
+      var productImages = $(element).find(config.imageItemSelector);
+      productImages.each(function () {
+        const image = $(this).attr("src");
+
+        // Check if the image does not exist in the array
+        if (image !== undefined && !images.includes(image)) {
+          images.push(image);
+        }
+      });
+    });
+
+    await browser.close();
+
+    return images;
+  } catch (error) {
+    console.error("Error scraping ${url}:", error.message);
+    return [];
+  }
+}
+
+export { scrapeWebsite, getImages };
