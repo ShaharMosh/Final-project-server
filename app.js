@@ -1,4 +1,4 @@
-import { scrapeWebsite } from "./WebScraping/scraping.js";
+import { scrapeWebsite, getImages } from "./WebScraping/scraping.js";
 
 import express from "express";
 import customEnv from "custom-env";
@@ -56,6 +56,8 @@ const websitesToScrape = {
       imageSelector: ".product-image-photo",
       URLSelector: ".quickview a.product_quickview",
       colorSelector: ".swatch-option",
+      specificItemSelector: ".slick-track",
+      imageItemSelector: ".img_zoom",
     },
   "https://www.renuar.co.il/women/shoes/?page=women": {
     itemSelector: ".set-item.product-tile.js-product-tile.h-100",
@@ -64,6 +66,8 @@ const websitesToScrape = {
     imageSelector: ".tile-thumbnail img",
     URLSelector: "a",
     colorSelector: ".swatch[src]",
+    specificItemSelector: ".owl-stage",
+    imageItemSelector: ".main-image__carousel-image",
   },
   "https://fashionclub.co.il/product-category/%d7%91%d7%92%d7%93%d7%99%d7%9d/%d7%9e%d7%9b%d7%a0%d7%a1%d7%99%d7%99%d7%9d/jeans?filter=category&pa_color%5B%5D=1384&pa_size%5B%5D=16&minPrice=0&maxPrice=139":
     {
@@ -73,6 +77,8 @@ const websitesToScrape = {
       imageSelector: ".slide-img-wrap img",
       URLSelector: ".product-title a",
       colorSelector: ".variable-item-span-color",
+      specificItemSelector: ".slick-track",
+      imageItemSelector: ".hover_zoom",
     },
   "https://www.golf-il.co.il/women/sweater-and-knitted-shirts?size=2769": {
     itemSelector: ".product-item",
@@ -81,6 +87,8 @@ const websitesToScrape = {
     imageSelector: ".product-image-wrapper img",
     URLSelector: "a",
     colorSelector: ".swatch-option.color",
+    specificItemSelector: ".slick-track",
+    imageItemSelector: ".img_zoom",
   },
   "https://h-o.co.il/144343-%D7%A0%D7%A9%D7%99%D7%9D/144351-%D7%91%D7%99%D7%92%D7%95%D7%93/144429-%D7%9E%D7%9B%D7%A0%D7%A1%D7%99%D7%99%D7%9D?color_description=%D7%91%D7%96%27&size=46&type_of_product=%D7%A8%D7%92%D7%9C+%D7%99%D7%A9%D7%A8%D7%94":
     {
@@ -90,6 +98,8 @@ const websitesToScrape = {
       imageSelector: ".product-image-photo",
       URLSelector: "a",
       colorSelector: ".inline-block",
+      specificItemSelector: ".relative",
+      imageItemSelector: ".absolute",
     },
   "https://www.studiopasha.co.il/srigim.html?price=60-100&size=556": {
     itemSelector: ".product-item",
@@ -98,6 +108,8 @@ const websitesToScrape = {
     imageSelector: ".product-image-photo",
     URLSelector: "a",
     colorSelector: ".swatch-option[style*=background]",
+    specificItemSelector: ".fotorama__stage__shaft",
+    imageItemSelector: ".fotorama__img",
   },
   "https://www.urbanica-wh.com/women/%D7%A9%D7%9E%D7%9C%D7%95%D7%AA?product_type=3309&size_group=974":
     {
@@ -108,6 +120,8 @@ const websitesToScrape = {
       imageSelector: ".product-image-photo",
       URLSelector: "a",
       colorSelector: ".swatch-attribute-options .swatch-option",
+      specificItemSelector: ".slick-track",
+      imageItemSelector: ".img_zoom",
     },
   "https://www.twentyfourseven.co.il/%D7%A0%D7%A9%D7%99%D7%9D/%D7%A0%D7%A2%D7%9C%D7%99%D7%99%D7%9D/%D7%A0%D7%A2%D7%9C%D7%99-%D7%91%D7%99%D7%AA/":
     {
@@ -117,6 +131,8 @@ const websitesToScrape = {
       imageSelector: ".tile-image",
       URLSelector: "a",
       colorSelector: ".swatch-circle",
+      specificItemSelector: ".owl-stage",
+      imageItemSelector: ".main-image__carousel-image",
     },
   "https://www.hoodies.co.il/women/%D7%9E%D7%A2%D7%99%D7%9C%D7%99%D7%9D-%D7%95%D7%92%D7%A7%D7%98%D7%99%D7%9D?price=28_70&size=159515":
     {
@@ -126,9 +142,17 @@ const websitesToScrape = {
       imageSelector: ".gallery-img",
       URLSelector: "a",
       colorSelector: ".swatch-option",
+      specificItemSelector: ".slick-track",
+      imageItemSelector: ".img_zoom",
     },
 };
 
-const [website, config] = Object.entries(websitesToScrape)[0];
+const [website, config] = Object.entries(websitesToScrape)[8];
 const scrapedData = await scrapeWebsite(website, config);
 console.log(scrapedData);
+
+const img = await getImages(
+  "https://www.hoodies.co.il/women/%D7%9E%D7%A2%D7%99%D7%9C%D7%99%D7%9D-%D7%95%D7%92%D7%A7%D7%98%D7%99%D7%9D/2196-039-2323-w",
+  config
+);
+console.log(img);
