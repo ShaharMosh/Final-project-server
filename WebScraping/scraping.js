@@ -1,11 +1,18 @@
 import axios from "axios";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
+import { chromium } from "playwright";
 
 // Function to perform the web scraping for a website
 async function scrapeWebsite(url, config) {
   try {
-    const response = await axios.get(url);
-    const $ = cheerio.load(response.data);
+    const browser = await chromium.launch();
+    const page = await browser.newPage();
+
+    await page.goto(url);
+
+    // Extract data from the webpage using Playwright's API
+    const content = await page.content();
+    const $ = cheerio.load(content);
 
     const productInfo = [];
 
@@ -36,10 +43,21 @@ async function scrapeWebsite(url, config) {
 
       var domain = new URL(url).hostname;
       var parts = domain.split(".");
-    
+
       // Remove "www" if present and remove unwanted parts
-      var filteredParts = (parts[0] === "www") ? parts.slice(1).filter(part => part.toLowerCase() !== "co" && part.toLowerCase() !== "il") : parts.filter(part => part.toLowerCase() !== "co" && part.toLowerCase() !== "il");
-    
+      var filteredParts =
+        parts[0] === "www"
+          ? parts
+              .slice(1)
+              .filter(
+                (part) =>
+                  part.toLowerCase() !== "co" && part.toLowerCase() !== "il"
+              )
+          : parts.filter(
+              (part) =>
+                part.toLowerCase() !== "co" && part.toLowerCase() !== "il"
+            );
+
       var companyName = filteredParts[0];
 
       if (domain.includes("golf-il")) {
@@ -52,7 +70,7 @@ async function scrapeWebsite(url, config) {
       var adikastyle = "adikastyle";
       if (url.includes(adikastyle)) {
         productURL = "https://adikastyle.com" + productURL;
-        productImage = productImage.replace('{width}', '480')
+        productImage = productImage.replace("{width}", "480");
       }
 
       if (url.includes("renuar")) {
@@ -63,8 +81,13 @@ async function scrapeWebsite(url, config) {
       const productColor = [];
       productColors.each(function () {
         const backgroundColor =
-          $(this).attr("src") || $(this).css("background-color");
-        productColor.push(backgroundColor);
+          $(this).attr("option-tooltip-value") ||
+          $(this).attr("src") ||
+          $(this).css("background-color") ||
+          $(this).css("--bg-value");
+        if (backgroundColor != "null") {
+          productColor.push(backgroundColor);
+        }
       });
 
       var twentyfourseven = "twentyfourseven";
@@ -78,9 +101,11 @@ async function scrapeWebsite(url, config) {
         image: productImage || "N/A",
         URL: productURL || "N/A",
         color: productColor || "N/A",
-        company: companyName || "N/A"
+        company: companyName || "N/A",
       });
-    });
+    }); // End of function
+
+    await browser.close();
 
     return productInfo;
   } catch (error) {
