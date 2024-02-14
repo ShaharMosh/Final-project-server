@@ -1,4 +1,5 @@
 import { scrapeWebsite } from "../WebScraping/scraping.js";
+import Item from "../models/item.js";
 
 const searchResults = async () => {
 
@@ -14,7 +15,7 @@ const searchResults = async () => {
 
     const [website, config] = Object.entries(websitesToScrape)[0];
     const scrapedData = await scrapeWebsite(website, config);
-    console.log(scrapedData);
+    //console.log(scrapedData);
 
     return scrapedData;;
 };
