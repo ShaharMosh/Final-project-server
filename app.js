@@ -30,8 +30,6 @@ app.use("/api", details);
 app.use("/api", password);
 app.use("/api", searchResults);
 
-import item from "./services/item.js";
-item.createItem();
 
 app.use(express.static("public"));
 
@@ -131,4 +129,4 @@ const websitesToScrape = {
 
 const [website, config] = Object.entries(websitesToScrape)[0];
 const scrapedData = await scrapeWebsite(website, config);
-console.log(scrapedData);
+//console.log(scrapedData);
