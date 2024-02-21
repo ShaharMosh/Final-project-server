@@ -158,5 +158,5 @@ const websitesToScrape = {
 // );
 // console.log(img);
 
-let url = getUrl("men", "shoes", ["44"], "black");
+let url = getUrl("men", "sweatshirts", "M", "gray");
 console.log(url);
