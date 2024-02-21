@@ -31,8 +31,6 @@ app.use("/api", details);
 app.use("/api", password);
 app.use("/api", searchResults);
 
-import item from "./services/item.js";
-item.createItem();
 
 app.use(express.static("public"));
 
@@ -160,3 +158,4 @@ const websitesToScrape = {
 
 let url = getUrl("men", "sweatshirts", "M", "gray");
 console.log(url);
+
