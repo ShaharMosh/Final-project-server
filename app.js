@@ -1,4 +1,5 @@
 import { scrapeWebsite, getImages } from "./WebScraping/scraping.js";
+import { getUrl } from "./WebScraping/Data/renuar_data.js";
 
 import express from "express";
 import customEnv from "custom-env";
@@ -145,13 +146,16 @@ const websitesToScrape = {
     },
 };
 
-const [website, config] = Object.entries(websitesToScrape)[8];
-const scrapedData = await scrapeWebsite(website, config);
-console.log(scrapedData);
+// const [website, config] = Object.entries(websitesToScrape)[8];
+// const scrapedData = await scrapeWebsite(website, config);
+// console.log(scrapedData);
 
-const img = await getImages(
-  "https://www.hoodies.co.il/women/%D7%9E%D7%A2%D7%99%D7%9C%D7%99%D7%9D-%D7%95%D7%92%D7%A7%D7%98%D7%99%D7%9D/2196-039-2323-w",
-  config
-);
-console.log(img);
+// const img = await getImages(
+//   "https://www.hoodies.co.il/women/%D7%9E%D7%A2%D7%99%D7%9C%D7%99%D7%9D-%D7%95%D7%92%D7%A7%D7%98%D7%99%D7%9D/2196-039-2323-w",
+//   config
+// );
+// console.log(img);
+
+let url = getUrl("men", "sweatshirts", "M", "gray");
+console.log(url);
 
