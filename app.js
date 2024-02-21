@@ -1,5 +1,6 @@
 import { scrapeWebsite, getImages } from "./WebScraping/scraping.js";
-import { getUrl } from "./WebScraping/Data/renuar_data.js";
+import { getUrl as getRenuarUrl } from "./WebScraping/Create_url/renuar.js";
+import { getUrl as getCastroUrl } from "./WebScraping/Create_url/castro.js";
 
 import express from "express";
 import customEnv from "custom-env";
@@ -30,7 +31,6 @@ app.use("/api", user);
 app.use("/api", details);
 app.use("/api", password);
 app.use("/api", searchResults);
-
 
 app.use(express.static("public"));
 
@@ -156,6 +156,5 @@ const websitesToScrape = {
 // );
 // console.log(img);
 
-let url = getUrl("men", "sweatshirts", "M", "gray");
+let url = getCastroUrl("men", "shoes", "42", "white");
 console.log(url);
-
