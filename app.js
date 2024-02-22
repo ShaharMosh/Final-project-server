@@ -1,6 +1,7 @@
 import { scrapeWebsite, getImages } from "./WebScraping/scraping.js";
 import { getUrl as getRenuarUrl } from "./WebScraping/Create_url/renuar.js";
 import { getUrl as getCastroUrl } from "./WebScraping/Create_url/castro.js";
+import { getUrl as getGolfUrl } from "./WebScraping/Create_url/golf.js";
 
 import express from "express";
 import customEnv from "custom-env";
@@ -156,5 +157,5 @@ const websitesToScrape = {
 // );
 // console.log(img);
 
-let url = getCastroUrl("men", "shoes", "42", "white");
+let url = getGolfUrl("men", "shirts", "M", "white");
 console.log(url);
