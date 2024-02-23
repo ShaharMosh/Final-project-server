@@ -23,12 +23,14 @@ import user from "./routes/user.js";
 import details from "./routes/details.js";
 import password from "./routes/password.js";
 import searchResults from "./routes/searchResults.js";
+import email from "./routes/email.js";
 app.use('/api', userRegister);
 app.use('/api', userLogin);
 app.use('/api', user);
 app.use('/api', details);
 app.use('/api', password);
 app.use('/api', searchResults);
+app.use('/api', email);
 
 import item from "./services/item.js";
 item.createItem();
