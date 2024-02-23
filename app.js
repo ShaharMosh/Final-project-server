@@ -1,4 +1,7 @@
-import { scrapeWebsite } from "./WebScraping/scraping.js";
+import { scrapeWebsite, getImages } from "./WebScraping/scraping.js";
+import { getUrl as getRenuarUrl } from "./WebScraping/Create_url/renuar.js";
+import { getUrl as getCastroUrl } from "./WebScraping/Create_url/castro.js";
+import { getUrl as getGolfUrl } from "./WebScraping/Create_url/golf.js";
 
 import express from "express";
 import customEnv from "custom-env";
@@ -24,16 +27,17 @@ import details from "./routes/details.js";
 import password from "./routes/password.js";
 import searchResults from "./routes/searchResults.js";
 import email from "./routes/email.js";
-app.use('/api', userRegister);
-app.use('/api', userLogin);
-app.use('/api', user);
-app.use('/api', details);
-app.use('/api', password);
-app.use('/api', searchResults);
-app.use('/api', email);
-
 import item from "./services/item.js";
 item.createItem();
+
+app.use("/api", userRegister);
+app.use("/api", userLogin);
+app.use("/api", user);
+app.use("/api", details);
+app.use("/api", password);
+app.use("/api", searchResults);
+app.use('/api', email);
+
 
 app.use(express.static("public"));
 
@@ -58,6 +62,8 @@ const websitesToScrape = {
       imageSelector: ".product-image-photo",
       URLSelector: ".quickview a.product_quickview",
       colorSelector: ".swatch-option",
+      specificItemSelector: ".slick-track",
+      imageItemSelector: ".img_zoom",
     },
   "https://www.renuar.co.il/women/shoes/?page=women": {
     itemSelector: ".set-item.product-tile.js-product-tile.h-100",
@@ -66,72 +72,96 @@ const websitesToScrape = {
     imageSelector: ".tile-thumbnail img",
     URLSelector: "a",
     colorSelector: ".swatch[src]",
-  },
-  "https://adikastyle.com/collections/winter-collection?filter.v.price.lte=81&filter.v.availability=1&sort_by=manual":
-  {
-    itemSelector: ".block-inner",
-    nameSelector: ".product-block__title",
-    priceSelector: ".product-price__item",
-    imageSelector: ".rimage__image",
-    URLSelector: ".image-cont a",
+    specificItemSelector: ".owl-stage",
+    imageItemSelector: ".main-image__carousel-image",
   },
   "https://fashionclub.co.il/product-category/%d7%91%d7%92%d7%93%d7%99%d7%9d/%d7%9e%d7%9b%d7%a0%d7%a1%d7%99%d7%99%d7%9d/jeans?filter=category&pa_color%5B%5D=1384&pa_size%5B%5D=16&minPrice=0&maxPrice=139":
-  {
-    itemSelector: ".product-col",
-    nameSelector: ".product-detail .product-title a",
-    priceSelector: ".amount bdi",
-    imageSelector: ".slide-img-wrap img",
-    URLSelector: "a", // FIX IT!!!
-    colorSelector: ".variable-item-span-color",
-  },
-  "https://www.golf-il.co.il/women/sweater-and-knitted-shirts?size=2769":
-  {
+    {
+      itemSelector: ".product-col",
+      nameSelector: ".product-detail .product-title a",
+      priceSelector: ".amount bdi",
+      imageSelector: ".slide-img-wrap img",
+      URLSelector: ".product-title a",
+      colorSelector: ".variable-item-span-color",
+      specificItemSelector: ".slick-track",
+      imageItemSelector: ".hover_zoom",
+    },
+  "https://www.golf-il.co.il/women/sweater-and-knitted-shirts?size=2769": {
     itemSelector: ".product-item",
     nameSelector: ".product-name a",
     priceSelector: ".price:not(:contains('0.00'))",
     imageSelector: ".product-image-wrapper img",
     URLSelector: "a",
+    colorSelector: ".swatch-option.color",
+    specificItemSelector: ".slick-track",
+    imageItemSelector: ".img_zoom",
   },
-  "https://h-o.co.il/144343-%D7%A0%D7%A9%D7%99%D7%9D/144351-%D7%91%D7%99%D7%92%D7%95%D7%93/144429-%D7%9E%D7%9B%D7%A0%D7%A1%D7%99%D7%99%D7%9D?color_description=%D7%91%D7%96%27&size=46&type_of_product=%D7%A8%D7%92%D7%9C+%D7%99%D7%A9%D7%A8%D7%94" : {
-    itemSelector: ".product_addtocart_form",
-    nameSelector: ".product-item-link",
-    priceSelector: ".price:not(:contains('0.00'))",
-    imageSelector: ".product-image-photo",
-    URLSelector: "a",
-  },
-  "https://www.studiopasha.co.il/srigim.html?price=60-100&size=556" : {
+  "https://h-o.co.il/144343-%D7%A0%D7%A9%D7%99%D7%9D/144351-%D7%91%D7%99%D7%92%D7%95%D7%93/144429-%D7%9E%D7%9B%D7%A0%D7%A1%D7%99%D7%99%D7%9D?color_description=%D7%91%D7%96%27&size=46&type_of_product=%D7%A8%D7%92%D7%9C+%D7%99%D7%A9%D7%A8%D7%94":
+    {
+      itemSelector: ".product_addtocart_form",
+      nameSelector: ".product-item-link",
+      priceSelector: ".price:not(:contains('0.00'))",
+      imageSelector: ".product-image-photo",
+      URLSelector: "a",
+      colorSelector: ".inline-block",
+      specificItemSelector: ".relative",
+      imageItemSelector: ".absolute",
+    },
+  "https://www.studiopasha.co.il/srigim.html?price=60-100&size=556": {
     itemSelector: ".product-item",
     nameSelector: ".product-item-name a",
     priceSelector: ".price:not(:contains('0.00'))",
     imageSelector: ".product-image-photo",
     URLSelector: "a",
+    colorSelector: ".swatch-option[style*=background]",
+    specificItemSelector: ".fotorama__stage__shaft",
+    imageItemSelector: ".fotorama__img",
   },
-  "https://www.urbanica-wh.com/women/%D7%A9%D7%9E%D7%9C%D7%95%D7%AA?product_type=3309&size_group=974" : {
-    itemSelector: ".product",
-    nameSelector: ".product-name a",
-    priceSelector: '.price-wrapper[data-price-amount]:not([data-price-amount=""])',
-    imageSelector: ".product-image-photo",
-    URLSelector: "a",
-  },
-  "https://www.twentyfourseven.co.il/%D7%A0%D7%A9%D7%99%D7%9D/%D7%A0%D7%A2%D7%9C%D7%99%D7%99%D7%9D/%D7%A0%D7%A2%D7%9C%D7%99-%D7%91%D7%99%D7%AA/" : {
-    itemSelector: ".product",
-    nameSelector: ".product_default_link",
-    priceSelector: ".price .value",
-    imageSelector: ".tile-image",
-    URLSelector: "a",
-  },
-  "https://www.hoodies.co.il/women/מעילים-וגקטים" : {
-    itemSelector: ".product",
-    nameSelector: ".product-category-name",
-    priceSelector: ".price-wrapper .price:not(:contains('0.00'))",
-    imageSelector: ".gallery-img",
-    URLSelector: "a",
-  },
-  // תמנון
+  "https://www.urbanica-wh.com/women/%D7%A9%D7%9E%D7%9C%D7%95%D7%AA?product_type=3309&size_group=974":
+    {
+      itemSelector: ".product",
+      nameSelector: ".product-name a",
+      priceSelector:
+        '.price-wrapper[data-price-amount]:not([data-price-amount=""])',
+      imageSelector: ".product-image-photo",
+      URLSelector: "a",
+      colorSelector: ".swatch-attribute-options .swatch-option",
+      specificItemSelector: ".slick-track",
+      imageItemSelector: ".img_zoom",
+    },
+  "https://www.twentyfourseven.co.il/%D7%A0%D7%A9%D7%99%D7%9D/%D7%A0%D7%A2%D7%9C%D7%99%D7%99%D7%9D/%D7%A0%D7%A2%D7%9C%D7%99-%D7%91%D7%99%D7%AA/":
+    {
+      itemSelector: ".product",
+      nameSelector: ".product_default_link",
+      priceSelector: ".price .value",
+      imageSelector: ".tile-image",
+      URLSelector: "a",
+      colorSelector: ".swatch-circle",
+      specificItemSelector: ".owl-stage",
+      imageItemSelector: ".main-image__carousel-image",
+    },
+  "https://www.hoodies.co.il/women/%D7%9E%D7%A2%D7%99%D7%9C%D7%99%D7%9D-%D7%95%D7%92%D7%A7%D7%98%D7%99%D7%9D?price=28_70&size=159515":
+    {
+      itemSelector: ".product",
+      nameSelector: ".product-category-name",
+      priceSelector: ".price-wrapper .price:not(:contains('0.00'))",
+      imageSelector: ".gallery-img",
+      URLSelector: "a",
+      colorSelector: ".swatch-option",
+      specificItemSelector: ".slick-track",
+      imageItemSelector: ".img_zoom",
+    },
 };
 
-const [website, config] = Object.entries(websitesToScrape)[7];
-const scrapedData = await scrapeWebsite(website, config);
-console.log(scrapedData);
+// const [website, config] = Object.entries(websitesToScrape)[8];
+// const scrapedData = await scrapeWebsite(website, config);
+// console.log(scrapedData);
 
+// const img = await getImages(
+//   "https://www.hoodies.co.il/women/%D7%9E%D7%A2%D7%99%D7%9C%D7%99%D7%9D-%D7%95%D7%92%D7%A7%D7%98%D7%99%D7%9D/2196-039-2323-w",
+//   config
+// );
+// console.log(img);
 
+let url = getGolfUrl("men", "shirts", "M", "white");
+console.log(url);
