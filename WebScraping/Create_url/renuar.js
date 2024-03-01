@@ -47,6 +47,14 @@ function getUrl(gender, category, size, color) {
   let url = "https://www.renuar.co.il/";
   let cloth, categoryInUrl;
 
+  if (
+    categoriesWomen[category] == undefined ||
+    categoriesMen[category] == undefined ||
+    colors[color] == undefined
+  ) {
+    return null;
+  }
+
   if (gender == "women") {
     cloth = "clothing/";
     categoryInUrl = categoriesWomen[category];
