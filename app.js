@@ -2,6 +2,9 @@ import { scrapeWebsite, getImages } from "./WebScraping/scraping.js";
 import { getUrl as getRenuarUrl } from "./WebScraping/Create_url/renuar.js";
 import { getUrl as getCastroUrl } from "./WebScraping/Create_url/castro.js";
 import { getUrl as getGolfUrl } from "./WebScraping/Create_url/golf.js";
+import { getUrl as getStudiopashaUrl } from "./WebScraping/Create_url/studiopasha.js";
+import { getUrl as getUrbanica } from "./WebScraping/Create_url/urbanica.js";
+import { getUrl as getTwentyfourseven } from "./WebScraping/Create_url/twentyfourseven.js";
 
 import express from "express";
 import customEnv from "custom-env";
@@ -37,9 +40,8 @@ app.use("/api", user);
 app.use("/api", details);
 app.use("/api", password);
 app.use("/api", searchResults);
-app.use('/api', email);
-app.use('/api', reset);
-
+app.use("/api", email);
+app.use("/api", reset);
 
 app.use(express.static("public"));
 
@@ -165,5 +167,5 @@ const websitesToScrape = {
 // );
 // console.log(img);
 
-let url = getGolfUrl("men", "shirts", "M", "white");
+let url = getRenuarUrl("men", "shoes", "42", "white");
 console.log(url);

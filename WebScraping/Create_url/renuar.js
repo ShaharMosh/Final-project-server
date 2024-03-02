@@ -47,10 +47,22 @@ function getUrl(gender, category, size, color) {
   let url = "https://www.renuar.co.il/";
   let cloth, categoryInUrl;
 
+  if (colors[color] == undefined) {
+    return null;
+  }
+
   if (gender == "women") {
+    if (categoriesWomen[category] == undefined) {
+      return null;
+    }
+
     cloth = "clothing/";
     categoryInUrl = categoriesWomen[category];
   } else if (gender == "men") {
+    if (categoriesMen[category] == undefined) {
+      return null;
+    }
+
     cloth = "clothes/";
     categoryInUrl = categoriesMen[category];
   }

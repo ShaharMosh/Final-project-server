@@ -69,13 +69,25 @@ function getSizeUrl(size) {
 function getUrl(gender, category, size, color) {
   let url = "https://www.golf-il.co.il/";
 
+  if (colors[color] == undefined || sizes[size] == undefined) {
+    return null;
+  }
+
   if (category != "shoes") {
     url += gender + "/";
   }
 
   if (gender == "women") {
+    if (categoriesWomen[category] == undefined) {
+      return null;
+    }
+
     url += categoriesWomen[category];
   } else if (gender == "men") {
+    if (categoriesMen[category] == undefined) {
+      return null;
+    }
+
     url += categoriesMen[category];
   }
 

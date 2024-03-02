@@ -3,7 +3,6 @@ let colors = {
   black: "1768",
   pink: "1776",
   blue: "1772",
-  lightBlue: "",
   green: "1773",
   gray: "1778_1794",
   red: "1790",
@@ -74,9 +73,19 @@ function getSizeUrl(size) {
 function getUrl(gender, category, size, color) {
   let url = "https://www.castro.com/" + gender + "/categories/";
 
+  if (colors[color] == undefined || sizes[size] == undefined) {
+    return null;
+  }
+
   if (gender == "women") {
+    if (categoriesWomen[category] == undefined) {
+      return null;
+    }
     url += categoriesWomen[category];
   } else if (gender == "men") {
+    if (categoriesMen[category] == undefined) {
+      return null;
+    }
     url += categoriesMen[category];
   }
 
