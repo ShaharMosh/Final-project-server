@@ -4,6 +4,7 @@ import { getUrl as getCastroUrl } from "./WebScraping/Create_url/castro.js";
 import { getUrl as getGolfUrl } from "./WebScraping/Create_url/golf.js";
 import { getUrl as getStudiopashaUrl } from "./WebScraping/Create_url/studiopasha.js";
 import { getUrl as getUrbanica } from "./WebScraping/Create_url/urbanica.js";
+import { getUrl as getTwentyfourseven } from "./WebScraping/Create_url/twentyfourseven.js";
 
 import express from "express";
 import customEnv from "custom-env";
@@ -166,5 +167,5 @@ const websitesToScrape = {
 // );
 // console.log(img);
 
-let url = getUrbanica("men", "shoes", "42", "blue");
+let url = getRenuarUrl("men", "shoes", "42", "white");
 console.log(url);

@@ -69,12 +69,7 @@ function getSizeUrl(size) {
 function getUrl(gender, category, size, color) {
   let url = "https://www.golf-il.co.il/";
 
-  if (
-    categoriesWomen[category] == undefined ||
-    categoriesMen[category] == undefined ||
-    colors[color] == undefined ||
-    sizes[size] == undefined
-  ) {
+  if (colors[color] == undefined || sizes[size] == undefined) {
     return null;
   }
 
@@ -83,8 +78,16 @@ function getUrl(gender, category, size, color) {
   }
 
   if (gender == "women") {
+    if (categoriesWomen[category] == undefined) {
+      return null;
+    }
+
     url += categoriesWomen[category];
   } else if (gender == "men") {
+    if (categoriesMen[category] == undefined) {
+      return null;
+    }
+
     url += categoriesMen[category];
   }
 

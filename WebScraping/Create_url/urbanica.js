@@ -60,17 +60,19 @@ let categoriesMen = {
 function getUrl(gender, category, size, color) {
   let url = "https://www.urbanica-wh.com/" + gender + "/";
 
-  if (
-    categoriesWomen[category] == undefined ||
-    colors[color] == undefined ||
-    sizes[size] == undefined
-  ) {
+  if (colors[color] == undefined || sizes[size] == undefined) {
     return null;
   }
 
   if (gender == "women") {
+    if (categoriesWomen[category] == undefined) {
+      return null;
+    }
     url += categoriesWomen[category];
   } else if (gender == "men") {
+    if (categoriesMen[category] == undefined) {
+      return null;
+    }
     url += categoriesMen[category];
   }
 

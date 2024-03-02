@@ -35,13 +35,10 @@ let categoriesWomen = {
 };
 
 function getUrl(gender, category, size, color) {
-  if (gender == "men") {
-    return null;
-  }
-
   let url = "https://www.studiopasha.co.il/";
 
   if (
+    gender == "men" ||
     categoriesWomen[category] == undefined ||
     colors[color] == undefined ||
     sizes[size] == undefined
