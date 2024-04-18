@@ -40,7 +40,6 @@ const isValidUser = (email, firstName, lastName, password, confirmPassword) => {
   if(!CheckConfirmPassword(password, confirmPassword)){
     errorList.push("confirm password");
   }
-  console.log(errorList);
 
   return errorList.join(", ");
 };

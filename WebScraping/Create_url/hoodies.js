@@ -1,33 +1,33 @@
 let colors = {
-  white: "6323_6331",
-  black: "6324",
-  pink: "6326",
-  lightBlue: "159558_167460_167463",
-  blue: "6322",
-  green: "167454_6329",
-  gray: "6325",
-  red: "6328",
-  brown: "167457_167458_6327",
-  orange: "167453_6335",
-  yellow: "167451_6332",
-  purple: "167456_6330",
+  White: "6323_6331",
+  Black: "6324",
+  Pink: "6326",
+  LightBlue: "159558_167460_167463",
+  Blue: "6322",
+  Green: "167454_6329",
+  Gray: "6325",
+  Red: "6328",
+  Brown: "167457_167458_6327",
+  Orange: "167453_6335",
+  Yellow: "167451_6332",
+  Purple: "167456_6330",
 };
 
 let categoriesWomen = {
-  pants: "pants",
-  sweaters: "sweatshirts",
-  sweatshirts: "hoodies",
-  jackets: "מעילים-וגקטים",
-  shirts: "shirts",
-  dresses: "dresses",
+  Pants: "pants",
+  Sweaters: "sweatshirts",
+  Sweatshirts: "hoodies",
+  Jackets: "מעילים-וגקטים",
+  Shirts: "shirts",
+  Dresses: "dresses",
 };
 
 let categoriesMen = {
-  pants: "pants",
-  sweaters: "sweatshirt",
-  sweatshirts: "hoodies",
+  Pants: "pants",
+  Sweaters: "sweatshirt",
+  Sweatshirts: "hoodies",
   jackets: "מעילים-וזקטים",
-  shirts: "shirts",
+  Shirts: "shirts",
 };
 
 let sizes = {
