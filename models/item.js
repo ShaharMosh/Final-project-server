@@ -34,36 +34,18 @@ const ItemSchema = mongoose.Schema({
     }],
     size: [{
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'Size',
         required: true,
-        validate: {
-            validator: async function (value) {
-                const sizeModel = this.sizeModel;
-
-                if (sizeModel === 'Size') {
-                    const SizeModel = mongoose.model('Size');
-                    const size = await SizeModel.findById(value);
-                    return size !== null;
-                } else if (sizeModel === 'ShoeSize') {
-                    const ShoeSizeModel = mongoose.model('ShoeSize');
-                    const shoeSize = await ShoeSizeModel.findById(value);
-                    return shoeSize !== null;
-                }
-
-                return false; // Invalid sizeModel value
-            },
-            message: 'Invalid size ID for the specified sizeModel',
-        },
     }],
     store: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Store',
         required: true
     },
-    sizeModel: {
+    color_url: [{
         type: String,
-        required: true,
-        enum: ['Size', 'ShoeSize'],
-    },
+        required: true
+    }]
 });
 const Item = mongoose.model('Item', ItemSchema);
 

@@ -1,13 +1,13 @@
 let colors = {
-  white: "231%2C238",
-  black: "212",
-  pink: "213",
-  blue: "236%2C211",
-  green: "210",
-  gray: "233%2C235",
-  brown: "234%2C239",
-  orange: "237",
-  purple: "241",
+  White: "231%2C238",
+  Black: "212",
+  Pink: "213",
+  Blue: "236%2C211",
+  Green: "210",
+  Gray: "233%2C235",
+  Brown: "234%2C239",
+  Orange: "237",
+  Purple: "241",
 };
 
 let sizes = {
@@ -25,13 +25,13 @@ let sizes = {
 };
 
 let categoriesWomen = {
-  jeans: "pants/jeans.html",
-  pants: "pants/mknsiim-arvkim.html",
-  dresses: "dresses.html",
-  skirts: "dresses/hcaivt.html",
-  sweaters: "srigim.html",
-  jackets: "coats-jackets.html",
-  shirts: "tops.html",
+  Jeans: "pants/jeans.html",
+  Pants: "pants/mknsiim-arvkim.html",
+  Dresses: "dresses.html",
+  Skirts: "dresses/hcaivt.html",
+  Sweaters: "srigim.html",
+  Jackets: "coats-jackets.html",
+  Shirts: "tops.html",
 };
 
 function getUrl(gender, category, size, color) {

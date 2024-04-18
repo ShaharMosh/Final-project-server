@@ -2,8 +2,14 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 import { chromium } from "playwright";
 
+function capitalizeFirstLetter(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 // Function to perform the web scraping for a website
-async function scrapeWebsite(url, config) {
+async function scrapeWebsite(url, config, gender, category, size, color) {
+
+  console.log("col", color);
+
   try {
     const browser = await chromium.launch();
     const page = await browser.newPage();
@@ -48,15 +54,15 @@ async function scrapeWebsite(url, config) {
       var filteredParts =
         parts[0] === "www"
           ? parts
-              .slice(1)
-              .filter(
-                (part) =>
-                  part.toLowerCase() !== "co" && part.toLowerCase() !== "il"
-              )
-          : parts.filter(
+            .slice(1)
+            .filter(
               (part) =>
                 part.toLowerCase() !== "co" && part.toLowerCase() !== "il"
-            );
+            )
+          : parts.filter(
+            (part) =>
+              part.toLowerCase() !== "co" && part.toLowerCase() !== "il"
+          );
 
       var companyName = filteredParts[0];
 
@@ -95,13 +101,18 @@ async function scrapeWebsite(url, config) {
         productURL = "https://www.twentyfourseven.co.il" + productURL;
       }
 
+
       productInfo.push({
         name: productName || "N/A",
         price: productPrice || "N/A",
         image: productImage || "N/A",
         URL: productURL || "N/A",
-        color: productColor || "N/A",
-        company: companyName || "N/A",
+        color: color,
+        store: capitalizeFirstLetter(companyName) || "N/A",
+        gender: gender,
+        category: category,
+        size: size,
+        color_url: productColor || "N/A",
       });
     }); // End of function
 

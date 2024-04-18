@@ -1,15 +1,15 @@
 let colors = {
-  white: "921_929",
-  black: "919",
-  pink: "928_931",
-  blue: "918",
-  green: "922",
-  gray: "927_940",
-  brown: "926_934_932",
-  orange: "925",
-  yellow: "924",
-  purple: "923",
-  red: "920",
+  White: "921_929",
+  Black: "919",
+  Pink: "928_931",
+  Blue: "918",
+  Green: "922",
+  Gray: "927_940",
+  Brown: "926_934_932",
+  Orange: "925",
+  Yellow: "924",
+  Purple: "923",
+  Red: "920",
 };
 
 let sizes = {
@@ -37,24 +37,24 @@ let sizes = {
 };
 
 let categoriesWomen = {
-  jeans: "גינסים",
-  pants: "pants",
-  dresses: "שמלות",
-  skirts: "שמלות",
-  sweaters: "sweaters",
-  sweatshirts: "sweatshirts",
-  jackets: "jackets-and-coats",
-  shirts: "חולצות",
-  shoes: "נעליים",
+  Jeans: "גינסים",
+  Pants: "pants",
+  Dresses: "שמלות",
+  Skirts: "שמלות",
+  Sweaters: "sweaters",
+  Sweatshirts: "sweatshirts",
+  Jackets: "jackets-and-coats",
+  Shirts: "חולצות",
+  Shoes: "נעליים",
 };
 
 let categoriesMen = {
-  jeans: "גינסים",
-  pants: "pants_men",
-  jackets: "jackets-and-coats",
-  sweatshirts: "sweatshirts",
-  shirts: "חולצות",
-  shoes: "shoes",
+  Jeans: "גינסים",
+  Pants: "pants_men",
+  Jackets: "jackets-and-coats",
+  Sweatshirts: "sweatshirts",
+  Shirts: "חולצות",
+  Shoes: "shoes",
 };
 
 function getUrl(gender, category, size, color) {

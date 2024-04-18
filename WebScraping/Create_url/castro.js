@@ -1,17 +1,18 @@
 let colors = {
-  white: "1789_2226_1785",
-  black: "1768",
-  pink: "1776",
-  blue: "1772",
-  green: "1773",
-  gray: "1778_1794",
-  red: "1790",
-  brown: "1777_1782",
-  burgundy: "1797",
-  orange: "1787",
-  yellow: "1771",
-  purple: "1781",
+  White: "1789_2226_1785",
+  Black: "1768",
+  Pink: "1776",
+  Blue: "1772",
+  Green: "1773",
+  Gray: "1778_1794",
+  Red: "1790",
+  Brown: "1777_1782",
+  Burgundy: "1797",
+  Orange: "1787",
+  Yellow: "1771",
+  Purple: "1781",
 };
+
 
 let sizes = {
   26: "4875",
@@ -43,23 +44,23 @@ let sizes = {
 };
 
 let categoriesWomen = {
-  jeans: "jeans",
-  pants: "pants",
-  dresses: "dresses",
-  skirts: "skirts",
-  sweaters: "jumpers_/_knits",
-  jackets: "jackets__/_coats",
-  shirts: "tops_/_bodysuits",
-  shoes: "shoes",
+  Jeans: "jeans",
+  Pants: "pants",
+  Dresses: "dresses",
+  Skirts: "skirts",
+  Sweaters: "jumpers_/_knits",
+  Jackets: "jackets__/_coats",
+  Shirts: "tops_/_bodysuits",
+  Shoes: "shoes",
 };
 
 let categoriesMen = {
-  jeans: "jeans",
-  pants: "pants",
-  sweaters: "jumpers_knits",
-  jackets: "jackets_coats",
-  shirts: "teeshirt",
-  shoes: "shoes",
+  Jeans: "jeans",
+  Pants: "pants",
+  Sweaters: "jumpers_knits",
+  Jackets: "jackets_coats",
+  Shirts: "teeshirt",
+  Shoes: "shoes",
 };
 
 function getColorUrl(color) {
@@ -71,18 +72,18 @@ function getSizeUrl(size) {
 }
 
 function getUrl(gender, category, size, color) {
-  let url = "https://www.castro.com/" + gender + "/categories/";
+  let url = "https://www.castro.com/" + gender.toLowerCase() + "/categories/";
 
   if (colors[color] == undefined || sizes[size] == undefined) {
     return null;
   }
 
-  if (gender == "women") {
+  if (gender == "Women") {
     if (categoriesWomen[category] == undefined) {
       return null;
     }
     url += categoriesWomen[category];
-  } else if (gender == "men") {
+  } else if (gender == "Men") {
     if (categoriesMen[category] == undefined) {
       return null;
     }

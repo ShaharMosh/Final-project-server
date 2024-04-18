@@ -1,23 +1,58 @@
 import { scrapeWebsite } from "../WebScraping/scraping.js";
-import Item from "../models/item.js";
+import { getConfig } from "../WebScraping/websitesHtml.js"
+import { getUrl as getRenuarUrl } from "../WebScraping/Create_url/renuar.js";
+import { getUrl as getCastroUrl } from "../WebScraping/Create_url/castro.js";
+import { getUrl as getGolfUrl } from "../WebScraping/Create_url/golf.js";
+import { getUrl as getStudiopashaUrl } from "../WebScraping/Create_url/studiopasha.js";
+import { getUrl as getUrbanicaUrl } from "../WebScraping/Create_url/urbanica.js";
+import { getUrl as getTwentyfoursevenUrl } from "../WebScraping/Create_url/twentyfourseven.js";
+import { getUrl as getHoodiesUrl } from "../WebScraping/Create_url/hoodies.js";
 
-const searchResults = async () => {
 
-    const websitesToScrape = {
-        "https://www.urbanica-wh.com/women/%D7%A9%D7%9E%D7%9C%D7%95%D7%AA?product_type=3309&size_group=974": {
-            itemSelector: ".product",
-            nameSelector: ".product-name a",
-            priceSelector: '.price-wrapper[data-price-amount]:not([data-price-amount=""])',
-            imageSelector: ".product-image-photo",
-            URLSelector: "a",
-        },
-    };
+const searchResults = async (gender, category, colors, sizes, stores) => {
+    var scrapedData = [];    
 
-    const [website, config] = Object.entries(websitesToScrape)[0];
-    const scrapedData = await scrapeWebsite(website, config);
-    //console.log(scrapedData);
-
-    return scrapedData;;
+    for (const store of stores) {
+        const config = getConfig(store);
+        for (const size of sizes) {
+            for (const color of colors) {
+                console.log("color",color);
+                var url;
+                switch (store) {
+                    case "Castro":
+                        url=getCastroUrl(gender, category, size, color);
+                        break;
+                    case "Renuar":
+                        url=getRenuarUrl(gender, category,size, color);
+                        break;
+                    // case "FashionClub":
+                    //     url=ge(gender, category, size, color);
+                    //     break;
+                    case "Golf":
+                        url=getGolfUrl(gender, category, size, color);
+                        break;
+                    // case "H&O":
+                    //     urls.push(get(gender, category, size, color));
+                    //     break;
+                    case "StudioPasha":
+                        url=getStudiopashaUrl(gender, category, size, color);
+                        break;
+                    case "Urbanica":
+                        url=getUrbanicaUrl(gender, category, size, color);
+                        break;
+                    case "TwentyFourSeven":
+                        url=getTwentyfoursevenUrl(gender, category, size, color);
+                        break;
+                    case "Hoodies":
+                        url=getHoodiesUrl(gender, category, size, color);
+                        break;
+                }
+                scrapedData.push(await scrapeWebsite(url, config, gender, category, size, color));
+            }
+        }
+        
+    }
+    return scrapedData;
 };
 
 export default {

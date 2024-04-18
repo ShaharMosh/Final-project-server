@@ -112,7 +112,6 @@ const getUserWishlist = async (authorization) => {
 
 
 const wishlistPage = async (authorization) => {
-    console.log("in");
     try {
         if (!authorization || !authorization.startsWith('Bearer ')) {
             return { success: false, message: 'Invalid token' };
@@ -135,7 +134,6 @@ const wishlistPage = async (authorization) => {
             // Assuming 'Item' is your mongoose model for items
             const itemList = await Item.find({ _id: { $in: wishlistItems } }).populate("store");
 
-            console.log("itemList", itemList)
 
             const items = itemList.map(item => ({
                 id: item.id,
