@@ -145,7 +145,6 @@ const websitesToScrape = {
 };
 
 const [website, config] = Object.entries(websitesToScrape)[8];
-const [website, config] = Object.entries(websitesToScrape)[1];
 const scrapedData = await scrapeWebsite(website, config);
 console.log(scrapedData);
 
