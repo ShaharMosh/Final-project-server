@@ -16,7 +16,13 @@ const UserSchema = mongoose.Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    wishlist: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Item',
+        },
+      ],
 });
 const User = mongoose.model("User", UserSchema);
 
