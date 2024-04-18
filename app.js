@@ -30,7 +30,6 @@ app.use("/api", details);
 app.use("/api", password);
 app.use("/api", searchResults);
 
-
 app.use(express.static("public"));
 
 import { MongoClient } from "mongodb";
@@ -127,6 +126,6 @@ const websitesToScrape = {
     },
 };
 
-const [website, config] = Object.entries(websitesToScrape)[0];
+const [website, config] = Object.entries(websitesToScrape)[1];
 const scrapedData = await scrapeWebsite(website, config);
 //console.log(scrapedData);
