@@ -1,4 +1,11 @@
 import { scrapeWebsite, getImages } from "./WebScraping/scraping.js";
+import { getUrl as getRenuarUrl } from "./WebScraping/Create_url/renuar.js";
+import { getUrl as getCastroUrl } from "./WebScraping/Create_url/castro.js";
+import { getUrl as getGolfUrl } from "./WebScraping/Create_url/golf.js";
+import { getUrl as getStudiopashaUrl } from "./WebScraping/Create_url/studiopasha.js";
+import { getUrl as getUrbanicaUrl } from "./WebScraping/Create_url/urbanica.js";
+import { getUrl as getTwentyfoursevenUrl } from "./WebScraping/Create_url/twentyfourseven.js";
+import { getUrl as getHoodiesUrl } from "./WebScraping/Create_url/hoodies.js";
 
 import express from "express";
 import customEnv from "custom-env";
@@ -23,12 +30,19 @@ import user from "./routes/user.js";
 import details from "./routes/details.js";
 import password from "./routes/password.js";
 import searchResults from "./routes/searchResults.js";
+import email from "./routes/email.js";
+import reset from "./routes/resetPass.js";
+import item from "./services/item.js";
+item.createItem();
+
 app.use("/api", userRegister);
 app.use("/api", userLogin);
 app.use("/api", user);
 app.use("/api", details);
 app.use("/api", password);
 app.use("/api", searchResults);
+app.use("/api", email);
+app.use("/api", reset);
 
 app.use(express.static("public"));
 
@@ -144,13 +158,15 @@ const websitesToScrape = {
     },
 };
 
-const [website, config] = Object.entries(websitesToScrape)[8];
-const scrapedData = await scrapeWebsite(website, config);
-console.log(scrapedData);
+// const [website, config] = Object.entries(websitesToScrape)[8];
+// const scrapedData = await scrapeWebsite(website, config);
+// console.log(scrapedData);
 
-const img = await getImages(
-  "https://www.hoodies.co.il/women/%D7%9E%D7%A2%D7%99%D7%9C%D7%99%D7%9D-%D7%95%D7%92%D7%A7%D7%98%D7%99%D7%9D/2196-039-2323-w",
-  config
-);
-console.log(img);
+// const img = await getImages(
+//   "https://www.hoodies.co.il/women/%D7%9E%D7%A2%D7%99%D7%9C%D7%99%D7%9D-%D7%95%D7%92%D7%A7%D7%98%D7%99%D7%9D/2196-039-2323-w",
+//   config
+// );
+// console.log(img);
 
+let url = getHoodiesUrl("women", "dresses", "M", "green");
+console.log(url);

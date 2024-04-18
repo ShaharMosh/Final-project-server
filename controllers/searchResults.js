@@ -6,8 +6,12 @@ const sendSearchResults = async (req, res) => {
 
     const { gender, category, color, size, store } = req.body;
     console.log("Extracted Search Fields:", { gender, category, color, size, store });
+    const results = await searchResultsService.searchResults();
+    await itemService.createItem(results); // await here
+
 
     const itemIds = ["65d5dd21b87d4cd458164534"];
+
 
     const items = await Item.find({ _id: { $in: itemIds } });
 
