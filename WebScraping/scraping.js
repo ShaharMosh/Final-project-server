@@ -7,9 +7,6 @@ function capitalizeFirstLetter(str) {
 }
 // Function to perform the web scraping for a website
 async function scrapeWebsite(url, config, gender, category, size, color) {
-
-  console.log("col", color);
-
   try {
     const browser = await chromium.launch();
     const page = await browser.newPage();

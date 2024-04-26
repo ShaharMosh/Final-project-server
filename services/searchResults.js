@@ -9,49 +9,57 @@ import { getUrl as getTwentyfoursevenUrl } from "../WebScraping/Create_url/twent
 import { getUrl as getHoodiesUrl } from "../WebScraping/Create_url/hoodies.js";
 
 
-const searchResults = async (gender, category, colors, sizes, stores) => {
-    var scrapedData = [];    
+const searchResults = async (gender, category, color, size, store) => {
+    var scrapedData = [];
 
-    for (const store of stores) {
-        const config = getConfig(store);
-        for (const size of sizes) {
-            for (const color of colors) {
-                console.log("color",color);
-                var url;
-                switch (store) {
-                    case "Castro":
-                        url=getCastroUrl(gender, category, size, color);
-                        break;
-                    case "Renuar":
-                        url=getRenuarUrl(gender, category,size, color);
-                        break;
-                    // case "FashionClub":
-                    //     url=ge(gender, category, size, color);
-                    //     break;
-                    case "Golf":
-                        url=getGolfUrl(gender, category, size, color);
-                        break;
-                    // case "H&O":
-                    //     urls.push(get(gender, category, size, color));
-                    //     break;
-                    case "StudioPasha":
-                        url=getStudiopashaUrl(gender, category, size, color);
-                        break;
-                    case "Urbanica":
-                        url=getUrbanicaUrl(gender, category, size, color);
-                        break;
-                    case "TwentyFourSeven":
-                        url=getTwentyfoursevenUrl(gender, category, size, color);
-                        break;
-                    case "Hoodies":
-                        url=getHoodiesUrl(gender, category, size, color);
-                        break;
-                }
-                scrapedData.push(await scrapeWebsite(url, config, gender, category, size, color));
-            }
-        }
-        
+    // for (const store of stores) {
+    const config = getConfig(store);
+    // for (const size of sizes) {
+    // for (const color of colors) {
+    var url;
+    switch (store) {
+        case "Castro":
+            url = getCastroUrl(gender, category, size, color);
+            break;
+        case "Renuar":
+            url = getRenuarUrl(gender, category, size, color);
+            break;
+        // case "FashionClub":
+        //     url=ge(gender, category, size, color);
+        //     break;
+        case "Golf":
+            url = getGolfUrl(gender, category, size, color);
+            break;
+        // case "H&O":
+        //     urls.push(get(gender, category, size, color));
+        //     break;
+        case "StudioPasha":
+            url = getStudiopashaUrl(gender, category, size, color);
+            break;
+        case "Urbanica":
+            url = getUrbanicaUrl(gender, category, size, color);
+            break;
+        case "TwentyFourSeven":
+            url = getTwentyfoursevenUrl(gender, category, size, color);
+            break;
+        case "Hoodies":
+            url = getHoodiesUrl(gender, category, size, color);
+            break;
     }
+
+    const items = await scrapeWebsite(url, config, gender, category, size, color);
+
+    for (const item of items) {
+        if (item.name !== 'N/A') {
+            scrapedData = scrapedData.concat(item);
+        }
+    }
+
+
+    // }
+    // }
+
+    // }
     return scrapedData;
 };
 
