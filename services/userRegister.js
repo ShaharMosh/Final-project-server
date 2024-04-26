@@ -15,7 +15,7 @@ const checkEmail = (email) => {
   return true;
 };
 
-const CheckConfirmPassword = (password ,confirmPassword) => {
+const CheckConfirmPassword = (password, confirmPassword) => {
   if (password === confirmPassword) {
     return true;
   }
@@ -27,7 +27,7 @@ const isValidUser = (email, firstName, lastName, password, confirmPassword) => {
   if (!checkEmail(email)) {
     errorList.push("email");
   }
-  
+
   if (firstName === "") {
     errorList.push("first name");
   }
@@ -37,7 +37,7 @@ const isValidUser = (email, firstName, lastName, password, confirmPassword) => {
   if (!checkPassword(password)) {
     errorList.push("password");
   }
-  if(!CheckConfirmPassword(password, confirmPassword)){
+  if (!CheckConfirmPassword(password, confirmPassword)) {
     errorList.push("confirm password");
   }
 

@@ -40,24 +40,24 @@ let sizes = {
 };
 
 function getUrl(gender, category, size, color) {
-  let url = "https://www.hoodies.co.il/" + gender + "/";
+  let url = "https://www.hoodies.co.il/";
 
   if (colors[color] == undefined || sizes[size] == undefined) {
     return null;
   }
 
-  if (gender == "women") {
+  if (gender == "Women") {
     if (categoriesWomen[category] == undefined) {
       return null;
     }
 
-    url += categoriesWomen[category];
-  } else if (gender == "men") {
+    url += "women/" + categoriesWomen[category];
+  } else if (gender == "Men") {
     if (categoriesMen[category] == undefined) {
       return null;
     }
 
-    url += categoriesMen[category];
+    url += "men/" + categoriesMen[category];
   }
 
   url += "?color_group=" + colors[color] + "&size=" + sizes[size];

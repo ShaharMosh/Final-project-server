@@ -51,14 +51,14 @@ function getUrl(gender, category, size, color) {
     return null;
   }
 
-  if (gender == "women") {
+  if (gender == "Women") {
     if (categoriesWomen[category] == undefined) {
       return null;
     }
 
     cloth = "clothing/";
     categoryInUrl = categoriesWomen[category];
-  } else if (gender == "men") {
+  } else if (gender == "Men") {
     if (categoriesMen[category] == undefined) {
       return null;
     }
@@ -67,22 +67,22 @@ function getUrl(gender, category, size, color) {
     categoryInUrl = categoriesMen[category];
   }
 
-  if (gender == "women" && (category == "shirts" || category == "shorts")) {
+  if (gender == "Women" && (category == "Shirts" || category == "Shorts")) {
     url += "נשים/בגדים/";
 
-    if (category == "shirts") {
+    if (category == "Shirts") {
       url += "חולצות";
-    } else if (category == "shorts") {
+    } else if (category == "Shorts") {
       url += "שורטים-וברמודות";
     }
 
     url += "/?";
-  } else if (gender == "men" && category == "sweatshirts") {
+  } else if (gender == "Men" && category == "Sweatshirts") {
     url += "גברים/בגדים/סווטשירטים-וקפוצ%27ונים/?";
   } else {
-    url += gender + "/";
+    url += gender.toLowerCase() + "/";
 
-    if (category != "shoes") {
+    if (category != "Shoes") {
       url += cloth;
     }
 

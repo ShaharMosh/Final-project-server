@@ -6,10 +6,14 @@ const updateUser = async (req, res) => {
   const error = detailsService.isValidDetails(
     req.body.email,
     req.body.firstName,
-    req.body.lastName,
+    req.body.lastName
   );
   if (error === "" && !exist) {
-    const updateUser = await detailsService.updateUser(req, req.body.oldEmail, req.headers.authorization);
+    const updateUser = await detailsService.updateUser(
+      req,
+      req.body.oldEmail,
+      req.headers.authorization
+    );
     res.json(updateUser);
   } else if (exist) {
     res.status(409).json({ error: "Email already exists" });

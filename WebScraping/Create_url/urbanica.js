@@ -58,29 +58,29 @@ let categoriesMen = {
 };
 
 function getUrl(gender, category, size, color) {
-  let url = "https://www.urbanica-wh.com/" + gender + "/";
+  let url = "https://www.urbanica-wh.com/";
 
   if (colors[color] == undefined || sizes[size] == undefined) {
     return null;
   }
 
-  if (gender == "women") {
+  if (gender == "Women") {
     if (categoriesWomen[category] == undefined) {
       return null;
     }
-    url += categoriesWomen[category];
-  } else if (gender == "men") {
+    url += "women/" + categoriesWomen[category];
+  } else if (gender == "Men") {
     if (categoriesMen[category] == undefined) {
       return null;
     }
-    url += categoriesMen[category];
+    url += "men/" + categoriesMen[category];
   }
 
   url += "?color_group=" + colors[color] + "&size_group=" + sizes[size];
 
-  if (category == "dresses") {
+  if (category == "Dresses") {
     url += "&product_type=2778";
-  } else if (category == "skirts") {
+  } else if (category == "Skirts") {
     url += "&product_type=3309";
   }
 

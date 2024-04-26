@@ -3,7 +3,6 @@ import createTransporter from "../emailConfig.js";
 import Email from "../models/email.js";
 
 const checkEmail = async (req, res) => {
-
   // Function to generate a random reset token
   const generateResetToken = () => {
     // Implement your logic to generate a random token (e.g., using a library like `uuid`)
@@ -12,7 +11,7 @@ const checkEmail = async (req, res) => {
       Math.random().toString(36).substring(2, 15) +
       Math.random().toString(36).substring(2, 15)
     );
-  }
+  };
 
   try {
     const error = await emailService.errorMessage(req.body.email);
