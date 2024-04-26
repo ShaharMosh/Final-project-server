@@ -1,33 +1,83 @@
 import searchResultsService from "../services/searchResults.js";
 import itemService from "../services/item.js";
-import Item from "../models/item.js";
+import Store from "../models/store.js";
+import mongoose from 'mongoose';
+
+const { ObjectId } = mongoose.Types;
+
 
 const getSearchParmsFromUser = async (req, res) => {
+    const { gender, category, colors, sizes, stores } = req.body;
+    console.log(req.body);
 
-    const { gender, category, color, size, store } = req.body;
-    console.log("Extracted Search Fields:", { gender, category, color, size, store });
-     ////check first in db
-    const results = await searchResultsService.searchResults(gender, category, color, size, store);
-    await itemService.createItem(results, {gender, category, size}); // await here
+    var allResults = [];
 
-    const itemIds = ["65d5dd21b87d4cd458164534"];
+    //check first in db
+    for (const store of stores) {
+        for (const size of sizes) {
+            for (const color of colors) {
+                const existingItems = await itemService.findItems(gender, category, color, size, store);
+                if (existingItems.length === 0) {
+                    const results = await searchResultsService.searchResults(gender, category, color, size, store);
+                    allResults = results;
+                    await itemService.createItem(results);
+                } else {
+                    allResults = existingItems;
+                }
+            }
+        }
+    }
 
-    const items = await Item.find({ _id: { $in: itemIds } });
+    if (allResults && allResults.length !== 0) {
+        const responseItemsPromises = allResults.map(async item => {
 
-    if (items && items.length !== 0) {
-        const responseItems = items.map(item => {
-            return {
-                id: item.id,
-                image: item.image,
-                price: item.price,
-                company: item.store.name,
-                name: item.name
-            };
+            // If the items is already in the db.
+            if (item.store instanceof ObjectId) {
+                try {
+                    const store = await Store.findById(item.store);
+                    if (store) {
+                        return {
+                            id: item._id, 
+                            image: item.image,
+                            price: item.price,
+                            company: store.name,
+                            name: item.name,
+                        };
+                    }
+                } catch (error) {
+                    console.error('Error finding store:', error);
+                    // Handle error in db.
+                    return {
+                        id: item._id, 
+                        image: item.image,
+                        price: item.price,
+                        company: "Unknown",
+                        name: item.name
+                    };
+                }
+                // If the items is from the scarpping.
+            } else {
+                return {
+                    id: item._id, // Assuming item has an _id field
+                    image: item.image,
+                    price: item.price,
+                    company: item.store,
+                    name: item.name
+                };
+            }
         });
+
+        const responseItems = await Promise.all(responseItemsPromises);
+
+        console.log(responseItems);
+
         res.json(responseItems);
     } else {
         res.json({ error: 'Items not found' });
     }
+
+
+
 
 
     //const results = await searchResultsService.searchResults();
