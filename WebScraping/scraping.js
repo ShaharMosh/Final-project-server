@@ -1,10 +1,10 @@
-import axios from "axios";
 import * as cheerio from "cheerio";
 import { chromium } from "playwright";
 
 function capitalizeFirstLetter(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
+
 // Function to perform the web scraping for a website
 async function scrapeWebsite(url, config, gender, category, size, color) {
   try {
@@ -51,29 +51,23 @@ async function scrapeWebsite(url, config, gender, category, size, color) {
       var filteredParts =
         parts[0] === "www"
           ? parts
-            .slice(1)
-            .filter(
+              .slice(1)
+              .filter(
+                (part) =>
+                  part.toLowerCase() !== "co" && part.toLowerCase() !== "il"
+              )
+          : parts.filter(
               (part) =>
                 part.toLowerCase() !== "co" && part.toLowerCase() !== "il"
-            )
-          : parts.filter(
-            (part) =>
-              part.toLowerCase() !== "co" && part.toLowerCase() !== "il"
-          );
+            );
 
-      var companyName = filteredParts[0];
+      var store = filteredParts[0];
 
       if (domain.includes("golf-il")) {
-        companyName = "golf";
+        store = "golf";
       }
       if (domain.includes("urbanica")) {
-        companyName = "urbanica";
-      }
-
-      var adikastyle = "adikastyle";
-      if (url.includes(adikastyle)) {
-        productURL = "https://adikastyle.com" + productURL;
-        productImage = productImage.replace("{width}", "480");
+        store = "urbanica";
       }
 
       if (url.includes("renuar")) {
@@ -98,20 +92,19 @@ async function scrapeWebsite(url, config, gender, category, size, color) {
         productURL = "https://www.twentyfourseven.co.il" + productURL;
       }
 
-
       productInfo.push({
         name: productName || "N/A",
         price: productPrice || "N/A",
         image: productImage || "N/A",
         URL: productURL || "N/A",
         color: color,
-        store: capitalizeFirstLetter(companyName) || "N/A",
+        store: capitalizeFirstLetter(store) || "N/A",
         gender: gender,
         category: category,
         size: size,
         color_url: productColor || "N/A",
       });
-    }); // End of function
+    });
 
     await browser.close();
 

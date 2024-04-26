@@ -38,7 +38,7 @@ function getUrl(gender, category, size, color) {
   let url = "https://www.studiopasha.co.il/";
 
   if (
-    gender == "men" ||
+    gender == "Men" ||
     categoriesWomen[category] == undefined ||
     colors[color] == undefined ||
     sizes[size] == undefined
@@ -46,7 +46,7 @@ function getUrl(gender, category, size, color) {
     return null;
   }
 
-  if (category == "dresses") {
+  if (category == "Dresses") {
     let rest = "?parent_color=" + colors[color] + "&size=" + sizes[size];
     return [
       url + "dresses/dresses-short-dresses.html" + rest,

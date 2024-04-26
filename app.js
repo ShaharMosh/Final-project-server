@@ -1,6 +1,5 @@
 import { scrapeWebsite, getImages } from "./WebScraping/scraping.js";
 
-
 import express from "express";
 import customEnv from "custom-env";
 import http from "http";
@@ -26,7 +25,6 @@ import password from "./routes/password.js";
 import searchResults from "./routes/searchResults.js";
 import email from "./routes/email.js";
 import reset from "./routes/resetPass.js";
-import item from "./services/item.js";
 
 app.use("/api", userRegister);
 app.use("/api", userLogin);

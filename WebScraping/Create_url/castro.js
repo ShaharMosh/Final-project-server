@@ -13,7 +13,6 @@ let colors = {
   Purple: "1781",
 };
 
-
 let sizes = {
   26: "4875",
   28: "4876",

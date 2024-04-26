@@ -11,7 +11,6 @@ const createUser = async (req, res) => {
   );
 
   if (error === "" && !exist) {
-    
     const newUser = await userService.createUser(
       req.body.email,
       req.body.firstName,

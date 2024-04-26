@@ -1,18 +1,18 @@
 import mongoose from "mongoose";
 
 const EmailSchema = mongoose.Schema({
-    email: {
-        type: String,
-        required: true
-    },
-    token: {
-        type: String,
-        required: true
-    },
-    expiresAt: {
-        type: Date,
-        required: true
-    },
+  email: {
+    type: String,
+    required: true,
+  },
+  token: {
+    type: String,
+    required: true,
+  },
+  expiresAt: {
+    type: Date,
+    required: true,
+  },
 });
 const Email = mongoose.model("email", EmailSchema);
 

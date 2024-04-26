@@ -14,7 +14,7 @@ const isLogin = async (email, password) => {
     expiresIn: "1h",
   });
 
-  return { name, token };;
+  return { name, token };
 };
 
 export default {

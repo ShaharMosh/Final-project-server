@@ -1,5 +1,5 @@
 import User from "../models/user.js";
-import jwt from 'jsonwebtoken'
+import jwt from "jsonwebtoken";
 
 const checkEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -44,34 +44,26 @@ const isExist = async (oldEmail) => {
 };
 
 const updateUser = async (req, oldEmail, authorization) => {
-
-  //console.log("cservices2", authorization)
   // Check if authorization header exists
-  if (!authorization || !authorization.startsWith('Bearer ')) {
-    //console.log("cservices33")
+  if (!authorization || !authorization.startsWith("Bearer ")) {
     return null;
   }
-  //console.log("cservices22")
 
-  const token = authorization.split(' ')[1];
+  const token = authorization.split(" ")[1];
   jwt.verify(token, process.env.KEY);
-  
-  const email = req.body.oldEmail;
 
-  // const user = await User.findOne({ email });
-  // console.log("user", user);
-  // console.log("email", email)
-  // console.log("newemail", req.body.email)
-  // //console.log("email", user.email)
-  // if (user) {
-  //   console.log("okkk")
-  // }
+  const email = req.body.oldEmail;
 
   const result = await User.updateOne(
     { email: oldEmail }, // Search for the user with the old email
-    { $set: { email: req.body.email, firstName: req.body.firstName, lastName: req.body.lastName, } }
+    {
+      $set: {
+        email: req.body.email,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+      },
+    }
   );
-  //console.log("cservices3")
 };
 
 export default {

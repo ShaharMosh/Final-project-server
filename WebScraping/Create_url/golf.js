@@ -73,17 +73,17 @@ function getUrl(gender, category, size, color) {
     return null;
   }
 
-  if (category != "shoes") {
-    url += gender + "/";
+  if (category != "Shoes") {
+    url += gender.toLowerCase() + "/";
   }
 
-  if (gender == "women") {
+  if (gender == "Women") {
     if (categoriesWomen[category] == undefined) {
       return null;
     }
 
     url += categoriesWomen[category];
-  } else if (gender == "men") {
+  } else if (gender == "Men") {
     if (categoriesMen[category] == undefined) {
       return null;
     }

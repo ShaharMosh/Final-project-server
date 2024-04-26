@@ -1,7 +1,7 @@
 let colors = {
   White: "אבן%7Cשמנת%7Cלבן%7Cבז%27%7Cקרם%7Cפסים+שחור+לבן%7Cשחור+%2B+לבן",
   Black: "שחור+מכובס%7Cשחור%7Cשחור+מודפס%7Cשחור+מט",
-  pink: "ורוד%7Cאפרסק%7Cפוקסיה%7Cורוד++מעושן%7Cורוד+בהיר%7Cורוד+פודרה%7Cורוד+עתיק",
+  Pink: "פסים+ורוד%7Cורוד%7Cאפרסק%7Cפוקסיה%7Cורוד++מעושן%7Cורוד+בהיר%7Cורוד+פודרה%7Cורוד+עתיק",
   Blue: "כחול+ג%27נס%7Cכחול+נייבי%7Cכחול%7Cכחול+רוייאל%7Cכחול+ים+אפור",
   LightBlue: "תכלת+אסיד%7Cתכלת%7Cטורקיז",
   Green:
@@ -44,23 +44,23 @@ function getUrl(gender, category, size, color) {
     return null;
   }
 
-  if (gender == "women") {
+  if (gender == "Women") {
     if (categoriesWomen[category] == undefined) {
       return null;
     }
 
-    url += gender + "/";
-    if (category != "shoes") {
+    url += "women/";
+    if (category != "Shoes") {
       url += "clothing/";
     }
     url += categoriesWomen[category];
-  } else if (gender == "men") {
+  } else if (gender == "Men") {
     if (categoriesMen[category] == undefined) {
       return null;
     }
 
     url += "גברים/";
-    if (category != "shoes") {
+    if (category != "Shoes") {
       url += "כל-הקולקציה";
     }
     url += "/" + categoriesMen[category];
