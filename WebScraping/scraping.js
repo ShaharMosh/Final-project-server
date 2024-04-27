@@ -65,13 +65,18 @@ async function scrapeWebsite(url, config, gender, category, size, color) {
 
       if (domain.includes("golf-il")) {
         store = "golf";
-      }
-      if (domain.includes("urbanica")) {
+      } else if (domain.includes("urbanica")) {
         store = "urbanica";
+      } else if (domain.includes("terminalx")) {
+        store = "yanga";
       }
 
       if (url.includes("renuar")) {
         productURL = "https://www.renuar.co.il" + productURL;
+      } else if (url.includes("yanga")) {
+        productURL = "https://www.terminalx.com" + productURL;
+      } else if (url.includes("twentyfourseven")) {
+        productURL = "https://www.twentyfourseven.co.il" + productURL;
       }
 
       var productColors = $(element).find(config.colorSelector);
@@ -81,16 +86,12 @@ async function scrapeWebsite(url, config, gender, category, size, color) {
           $(this).attr("option-tooltip-value") ||
           $(this).attr("src") ||
           $(this).css("background-color") ||
+          $(this).css("background") || // get the url from this in yanga
           $(this).css("--bg-value");
         if (backgroundColor != "null") {
           productColor.push(backgroundColor);
         }
       });
-
-      var twentyfourseven = "twentyfourseven";
-      if (url.includes(twentyfourseven)) {
-        productURL = "https://www.twentyfourseven.co.il" + productURL;
-      }
 
       productInfo.push({
         name: productName || "N/A",
