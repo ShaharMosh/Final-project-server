@@ -5,6 +5,21 @@ function capitalizeFirstLetter(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function extractUrlFromBackground(backgroundStyle) {
+  // Regular expression to extract the URL
+  const regex = /url\((.*?)\)/;
+
+  // Match the regex against the string
+  const match = backgroundStyle.match(regex);
+
+  // Extract the URL from the match
+  if (match && match[1]) {
+    return match[1];
+  }
+
+  return null;
+}
+
 // Function to perform the web scraping for a website
 async function scrapeWebsite(url, config, gender, category, size, color) {
   try {
@@ -69,12 +84,9 @@ async function scrapeWebsite(url, config, gender, category, size, color) {
         store = "urbanica";
       } else if (domain.includes("terminalx")) {
         store = "yanga";
-      }
-
-      if (url.includes("renuar")) {
-        productURL = "https://www.renuar.co.il" + productURL;
-      } else if (url.includes("yanga")) {
         productURL = "https://www.terminalx.com" + productURL;
+      } else if (url.includes("renuar")) {
+        productURL = "https://www.renuar.co.il" + productURL;
       } else if (url.includes("twentyfourseven")) {
         productURL = "https://www.twentyfourseven.co.il" + productURL;
       }
@@ -82,12 +94,17 @@ async function scrapeWebsite(url, config, gender, category, size, color) {
       var productColors = $(element).find(config.colorSelector);
       const productColor = [];
       productColors.each(function () {
-        const backgroundColor =
+        var backgroundColor =
           $(this).attr("option-tooltip-value") ||
           $(this).attr("src") ||
           $(this).css("background-color") ||
-          $(this).css("background") || // get the url from this in yanga
+          $(this).css("background") ||
           $(this).css("--bg-value");
+
+        if (backgroundColor.includes("url")) {
+          backgroundColor = extractUrlFromBackground(backgroundColor);
+        }
+
         if (backgroundColor != "null") {
           productColor.push(backgroundColor);
         }

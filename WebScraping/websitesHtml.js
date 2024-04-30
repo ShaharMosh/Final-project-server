@@ -1,4 +1,5 @@
-import { scrapeWebsite } from "./scraping.js";
+// import { scrapeWebsite, getImages } from "./scraping.js";
+// import { getUrl } from "./Create_url/yanga.js";
 
 const websitesToScrape = {
   Castro: {
@@ -96,29 +97,31 @@ const websitesToScrape = {
   },
   Yanga: {
     itemSelector: ".listing-product_3mjp",
-    nameSelector: ".tx-link-a", // not good
+    nameSelector: ".title_3ZxJ",
     priceSelector: ".final-price_8CiX",
     imageSelector: ".image_3k9y",
     URLSelector: ".tx-link-a",
     colorSelector: ".color-item_1Y2Y",
-    specificItemSelector: "",
-    imageItemSelector: "",
+    specificItemSelector: "div.thumb_2ID9",
+    imageItemSelector: "img",
   },
 };
 
-const [website, config] = Object.entries(websitesToScrape)[7];
-const scrapedData = await scrapeWebsite(
-  "https://www.terminalx.com/brands/yanga?category_level=11330&color_group=499&size_group=10624",
-  config,
-  "Women",
-  "Shirts",
-  "S",
-  "Red"
-);
-console.log(scrapedData);
+// const [website, config] = Object.entries(websitesToScrape)[7];
+// var url = getUrl("Women", "Pants", "M", "White");
+// console.log(url);
+// const scrapedData = await scrapeWebsite(
+//   url,
+//   config,
+//   "Women",
+//   "Pants",
+//   "M",
+//   "White"
+// );
+// console.log(scrapedData);
 
 // const img = await getImages(
-//   "https://www.hoodies.co.il/women/%D7%9E%D7%A2%D7%99%D7%9C%D7%99%D7%9D-%D7%95%D7%92%D7%A7%D7%98%D7%99%D7%9D/2196-039-2323-w",
+//   "https://www.terminalx.com/brands/yanga/w241760005?color=10",
 //   config
 // );
 // console.log(img);

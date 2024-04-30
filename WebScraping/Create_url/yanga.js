@@ -61,6 +61,7 @@ function getUrl(gender, category, size, color) {
     colors[color] +
     "&size_group=" +
     sizes[size];
+  return url;
 }
 
 export { getUrl };
