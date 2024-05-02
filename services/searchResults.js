@@ -7,6 +7,7 @@ import { getUrl as getStudiopashaUrl } from "../WebScraping/Create_url/studiopas
 import { getUrl as getUrbanicaUrl } from "../WebScraping/Create_url/urbanica.js";
 import { getUrl as getTwentyfoursevenUrl } from "../WebScraping/Create_url/twentyfourseven.js";
 import { getUrl as getHoodiesUrl } from "../WebScraping/Create_url/hoodies.js";
+import { getUrl as getYangaUrl } from "../WebScraping/Create_url/yanga.js";
 
 const searchResults = async (gender, category, color, size, store) => {
   var scrapedData = [];
@@ -35,6 +36,9 @@ const searchResults = async (gender, category, color, size, store) => {
       break;
     case "Hoodies":
       url = getHoodiesUrl(gender, category, size, color);
+      break;
+    case "Yanga":
+      url = getYangaUrl(gender, category, size, color);
       break;
   }
 
