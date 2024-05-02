@@ -7,7 +7,7 @@ const { ObjectId } = mongoose.Types;
 
 const getSearchParmsFromUser = async (req, res) => {
   const { gender, category, colors, sizes, stores } = req.body;
-  console.log(req.body);
+  console.log("req.body", req.body);
 
   var allResults = [];
 
