@@ -16,6 +16,7 @@ const predefinedStores = [
   { name: "Urbanica" },
   { name: "Twentyfourseven" },
   { name: "Hoodies" },
+  { name: "Yanga" },
 ];
 
 const createPredefinedStores = async () => {
