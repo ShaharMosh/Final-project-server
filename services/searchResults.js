@@ -44,10 +44,20 @@ const searchResults = async (gender, category, color, size, store) => {
 
   console.log(url);
 
-  const items = await scrapeWebsite(url, config, gender, category, size, color);
-  for (const item of items) {
-    if (item.name !== "N/A") {
-      scrapedData = scrapedData.concat(item);
+  if (url != null) {
+    const items = await scrapeWebsite(
+      url,
+      config,
+      gender,
+      category,
+      size,
+      color
+    );
+
+    for (const item of items) {
+      if (item.name !== "N/A") {
+        scrapedData = scrapedData.concat(item);
+      }
     }
   }
 

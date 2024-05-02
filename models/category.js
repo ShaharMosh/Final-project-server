@@ -16,7 +16,7 @@ const predefinedcategories = [
   { name: "Dresses" },
   { name: "Skirts" },
   { name: "Sweaters" },
-  { name: "Jackets and coats" },
+  { name: "Jackets" },
   { name: "Sweatshirts" },
   { name: "Shoes" },
 ];

@@ -2,6 +2,10 @@ import searchResultsService from "../services/searchResults.js";
 import itemService from "../services/item.js";
 import Store from "../models/store.js";
 import mongoose from "mongoose";
+import Size from "../models/size.js";
+import Color from "../models/color.js";
+import Category from "../models/category.js";
+import Gender from "../models/gender.js";
 
 const { ObjectId } = mongoose.Types;
 
@@ -11,17 +15,32 @@ const getSearchParmsFromUser = async (req, res) => {
 
   var allResults = [];
 
-  //check first in db
+  var genderId = await Gender.findOne({ name: gender });
+  genderId = genderId._id;
+  var categoryId = await Category.findOne({ name: category });
+  categoryId = categoryId._id;
+
+  // Check if items that meet the search criteria appear in the DB
   for (const store of stores) {
+    var storeId = await Store.findOne({ name: store });
+    storeId = storeId._id;
+
     for (const size of sizes) {
+      var sizeId = await Size.findOne({ name: size });
+      sizeId = sizeId._id;
+
       for (const color of colors) {
+        var colorId = await Color.findOne({ name: color });
+        colorId = colorId._id;
+
         const existingItems = await itemService.findItems(
-          gender,
-          category,
-          color,
-          size,
-          store
+          genderId,
+          categoryId,
+          colorId,
+          sizeId,
+          storeId
         );
+
         // There is no item with these parameters in the DB, so get the data from the site
         if (existingItems.length === 0) {
           const results = await searchResultsService.searchResults(
@@ -36,7 +55,8 @@ const getSearchParmsFromUser = async (req, res) => {
             allResults.push(item);
           });
 
-          await itemService.createItem(results);
+          // Add the results to the DB
+          itemService.createItem(results);
         } else {
           // There are items that match the parameters in the DB
           existingItems.forEach((item) => {
@@ -47,7 +67,7 @@ const getSearchParmsFromUser = async (req, res) => {
     }
   }
 
-  if (allResults && allResults.length !== 0) {
+  if (allResults.length !== 0) {
     const responseItemsPromises = allResults.map(async (item) => {
       // If the items are already in the db.
       if (item.store instanceof ObjectId) {
@@ -93,27 +113,6 @@ const getSearchParmsFromUser = async (req, res) => {
   } else {
     res.json({ error: "Items not found" });
   }
-
-  //const results = await searchResultsService.searchResults();
-
-  // const result = await itemService.createItem(results);
-
-  // if (addedItems && addedItems.length !== 0) {
-  //     // Extract relevant details from added items
-  //     const responseItems = addedItems.map(item => {
-  //         return {
-  //             id: item.id,
-  //             image: item.image,
-  //             price: item.price,
-  //             company: item.company,
-  //             name: item.name
-  //         };
-  //     });
-
-  //     res.json(responseItems);
-  // } else {
-  //     res.json({ error: 'no results' });
-  // }
 };
 
 export { getSearchParmsFromUser };

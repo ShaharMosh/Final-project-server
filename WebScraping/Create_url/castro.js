@@ -44,38 +44,34 @@ let sizes = {
 
 let categoriesWomen = {
   Jeans: "jeans",
-  Pants: "pants",
+  Pants: "pants/long_pants",
   Dresses: "dresses",
   Skirts: "skirts",
-  Sweaters: "jumpers_/_knits",
+  Sweaters: "jumpers_/_knits/knits",
+  Sweatshirts: "jumpers_/_knits/jumpers",
   Jackets: "jackets__/_coats",
   Shirts: "tops_/_bodysuits",
   Shoes: "shoes",
+  Shorts: "pants/shorts",
 };
 
 let categoriesMen = {
   Jeans: "jeans",
   Pants: "pants",
-  Sweaters: "jumpers_knits",
+  Sweaters: "jumpers_knits/knits",
+  Sweatshirts: "jumpers_knits/junpers",
   Jackets: "jackets_coats",
   Shirts: "teeshirt",
   Shoes: "shoes",
+  Shorts: "short_jeans",
 };
 
-function getColorUrl(color) {
-  return "color_group=" + colors[color];
-}
-
-function getSizeUrl(size) {
-  return "size=" + sizes[size];
-}
-
 function getUrl(gender, category, size, color) {
-  let url = "https://www.castro.com/" + gender.toLowerCase() + "/categories/";
-
   if (colors[color] == undefined || sizes[size] == undefined) {
     return null;
   }
+
+  let url = "https://www.castro.com/" + gender.toLowerCase() + "/categories/";
 
   if (gender == "Women") {
     if (categoriesWomen[category] == undefined) {
@@ -89,7 +85,7 @@ function getUrl(gender, category, size, color) {
     url += categoriesMen[category];
   }
 
-  url += "?" + getColorUrl(color) + "&" + getSizeUrl(size);
+  url += "?color_group=" + colors[color] + "&size=" + sizes[size];
 
   return url;
 }
