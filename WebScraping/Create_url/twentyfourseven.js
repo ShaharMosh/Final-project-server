@@ -27,6 +27,7 @@ let categoriesWomen = {
   Shoes: "shoes",
   Shorts: "short-jeans",
   Buttonshirts: "buttonshirts",
+  Suits: "sets",
 };
 
 let categoriesMen = {
@@ -42,13 +43,11 @@ let categoriesMen = {
 };
 
 function getUrl(gender, category, size, color) {
-  let urls = [];
-  let url = "https://www.twentyfourseven.co.il/";
-
   if (colors[color] == undefined) {
     return null;
   }
 
+  let url = "https://www.twentyfourseven.co.il/";
   let rest =
     "/?prefn1=color&prefv1=" + colors[color] + "&prefn2=size&prefv2=" + size;
 
@@ -62,7 +61,7 @@ function getUrl(gender, category, size, color) {
       url += "clothing/";
     }
 
-    url += categoriesWomen[category];
+    url += categoriesWomen[category] + rest;
   } else if (gender == "Men") {
     if (categoriesMen[category] == undefined) {
       return null;
@@ -77,14 +76,10 @@ function getUrl(gender, category, size, color) {
       }
     }
 
-    url += "/" + categoriesMen[category];
+    url += "/" + categoriesMen[category] + rest;
   }
 
-  if (urls.length === 0) {
-    urls = [url + rest];
-  }
-
-  return urls;
+  return [url];
 }
 
 export { getUrl };

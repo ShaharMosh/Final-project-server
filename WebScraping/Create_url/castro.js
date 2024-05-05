@@ -64,6 +64,7 @@ let categoriesMen = {
   Shirts: "teeshirt",
   Shoes: "shoes",
   Shorts: "short_jeans",
+  Buttonshirts: "",
 };
 
 function getUrl(gender, category, size, color) {
@@ -72,22 +73,32 @@ function getUrl(gender, category, size, color) {
   }
 
   let url = "https://www.castro.com/" + gender.toLowerCase() + "/categories/";
+  let urls = [];
+  let rest = "?color_group=" + colors[color] + "&size=" + sizes[size];
 
   if (gender == "Women") {
     if (categoriesWomen[category] == undefined) {
       return null;
     }
-    url += categoriesWomen[category];
+
+    url += categoriesWomen[category] + rest;
   } else if (gender == "Men") {
     if (categoriesMen[category] == undefined) {
       return null;
     }
-    url += categoriesMen[category];
+
+    if (category == "Buttonshirts") {
+      urls = [url + "polomen" + rest, url + "tops" + rest];
+    } else {
+      url += categoriesMen[category] + rest;
+    }
   }
 
-  url += "?color_group=" + colors[color] + "&size=" + sizes[size];
+  if (urls.length === 0) {
+    urls = [url];
+  }
 
-  return url;
+  return urls;
 }
 
 export { getUrl };

@@ -42,11 +42,11 @@ let sizes = {
 };
 
 function getUrl(gender, category, size, color) {
-  let url = "https://www.hoodies.co.il/";
-
   if (colors[color] == undefined || sizes[size] == undefined) {
     return null;
   }
+
+  let url = "https://www.hoodies.co.il/";
 
   if (gender == "Women") {
     if (categoriesWomen[category] == undefined) {
@@ -64,7 +64,7 @@ function getUrl(gender, category, size, color) {
 
   url += "?color_group=" + colors[color] + "&size=" + sizes[size];
 
-  return url;
+  return [url];
 }
 
 export { getUrl };

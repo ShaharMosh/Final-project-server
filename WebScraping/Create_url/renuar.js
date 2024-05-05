@@ -42,13 +42,12 @@ let categoriesMen = {
 };
 
 function getUrl(gender, category, size, color) {
-  let urls = [];
-  let url = "https://www.renuar.co.il/";
-
   if (colors[color] == undefined) {
     return null;
   }
 
+  let urls = [];
+  let url = "https://www.renuar.co.il/";
   let rest =
     "prefn1=color&prefv1=" + colors[color] + "&prefn2=size&prefv2=" + size;
 
@@ -73,7 +72,7 @@ function getUrl(gender, category, size, color) {
         }
       }
 
-      url += categoriesWomen[category] + "/?";
+      url += categoriesWomen[category] + "/?" + rest;
     }
   } else if (gender == "Men") {
     if (categoriesMen[category] == undefined) {
@@ -96,12 +95,12 @@ function getUrl(gender, category, size, color) {
         url + "button_down_shirts/?" + rest,
       ];
     } else {
-      url += categoriesMen[category] + "/?";
+      url += categoriesMen[category] + "/?" + rest;
     }
   }
 
   if (urls.length === 0) {
-    urls = [url + rest];
+    urls = [url];
   }
 
   return urls;

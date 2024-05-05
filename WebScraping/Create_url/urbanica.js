@@ -46,7 +46,7 @@ let categoriesWomen = {
   Jackets: "jackets-and-coats",
   Shirts: "חולצות",
   Shoes: "נעליים",
-  Shorts: "pants/shorts",
+  Shorts: "",
 };
 
 let categoriesMen = {
@@ -60,22 +60,36 @@ let categoriesMen = {
 };
 
 function getUrl(gender, category, size, color) {
-  let url = "https://www.urbanica-wh.com/";
-
   if (colors[color] == undefined || sizes[size] == undefined) {
     return null;
   }
+
+  let url = "https://www.urbanica-wh.com/";
+  let urls = [];
+  let rest = "color_group=" + colors[color] + "&size_group=" + sizes[size];
 
   if (gender == "Women") {
     if (categoriesWomen[category] == undefined) {
       return null;
     }
-    url += "women/" + categoriesWomen[category] + "?";
 
-    if (category == "Dresses") {
-      url += "product_type=2778&";
-    } else if (category == "Skirts") {
-      url += "product_type=3309&";
+    url += "women/";
+
+    if (category == "Shorts") {
+      urls = [
+        url + "pants/shorts?" + rest,
+        url + "נשים/בגדים/אוברולים/?" + rest,
+      ];
+    } else {
+      url += categoriesWomen[category] + "?";
+
+      if (category == "Dresses") {
+        url += "product_type=2778&";
+      } else if (category == "Skirts") {
+        url += "product_type=3309&";
+      }
+
+      url += rest;
     }
   } else if (gender == "Men") {
     if (categoriesMen[category] == undefined) {
@@ -88,11 +102,10 @@ function getUrl(gender, category, size, color) {
     } else if (category == "Shorts") {
       url += "product_type=881&";
     }
+    url += rest;
   }
 
-  url += "color_group=" + colors[color] + "&size_group=" + sizes[size];
-
-  return url;
+  return [url];
 }
 
 export { getUrl };
