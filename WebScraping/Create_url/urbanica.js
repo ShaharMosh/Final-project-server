@@ -18,17 +18,17 @@ let sizes = {
   32: "1073_1086_978",
   34: "1071_1089_976",
   35: "1060",
-  36: "1068_1087_977",
+  36: "1068_1087_977_990",
   37: "1057",
-  38: "980",
+  38: "980_996",
   39: "1058",
-  40: "1059",
+  40: "1059_992",
   41: "1051",
-  42: "1052",
+  42: "1052_991",
   43: "1053",
-  44: "1054",
+  44: "1054_994",
   45: "1055",
-  46: "1056",
+  46: "1056_993",
   XS: "973_999",
   S: "1000_1064_999",
   M: "1000_972_998",
@@ -47,6 +47,7 @@ let categoriesWomen = {
   Shirts: "חולצות",
   Shoes: "נעליים",
   Shorts: "",
+  Suits: "",
 };
 
 let categoriesMen = {
@@ -78,8 +79,10 @@ function getUrl(gender, category, size, color) {
     if (category == "Shorts") {
       urls = [
         url + "pants/shorts?" + rest,
-        url + "נשים/בגדים/אוברולים/?" + rest,
+        url + "גינסים/גינסים-קצרים?" + rest,
       ];
+    } else if (category == "Suits") {
+      urls = [url + "שמלות?product_type=2665&" + rest, url + "סטים?" + rest];
     } else {
       url += categoriesWomen[category] + "?";
 
@@ -105,7 +108,11 @@ function getUrl(gender, category, size, color) {
     url += rest;
   }
 
-  return [url];
+  if (urls.length === 0) {
+    urls = [url];
+  }
+
+  return urls;
 }
 
 export { getUrl };
