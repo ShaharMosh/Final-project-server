@@ -32,6 +32,7 @@ let categoriesWomen = {
   Sweaters: "srigim.html",
   Jackets: "coats-jackets.html",
   Shirts: "tops.html",
+  Shorts: "pants/mknsi-wvrt.html",
 };
 
 function getUrl(gender, category, size, color) {

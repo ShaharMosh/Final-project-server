@@ -11,48 +11,41 @@ import { getUrl as getYangaUrl } from "../WebScraping/Create_url/yanga.js";
 
 const searchResults = async (gender, category, color, size, store) => {
   var scrapedData = [];
-  var url;
+  var urls = [];
 
   const config = getConfig(store);
 
   switch (store) {
     case "Castro":
-      url = getCastroUrl(gender, category, size, color);
+      urls = getCastroUrl(gender, category, size, color);
       break;
     case "Renuar":
-      url = getRenuarUrl(gender, category, size, color);
+      urls = getRenuarUrl(gender, category, size, color);
       break;
     case "Golf":
-      url = getGolfUrl(gender, category, size, color);
+      urls = getGolfUrl(gender, category, size, color);
       break;
     case "Studiopasha":
-      url = getStudiopashaUrl(gender, category, size, color);
+      urls = getStudiopashaUrl(gender, category, size, color);
       break;
     case "Urbanica":
-      url = getUrbanicaUrl(gender, category, size, color);
+      urls = getUrbanicaUrl(gender, category, size, color);
       break;
     case "Twentyfourseven":
-      url = getTwentyfoursevenUrl(gender, category, size, color);
+      urls = getTwentyfoursevenUrl(gender, category, size, color);
       break;
     case "Hoodies":
-      url = getHoodiesUrl(gender, category, size, color);
+      urls = getHoodiesUrl(gender, category, size, color);
       break;
     case "Yanga":
-      url = getYangaUrl(gender, category, size, color);
+      urls = getYangaUrl(gender, category, size, color);
       break;
   }
 
-  console.log(url);
+  console.log(urls);
 
-  if (url != null) {
-    const items = await scrapeWebsite(
-      url,
-      config,
-      gender,
-      category,
-      size,
-      color
-    );
+  for (const url of urls) {
+    var items = await scrapeWebsite(url, config, gender, category, size, color);
 
     for (const item of items) {
       if (item.name !== "N/A") {

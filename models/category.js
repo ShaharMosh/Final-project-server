@@ -19,6 +19,8 @@ const predefinedcategories = [
   { name: "Jackets" },
   { name: "Sweatshirts" },
   { name: "Shoes" },
+  { name: "Buttonshirts" },
+  { name: "Suits" },
 ];
 
 const createPredefinedcategories = async () => {

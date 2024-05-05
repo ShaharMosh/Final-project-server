@@ -37,7 +37,7 @@ let categoriesWomen = {
   Jackets: "11548",
   Shirts: "11330&product_type_level=11331_11332_11334_11335",
   Shoes: "11370",
-  Shorts: "11344&product_type_level=11346",
+  Shorts: "11344&product_type_level=11346_11392",
 };
 
 function getUrl(gender, category, size, color) {

@@ -19,7 +19,7 @@ const predefinedcolors = [
   { name: "Black" },
   { name: "Purple" },
   { name: "Blue" },
-  { name: "Light Blue" },
+  { name: "Azure" },
   { name: "Gray" },
   { name: "Green" },
 ];

@@ -1,4 +1,4 @@
-import searchResultsService from "../services/searchResults.js";
+import searchResults from "../services/searchResults.js";
 import itemService from "../services/item.js";
 import Store from "../models/store.js";
 import mongoose from "mongoose";
@@ -43,7 +43,7 @@ const getSearchParmsFromUser = async (req, res) => {
 
         // There is no item with these parameters in the DB, so get the data from the site
         if (existingItems.length === 0) {
-          const results = await searchResultsService.searchResults(
+          let results = await searchResults.searchResults(
             gender,
             category,
             color,

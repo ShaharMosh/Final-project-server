@@ -22,16 +22,18 @@ let categoriesWomen = {
   Jackets: "jackets-and-coats",
   Shirts: "shirts-and-tops",
   Shoes: "shoes/shoes-women",
+  Shorts: "short-pants",
 };
 
 let categoriesMen = {
   Jeans: "denim",
-  Pants: "pants",
+  Pants: "pants/long-pants",
   Sweaters: "sweaters-and-knitted-shirts",
   Sweatshirts: "sweatshirts",
   Jackets: "jackets-and-coats",
   Shirts: "t-shirts",
   Shoes: "shoes",
+  Shorts: "pants/short-pants",
 };
 
 let sizes = {
@@ -58,14 +60,6 @@ let sizes = {
   XXL: "2769",
 };
 
-function getColorUrl(color) {
-  return "color_group=" + colors[color];
-}
-
-function getSizeUrl(size) {
-  return "size=" + sizes[size];
-}
-
 function getUrl(gender, category, size, color) {
   let url = "https://www.golf-il.co.il/";
 
@@ -91,7 +85,7 @@ function getUrl(gender, category, size, color) {
     url += categoriesMen[category];
   }
 
-  url += "?" + getColorUrl(color) + "&" + getSizeUrl(size);
+  url += "?color_group=" + colors[color] + "&size=" + sizes[size];
 
   return url;
 }

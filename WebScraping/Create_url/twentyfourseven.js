@@ -3,7 +3,7 @@ let colors = {
   Black: "שחור+מכובס%7Cשחור%7Cשחור+מודפס%7Cשחור+מט",
   Pink: "פסים+ורוד%7Cורוד%7Cאפרסק%7Cפוקסיה%7Cורוד++מעושן%7Cורוד+בהיר%7Cורוד+פודרה%7Cורוד+עתיק",
   Blue: "כחול+ג%27נס%7Cכחול+נייבי%7Cכחול%7Cכחול+רוייאל%7Cכחול+ים+אפור",
-  LightBlue: "תכלת+אסיד%7Cתכלת%7Cטורקיז",
+  Azure: "תכלת+אסיד%7Cתכלת%7Cטורקיז",
   Green:
     "ירוק%7Cירוק+זית%7Cסלדין%7Cירוק+בקבוק%7Cירוק+בהיר%7Cירוק+דשא%7Cירוק+תפוח",
   Gray: "אפור+מלנג%27%7Cאפור+מרינגו%7Cאפור%7Cאפור+עכבר%7Cכסף%7Cאפור+בהיר%7Cאפור+כהה%7Cאקווה+מרין%7Cסלדין",
@@ -25,24 +25,32 @@ let categoriesWomen = {
   Jackets: "jackets",
   Shirts: "shirts",
   Shoes: "shoes",
+  Shorts: "short-jeans",
+  Buttonshirts: "buttonshirts",
 };
 
 let categoriesMen = {
   Jeans: "ג%27ינסים",
   Pants: "מכנסיים",
-  Jackets: "מעילים-ז%27קטים-ווסטים",
+  Jackets: "ז%27קטים-ווסטים",
   Sweatshirts: "קפוצ%27ונים-סווטשירטים",
   Sweaters: "סריגים-סוודרים",
-  Shirts: "חולצות",
+  Shirts: "טישירטים",
   Shoes: "נעליים",
+  Shorts: "ברמודות",
+  Buttonshirts: "חולצות_מכופתרות",
 };
 
 function getUrl(gender, category, size, color) {
+  let urls = [];
   let url = "https://www.twentyfourseven.co.il/";
 
   if (colors[color] == undefined) {
     return null;
   }
+
+  let rest =
+    "/?prefn1=color&prefv1=" + colors[color] + "&prefn2=size&prefv2=" + size;
 
   if (gender == "Women") {
     if (categoriesWomen[category] == undefined) {
@@ -53,23 +61,30 @@ function getUrl(gender, category, size, color) {
     if (category != "Shoes") {
       url += "clothing/";
     }
+
     url += categoriesWomen[category];
   } else if (gender == "Men") {
     if (categoriesMen[category] == undefined) {
       return null;
     }
 
-    url += "גברים/";
-    if (category != "Shoes") {
-      url += "כל-הקולקציה";
+    if (category == "Buttonshirts") {
+      url += "בגדים/גברים";
+    } else {
+      url += "גברים/";
+      if (category != "Shoes") {
+        url += "כל-הקולקציה";
+      }
     }
+
     url += "/" + categoriesMen[category];
   }
 
-  url +=
-    "/?prefn1=color&prefv1=" + colors[color] + "&prefn2=size&prefv2=" + size;
+  if (urls.length === 0) {
+    urls = [url + rest];
+  }
 
-  return url;
+  return urls;
 }
 
 export { getUrl };

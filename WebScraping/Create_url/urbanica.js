@@ -37,8 +37,8 @@ let sizes = {
 };
 
 let categoriesWomen = {
-  Jeans: "גינסים",
-  Pants: "pants",
+  Jeans: "גינסים/wide-leg-jeans",
+  Pants: "pants/מכנסיים-ארוכים",
   Dresses: "שמלות",
   Skirts: "שמלות",
   Sweaters: "sweaters",
@@ -46,6 +46,7 @@ let categoriesWomen = {
   Jackets: "jackets-and-coats",
   Shirts: "חולצות",
   Shoes: "נעליים",
+  Shorts: "pants/shorts",
 };
 
 let categoriesMen = {
@@ -55,6 +56,7 @@ let categoriesMen = {
   Sweatshirts: "sweatshirts",
   Shirts: "חולצות",
   Shoes: "shoes",
+  Shorts: "pants_men",
 };
 
 function getUrl(gender, category, size, color) {
@@ -68,21 +70,27 @@ function getUrl(gender, category, size, color) {
     if (categoriesWomen[category] == undefined) {
       return null;
     }
-    url += "women/" + categoriesWomen[category];
+    url += "women/" + categoriesWomen[category] + "?";
+
+    if (category == "Dresses") {
+      url += "product_type=2778&";
+    } else if (category == "Skirts") {
+      url += "product_type=3309&";
+    }
   } else if (gender == "Men") {
     if (categoriesMen[category] == undefined) {
       return null;
     }
-    url += "men/" + categoriesMen[category];
+    url += "men/" + categoriesMen[category] + "?";
+
+    if (category == "Pants") {
+      url += "product_type=887&";
+    } else if (category == "Shorts") {
+      url += "product_type=881&";
+    }
   }
 
-  url += "?color_group=" + colors[color] + "&size_group=" + sizes[size];
-
-  if (category == "Dresses") {
-    url += "&product_type=2778";
-  } else if (category == "Skirts") {
-    url += "&product_type=3309";
-  }
+  url += "color_group=" + colors[color] + "&size_group=" + sizes[size];
 
   return url;
 }
