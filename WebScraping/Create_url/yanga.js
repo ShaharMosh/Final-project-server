@@ -37,17 +37,13 @@ let categoriesWomen = {
   Jackets: "11548",
   Shirts: "11330&product_type_level=11331_11332_11334_11335",
   Shoes: "11370",
-  Shorts: "11344&product_type_level=11346",
+  Shorts: "11344&product_type_level=11346_11392",
+  Suits: "11381",
 };
 
 function getUrl(gender, category, size, color) {
-  if (gender == "Men") {
-    return null;
-  }
-
-  let url = "https://www.terminalx.com/brands/yanga?category_level=";
-
   if (
+    gender == "Men" ||
     colors[color] == undefined ||
     sizes[size] == undefined ||
     categoriesWomen[category] == undefined
@@ -55,13 +51,15 @@ function getUrl(gender, category, size, color) {
     return null;
   }
 
-  url +=
+  let url =
+    "https://www.terminalx.com/brands/yanga?category_level=" +
     categoriesWomen[category] +
     "&color_group=" +
     colors[color] +
     "&size_group=" +
     sizes[size];
-  return url;
+
+  return [url];
 }
 
 export { getUrl };

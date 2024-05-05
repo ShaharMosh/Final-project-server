@@ -1,8 +1,8 @@
 let colors = {
-  White: "6323_6331",
+  White: "6323_6331_171931",
   Black: "6324",
   Pink: "6326",
-  LightBlue: "159558_167460_167463",
+  Azure: "159558_167460_167463",
   Blue: "6322",
   Green: "167454_6329",
   Gray: "6325",
@@ -14,20 +14,22 @@ let colors = {
 };
 
 let categoriesWomen = {
-  Pants: "pants",
+  Pants: "pants/long",
   Sweaters: "sweatshirts",
   Sweatshirts: "hoodies",
   Jackets: "מעילים-וגקטים",
   Shirts: "shirts",
   Dresses: "dresses",
+  Shorts: "pants/shorts",
 };
 
 let categoriesMen = {
-  Pants: "pants",
+  Pants: "pants/long",
   Sweaters: "sweatshirt",
   Sweatshirts: "hoodies",
   jackets: "מעילים-וזקטים",
   Shirts: "shirts",
+  Shorts: "pants/short",
 };
 
 let sizes = {
@@ -40,11 +42,11 @@ let sizes = {
 };
 
 function getUrl(gender, category, size, color) {
-  let url = "https://www.hoodies.co.il/";
-
   if (colors[color] == undefined || sizes[size] == undefined) {
     return null;
   }
+
+  let url = "https://www.hoodies.co.il/";
 
   if (gender == "Women") {
     if (categoriesWomen[category] == undefined) {
@@ -62,7 +64,7 @@ function getUrl(gender, category, size, color) {
 
   url += "?color_group=" + colors[color] + "&size=" + sizes[size];
 
-  return url;
+  return [url];
 }
 
 export { getUrl };

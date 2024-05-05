@@ -1,5 +1,5 @@
 // import { scrapeWebsite, getImages } from "./scraping.js";
-// import { getUrl } from "./Create_url/yanga.js";
+// import { getUrl } from "./Create_url/renuar.js";
 
 const websitesToScrape = {
   Castro: {
@@ -13,7 +13,8 @@ const websitesToScrape = {
     imageItemSelector: ".img_zoom",
   },
   Renuar: {
-    itemSelector: ".set-item.product-tile.js-product-tile.h-100",
+    itemSelector:
+      ".search-results__products .set-item.product-tile.js-product-tile.h-100",
     nameSelector: ".tile-body h3",
     priceSelector: ".value[content]",
     imageSelector: ".tile-thumbnail img",
@@ -107,11 +108,11 @@ const websitesToScrape = {
   },
 };
 
-// const [website, config] = Object.entries(websitesToScrape)[7];
-// var url = getUrl("Women", "Pants", "M", "White");
-// console.log(url);
+// const [website, config] = Object.entries(websitesToScrape)[1];
+// // var url = getUrl("Women", "Pants", "M", "White");
+// // console.log(url);
 // const scrapedData = await scrapeWebsite(
-//   url,
+//   "https://www.renuar.co.il/%D7%A0%D7%A9%D7%99%D7%9D/%D7%91%D7%92%D7%93%D7%99%D7%9D/%D7%98%D7%99%D7%A9%D7%99%D7%A8%D7%98%D7%99%D7%9D/?prefn1=color&prefv1=%D7%A1%D7%9C%D7%93%D7%99%D7%9F&prefn2=size&prefv2=46",
 //   config,
 //   "Women",
 //   "Pants",

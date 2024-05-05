@@ -5,20 +5,14 @@ import Category from "../models/category.js";
 import Item from "../models/item.js";
 import Gender from "../models/gender.js";
 
-const findItems = async (gender, category, color, size, store) => {
-  const storeId = await Store.findOne({ name: store });
-  const genderId = await Gender.findOne({ name: gender });
-  const sizeId = await Size.findOne({ name: size });
-  const categoryId = await Category.findOne({ name: category });
-  const colorId = await Color.findOne({ name: color });
-
+const findItems = async (genderId, categoryId, colorId, sizeId, storeId) => {
   // Check if an item with similar characteristics already exists
   const existingItem = await Item.find({
-    gender: genderId._id,
-    category: categoryId._id,
-    color: colorId._id,
-    size: sizeId._id,
-    store: storeId._id,
+    gender: genderId,
+    category: categoryId,
+    color: colorId,
+    size: sizeId,
+    store: storeId,
   });
 
   return existingItem;

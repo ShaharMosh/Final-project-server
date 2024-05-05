@@ -3,7 +3,7 @@ let colors = {
   Black: "שחור+מכובס%7Cשחור%7Cשחור+מודפס%7Cשחור+מט",
   Pink: "ורוד%7Cאפרסק%7Cפוקסיה%7Cורוד++מעושן%7Cורוד+בהיר%7Cורוד+פודרה",
   Blue: "כחול+ג%27נס%7Cכחול+נייבי%7Cכחול%7Cכחול+רוייאל%7Cכחול+ים+אפור",
-  LightBlue: "תכלת+אסיד%7Cתכלת",
+  Azure: "תכלת+אסיד%7Cתכלת",
   Green: "ירוק%7Cירוק+זית%7Cסלדין%7Cירוק+בקבוק",
   Gray: "אפור+מלנג%27%7Cאפור+מרינגו%7Cאפור%7Cאפור+עכבר%7Cכסף%7Cאפור+בהיר%7Cאפור+כהה",
   Red: "אדום%7Cבריק",
@@ -22,8 +22,11 @@ let categoriesWomen = {
   Sweaters: "srigim",
   Jackets: "jackets-women",
   Sweatshirts: "sweatshirts_and_hoodies",
-  Shirts: "shirts",
+  Shirts: "חולצות",
   Shoes: "shoes",
+  Shorts: "שורטים-וברמודות",
+  Buttonshirts: "חולצות-מכופתרות",
+  Suits: "",
 };
 
 let categoriesMen = {
@@ -33,66 +36,74 @@ let categoriesMen = {
   Jackets: "coats_and_jackets",
   Shirts: "shirts",
   Shoes: "shoes",
+  Sweatshirts: "סווטשירטים-וקפוצ%27ונים",
+  Shorts: "bermuda",
+  Buttonshirts: "",
 };
 
-function getSizeUrl(size, num) {
-  return "prefn" + num + "=size&prefv" + num + "=" + size;
-}
-
-function getColorUrl(color, num) {
-  return "prefn" + num + "=color&prefv" + num + "=" + colors[color];
-}
-
 function getUrl(gender, category, size, color) {
-  let url = "https://www.renuar.co.il/";
-  let cloth, categoryInUrl;
-
   if (colors[color] == undefined) {
     return null;
   }
+
+  let urls = [];
+  let url = "https://www.renuar.co.il/";
+  let rest =
+    "prefn1=color&prefv1=" + colors[color] + "&prefn2=size&prefv2=" + size;
 
   if (gender == "Women") {
     if (categoriesWomen[category] == undefined) {
       return null;
     }
 
-    cloth = "clothing/";
-    categoryInUrl = categoriesWomen[category];
+    if (category == "Suits") {
+      urls = [
+        url + "women/clothing/sets/?" + rest,
+        url + "נשים/בגדים/אוברולים/?" + rest,
+      ];
+    } else {
+      if (category == "Shirts" || category == "Shorts") {
+        url += "נשים/בגדים/";
+      } else {
+        url += "women/";
+
+        if (category != "Shoes") {
+          url += "clothing/";
+        }
+      }
+
+      url += categoriesWomen[category] + "/?" + rest;
+    }
   } else if (gender == "Men") {
     if (categoriesMen[category] == undefined) {
       return null;
     }
 
-    cloth = "clothes/";
-    categoryInUrl = categoriesMen[category];
-  }
+    if (category == "Sweatshirts") {
+      url += "גברים/בגדים/";
+    } else {
+      url += "men/";
 
-  if (gender == "Women" && (category == "Shirts" || category == "Shorts")) {
-    url += "נשים/בגדים/";
-
-    if (category == "Shirts") {
-      url += "חולצות";
-    } else if (category == "Shorts") {
-      url += "שורטים-וברמודות";
+      if (category != "Shoes") {
+        url += "clothes/";
+      }
     }
 
-    url += "/?";
-  } else if (gender == "Men" && category == "Sweatshirts") {
-    url += "גברים/בגדים/סווטשירטים-וקפוצ%27ונים/?";
-  } else {
-    url += gender.toLowerCase() + "/";
-
-    if (category != "Shoes") {
-      url += cloth;
+    if (category == "Buttonshirts") {
+      urls = [
+        url + "polo_shirts/?" + rest,
+        url + "button_down_shirts/?" + rest,
+      ];
+    } else {
+      url += categoriesMen[category] + "/?" + rest;
     }
-
-    url += categoryInUrl + "/?";
   }
 
-  url += getColorUrl(color, 1);
-  url += "&" + getSizeUrl(size, 2);
+  if (urls.length === 0) {
+    urls = [url];
+  }
 
-  return url;
+  return urls;
 }
 
 export { getUrl };

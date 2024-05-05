@@ -15,23 +15,27 @@ let colors = {
 let categoriesWomen = {
   Jeans: "jeans",
   Pants: "pants",
-  Dresses: "dresses-and-overalls",
+  Dresses: "",
   Skirts: "skirts",
   Sweaters: "sweater-and-knitted-shirts",
   Sweatshirts: "sweatshirts",
-  Jackets: "jackets-and-coats",
+  Jackets: "",
   Shirts: "shirts-and-tops",
   Shoes: "shoes/shoes-women",
+  Shorts: "short-pants",
+  Suits: "",
 };
 
 let categoriesMen = {
   Jeans: "denim",
-  Pants: "pants",
+  Pants: "pants/long-pants",
   Sweaters: "sweaters-and-knitted-shirts",
   Sweatshirts: "sweatshirts",
   Jackets: "jackets-and-coats",
   Shirts: "t-shirts",
   Shoes: "shoes",
+  Shorts: "pants/short-pants",
+  Buttonshirts: "",
 };
 
 let sizes = {
@@ -58,20 +62,14 @@ let sizes = {
   XXL: "2769",
 };
 
-function getColorUrl(color) {
-  return "color_group=" + colors[color];
-}
-
-function getSizeUrl(size) {
-  return "size=" + sizes[size];
-}
-
 function getUrl(gender, category, size, color) {
-  let url = "https://www.golf-il.co.il/";
-
   if (colors[color] == undefined || sizes[size] == undefined) {
     return null;
   }
+
+  let url = "https://www.golf-il.co.il/";
+  let urls = [];
+  let rest = "?color_group=" + colors[color] + "&size=" + sizes[size];
 
   if (category != "Shoes") {
     url += gender.toLowerCase() + "/";
@@ -82,18 +80,39 @@ function getUrl(gender, category, size, color) {
       return null;
     }
 
-    url += categoriesWomen[category];
+    if (category == "Jackets") {
+      urls = [url + "cardigans" + rest, url + "jackets-and-coats" + rest];
+    } else if (category == "Suits") {
+      urls = [
+        url + "dresses-and-overalls/knitted-dresses" + rest,
+        url + "sets" + rest,
+      ];
+    } else if (category == "Dresses") {
+      urls = [
+        url + "dresses-and-overalls/maxi-dresses" + rest,
+        url + "dresses-and-overalls/midi-dresses" + rest,
+        url + "dresses-and-overalls/mini-dresses" + rest,
+      ];
+    } else {
+      url += categoriesWomen[category] + rest;
+    }
   } else if (gender == "Men") {
     if (categoriesMen[category] == undefined) {
       return null;
     }
 
-    url += categoriesMen[category];
+    if (category == "Buttonshirts") {
+      urls = [url + "button-up-shirts" + rest, url + "polo-shirts" + rest];
+    } else {
+      url += categoriesMen[category] + rest;
+    }
   }
 
-  url += "?" + getColorUrl(color) + "&" + getSizeUrl(size);
+  if (urls.length === 0) {
+    urls = [url];
+  }
 
-  return url;
+  return urls;
 }
 
 export { getUrl };

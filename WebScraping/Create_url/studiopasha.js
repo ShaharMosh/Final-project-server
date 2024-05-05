@@ -32,11 +32,11 @@ let categoriesWomen = {
   Sweaters: "srigim.html",
   Jackets: "coats-jackets.html",
   Shirts: "tops.html",
+  Shorts: "pants/mknsi-wvrt.html",
+  Suits: "",
 };
 
 function getUrl(gender, category, size, color) {
-  let url = "https://www.studiopasha.co.il/";
-
   if (
     gender == "Men" ||
     categoriesWomen[category] == undefined ||
@@ -46,23 +46,27 @@ function getUrl(gender, category, size, color) {
     return null;
   }
 
+  let url = "https://www.studiopasha.co.il/";
+  let urls = [];
+  let rest = "?parent_color=" + colors[color] + "&size=" + sizes[size];
+
   if (category == "Dresses") {
-    let rest = "?parent_color=" + colors[color] + "&size=" + sizes[size];
     return [
       url + "dresses/dresses-short-dresses.html" + rest,
       url + "dresses/dresses-maxi-midi-dresses.html" + rest,
       url + "dresses/dresses-evening-dresses.html" + rest,
     ];
+  } else if (category == "Suits") {
+    return [url + "suits.html" + rest, url + "overall.html" + rest];
+  } else {
+    url += categoriesWomen[category] + rest;
   }
 
-  url +=
-    categoriesWomen[category] +
-    "?parent_color=" +
-    colors[color] +
-    "&size=" +
-    sizes[size];
+  if (urls.length === 0) {
+    urls = [url];
+  }
 
-  return url;
+  return urls;
 }
 
 export { getUrl };
