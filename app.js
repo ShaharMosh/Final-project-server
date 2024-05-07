@@ -25,6 +25,8 @@ import password from "./routes/password.js";
 import searchResults from "./routes/searchResults.js";
 import email from "./routes/email.js";
 import reset from "./routes/resetPass.js";
+import itemDetails from "./routes/itemDetails.js";
+
 
 app.use("/api", userRegister);
 app.use("/api", userLogin);
@@ -34,6 +36,8 @@ app.use("/api", password);
 app.use("/api", searchResults);
 app.use("/api", email);
 app.use("/api", reset);
+app.use("/api", itemDetails);
+
 
 app.use(express.static("public"));
 
