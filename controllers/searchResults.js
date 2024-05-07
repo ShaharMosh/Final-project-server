@@ -43,6 +43,7 @@ const getSearchParmsFromUser = async (req, res) => {
 
         // There is no item with these parameters in the DB, so get the data from the site
         if (existingItems.length === 0) {
+
           let results = await searchResults.searchResults(
             gender,
             category,
@@ -51,12 +52,21 @@ const getSearchParmsFromUser = async (req, res) => {
             store
           );
 
-          results.forEach((item) => {
+          // Add the results to the DB
+          await itemService.createItem(results);
+
+          const existingItems = await itemService.findItems(
+            genderId,
+            categoryId,
+            colorId,
+            sizeId,
+            storeId
+          );
+
+          existingItems.forEach((item) => {
             allResults.push(item);
           });
 
-          // Add the results to the DB
-          itemService.createItem(results);
         } else {
           // There are items that match the parameters in the DB
           existingItems.forEach((item) => {
@@ -68,51 +78,25 @@ const getSearchParmsFromUser = async (req, res) => {
   }
 
   if (allResults.length !== 0) {
-    const responseItemsPromises = allResults.map(async (item) => {
-      // If the items are already in the db.
-      if (item.store instanceof ObjectId) {
-        try {
-          const store = await Store.findById(item.store);
-          if (store) {
-            return {
-              id: item._id,
-              image: item.image,
-              price: item.price,
-              company: store.name,
-              name: item.name,
-            };
-          }
-        } catch (error) {
-          console.error("Error finding store:", error);
-          // Handle error in db.
-          return {
-            id: item._id,
-            image: item.image,
-            price: item.price,
-            company: "Unknown",
-            name: item.name,
-          };
-        }
-      } else {
-        // If the items are from scraping.
-        return {
-          id: item._id,
-          image: item.image,
-          price: item.price,
-          company: item.store,
-          name: item.name,
-        };
-      }
-    });
-
-    const responseItems = await Promise.all(responseItemsPromises);
-
+    const responseItems = await Promise.all(allResults.map(async item => {
+      const store = await Store.findById(item.store);
+      console.log("store", store);
+      console.log("item.store", item.store);
+      return {
+        id: item.id,
+        image: item.image,
+        price: item.price,
+        company: store.name,
+        name: item.name
+      };
+    }));
     console.log(responseItems);
-
+  
     res.json(responseItems);
   } else {
     res.json({ error: "Items not found" });
   }
+  
 };
 
 export { getSearchParmsFromUser };
