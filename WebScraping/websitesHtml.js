@@ -1,5 +1,5 @@
-// import { scrapeWebsite, getImages } from "./scraping.js";
-// import { getUrl } from "./Create_url/renuar.js";
+import { scrapeWebsite, getImages } from "./scraping.js";
+// import { getUrl } from "./Create_url/castro.js";
 
 const websitesToScrape = {
   Castro: {
@@ -11,6 +11,8 @@ const websitesToScrape = {
     colorSelector: ".swatch-option",
     specificItemSelector: ".slick-track",
     imageItemSelector: ".img_zoom",
+    colorsItemSelector: ".swatch-attribute-options",
+    colorSelector: ".image",
   },
   Renuar: {
     itemSelector:
@@ -108,7 +110,7 @@ const websitesToScrape = {
   },
 };
 
-// const [website, config] = Object.entries(websitesToScrape)[1];
+const [website, config] = Object.entries(websitesToScrape)[0];
 // // var url = getUrl("Women", "Pants", "M", "White");
 // // console.log(url);
 // const scrapedData = await scrapeWebsite(
@@ -121,17 +123,14 @@ const websitesToScrape = {
 // );
 // console.log(scrapedData);
 
-// const img = await getImages(
-//   "https://www.terminalx.com/brands/yanga/w241760005?color=10",
-//   config
-// );
+// const img = await getImages("https://www.castro.com/24701560002", config);
 // console.log(img);
 
 const getConfig = (store) => {
   return websitesToScrape[store];
 };
 
-//   let url = getHoodiesUrl("women", "dresses", "M", "green");
-//   console.log(url);
+// let url = getUrl("women", "dresses", "M", "green");
+// console.log(url);
 
 export { getConfig };
