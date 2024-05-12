@@ -91,25 +91,6 @@ async function scrapeWebsite(url, config, gender, category, size, color) {
         productURL = "https://www.twentyfourseven.co.il" + productURL;
       }
 
-      var productColors = $(element).find(config.colorSelector);
-      const productColor = [];
-      productColors.each(function () {
-        var backgroundColor =
-          $(this).attr("option-tooltip-value") ||
-          $(this).attr("src") ||
-          $(this).css("background-color") ||
-          $(this).css("background") ||
-          $(this).css("--bg-value");
-
-        if (backgroundColor.includes("url")) {
-          backgroundColor = extractUrlFromBackground(backgroundColor);
-        }
-
-        if (backgroundColor != "null") {
-          productColor.push(backgroundColor);
-        }
-      });
-
       productInfo.push({
         name: productName || "N/A",
         price: productPrice || "N/A",
@@ -120,7 +101,6 @@ async function scrapeWebsite(url, config, gender, category, size, color) {
         gender: gender,
         category: category,
         size: size,
-        color_url: productColor || "N/A",
       });
     });
 
@@ -147,6 +127,8 @@ async function getImages(url, config) {
     const $ = cheerio.load(content);
 
     const images = [];
+    const colors = [];
+
     $(config.specificItemSelector).each((index, element) => {
       var productImages = $(element).find(config.imageItemSelector);
       productImages.each(function () {
@@ -159,9 +141,29 @@ async function getImages(url, config) {
       });
     });
 
+    $(config.colorsItemSelector).each((index, element) => {
+      var productColors = $(element).find(config.colorSelector);
+      productColors.each(function () {
+        var backgroundColor =
+          $(this).attr("option-tooltip-value") ||
+          $(this).attr("src") ||
+          $(this).css("background-color") ||
+          $(this).css("background") ||
+          $(this).css("--bg-value");
+
+        if (backgroundColor.includes("url")) {
+          backgroundColor = extractUrlFromBackground(backgroundColor);
+        }
+
+        if (backgroundColor != "null") {
+          colors.push(backgroundColor);
+        }
+      });
+    });
+
     await browser.close();
 
-    return images;
+    return [images, colors];
   } catch (error) {
     console.error("Error scraping ${url}:", error.message);
     return [];
