@@ -11,8 +11,8 @@ const websitesToScrape = {
     colorSelector: ".swatch-option",
     specificItemSelector: ".slick-track",
     imageItemSelector: ".img_zoom",
-    colorsItemSelector: ".swatch-attribute-options",
-    colorSelector: ".image",
+    colorsItemSelector: ".swatch-attribute-options.clearfix",
+    colorSelector: ".swatch-option.image",
   },
   Renuar: {
     itemSelector:
@@ -123,8 +123,8 @@ const [website, config] = Object.entries(websitesToScrape)[0];
 // );
 // console.log(scrapedData);
 
-// const img = await getImages("https://www.castro.com/24701560002", config);
-// console.log(img);
+const img = await getImages("https://www.castro.com/65103623700", config);
+console.log(img);
 
 const getConfig = (store) => {
   return websitesToScrape[store];

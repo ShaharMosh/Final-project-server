@@ -141,9 +141,14 @@ async function getImages(url, config) {
       });
     });
 
-    $(config.colorsItemSelector).each((index, element) => {
-      var productColors = $(element).find(config.colorSelector);
-      productColors.each(function () {
+    // $(config.colorsItemSelector).each((index, element) => {
+    //   var productColors = $(element).find(config.colorSelector);
+    //   productColors.each(function () {
+
+    $(config.colorsItemSelector)
+      .first()
+      .find(config.colorSelector)
+      .each(function () {
         var backgroundColor =
           $(this).attr("option-tooltip-value") ||
           $(this).attr("src") ||
@@ -159,7 +164,7 @@ async function getImages(url, config) {
           colors.push(backgroundColor);
         }
       });
-    });
+    // });
 
     await browser.close();
 
