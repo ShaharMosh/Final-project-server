@@ -114,8 +114,8 @@ async function scrapeWebsite(url, config, gender, category, size, color) {
 }
 
 // The function receives the URL of a particular item and the configuration.
-// Returns a list of images of the item
-async function getImages(url, config) {
+// Returns an array that contains an array of images and an array of colors.
+async function getImagesAndColors(url, config) {
   try {
     const browser = await chromium.launch();
     const page = await browser.newPage();
@@ -129,7 +129,7 @@ async function getImages(url, config) {
     const images = [];
     const colors = [];
 
-    $(config.specificItemSelector).each((index, element) => {
+    $(config.imagesItemSelector).each((index, element) => {
       var productImages = $(element).find(config.imageItemSelector);
       productImages.each(function () {
         const image = $(this).attr("src");
@@ -141,30 +141,26 @@ async function getImages(url, config) {
       });
     });
 
-    // $(config.colorsItemSelector).each((index, element) => {
-    //   var productColors = $(element).find(config.colorSelector);
-    //   productColors.each(function () {
-
     $(config.colorsItemSelector)
       .first()
       .find(config.colorSelector)
       .each(function () {
         var backgroundColor =
           $(this).attr("option-tooltip-value") ||
-          $(this).attr("src") ||
-          $(this).css("background-color") ||
           $(this).css("background") ||
-          $(this).css("--bg-value");
+          $(this).css("background-image") ||
+          $(this).css("background-color");
 
-        if (backgroundColor.includes("url")) {
-          backgroundColor = extractUrlFromBackground(backgroundColor);
-        }
+        if (backgroundColor) {
+          if (backgroundColor.includes("url")) {
+            backgroundColor = extractUrlFromBackground(backgroundColor);
+          }
 
-        if (backgroundColor != "null") {
-          colors.push(backgroundColor);
+          if (backgroundColor != "null") {
+            colors.push(backgroundColor);
+          }
         }
       });
-    // });
 
     await browser.close();
 
@@ -175,4 +171,4 @@ async function getImages(url, config) {
   }
 }
 
-export { scrapeWebsite, getImages };
+export { scrapeWebsite, getImagesAndColors };

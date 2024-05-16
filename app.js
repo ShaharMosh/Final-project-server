@@ -1,4 +1,4 @@
-import { scrapeWebsite, getImages } from "./WebScraping/scraping.js";
+import { scrapeWebsite, getImagesAndColors } from "./WebScraping/scraping.js";
 
 import express from "express";
 import customEnv from "custom-env";
@@ -27,7 +27,6 @@ import email from "./routes/email.js";
 import reset from "./routes/resetPass.js";
 import itemDetails from "./routes/itemDetails.js";
 
-
 app.use("/api", userRegister);
 app.use("/api", userLogin);
 app.use("/api", user);
@@ -37,7 +36,6 @@ app.use("/api", searchResults);
 app.use("/api", email);
 app.use("/api", reset);
 app.use("/api", itemDetails);
-
 
 app.use(express.static("public"));
 

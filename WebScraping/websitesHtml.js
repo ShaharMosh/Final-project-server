@@ -1,4 +1,4 @@
-import { scrapeWebsite, getImages } from "./scraping.js";
+import { scrapeWebsite, getImagesAndColors } from "./scraping.js";
 // import { getUrl } from "./Create_url/castro.js";
 
 const websitesToScrape = {
@@ -8,9 +8,9 @@ const websitesToScrape = {
     priceSelector: ".price-wrapper .price:not(:contains('0.00'))",
     imageSelector: ".product-image-photo",
     URLSelector: ".quickview a.product_quickview",
-    colorSelector: ".swatch-option",
-    specificItemSelector: ".slick-track",
-    imageItemSelector: ".img_zoom",
+    // colorSelector: ".swatch-option",
+    imagesItemSelector: ".slick-track",
+    imageSelector: ".img_zoom",
     colorsItemSelector: ".swatch-attribute-options.clearfix",
     colorSelector: ".swatch-option.image",
   },
@@ -21,9 +21,84 @@ const websitesToScrape = {
     priceSelector: ".value[content]",
     imageSelector: ".tile-thumbnail img",
     URLSelector: "a",
-    colorSelector: ".swatch[src]",
-    specificItemSelector: ".owl-stage",
+    // colorSelector: ".swatch[src]",
+    imagesItemSelector: ".owl-stage",
+    imageSelector: ".main-image__carousel-image",
+    colorsItemSelector: ".attribute__color-container",
+    colorSelector: ".swatch-value",
+  },
+  Golf: {
+    itemSelector: ".product-item",
+    nameSelector: ".product-name a",
+    priceSelector: ".price:not(:contains('0.00'))",
+    imageSelector: ".product-image-wrapper img",
+    URLSelector: "a",
+    // colorSelector: ".swatch-option.color",
+    imagesItemSelector: ".slick-track",
+    imageItemSelector: ".img_zoom",
+    colorsItemSelector: ".swatch-attribute-options",
+    colorSelector: ".swatch-option",
+  },
+  Studiopasha: {
+    itemSelector: ".product-item",
+    nameSelector: ".product-item-name a",
+    priceSelector: ".price:not(:contains('0.00'))",
+    imageSelector: ".product-image-photo",
+    URLSelector: "a",
+    // colorSelector: ".swatch-option[style*=background]",
+    imagesItemSelector: ".fotorama__stage__shaft",
+    imageItemSelector: ".fotorama__img",
+    colorsItemSelector: ".swatch-attribute-options",
+    colorSelector: ".swatch-option",
+  },
+  Urbanica: {
+    itemSelector: ".product",
+    nameSelector: ".product-name a",
+    priceSelector:
+      '.price-wrapper[data-price-amount]:not([data-price-amount=""])',
+    imageSelector: ".product-image-photo",
+    URLSelector: "a",
+    // colorSelector: ".swatch-attribute-options .swatch-option",
+    imagesItemSelector: ".slick-track",
+    imageItemSelector: ".img_zoom",
+    colorsItemSelector: ".swatch-attribute-options",
+    colorSelector: ".swatch-option",
+  },
+  Twentyfourseven: {
+    itemSelector: ".product",
+    nameSelector: ".product_default_link",
+    priceSelector: ".price .value",
+    imageSelector: ".tile-image",
+    URLSelector: "a",
+    // colorSelector: ".swatch-circle",
+    imagesItemSelector: ".owl-stage",
     imageItemSelector: ".main-image__carousel-image",
+    colorsItemSelector: ".attribute__color-container",
+    colorSelector: ".swatch-value",
+  },
+  Hoodies: {
+    itemSelector: ".product",
+    nameSelector: ".product-category-name",
+    priceSelector: ".price-wrapper .price:not(:contains('0.00'))",
+    imageSelector: ".gallery-img",
+    URLSelector: "a",
+    // colorSelector: ".swatch-option",
+    imagesItemSelector: ".slick-track",
+    imageItemSelector: ".img_zoom",
+    colorsItemSelector: ".swatch-attribute-options",
+    colorSelector: ".swatch-option",
+  },
+  Yanga: {
+    itemSelector: ".listing-product_3mjp",
+    nameSelector: ".title_3ZxJ",
+    priceSelector: ".final-price_8CiX",
+    imageSelector: ".image_3k9y",
+    URLSelector: ".tx-link-a",
+    // colorSelector: ".color-item_1Y2Y",
+    imagesItemSelector: "div.thumb_2ID9",
+    imageItemSelector: "img",
+    colorsItemSelector: ".color_FYIY",
+    colorSelector: ".color-item_1Y2Y",
   },
   // "FashionClub":
   //   {
@@ -33,19 +108,9 @@ const websitesToScrape = {
   //     imageSelector: ".slide-img-wrap img",
   //     URLSelector: ".product-title a",
   //     colorSelector: ".variable-item-span-color",
-  //     specificItemSelector: ".slick-track",
+  //     imagesItemSelector: ".slick-track",
   //     imageItemSelector: ".hover_zoom",
   //   },
-  Golf: {
-    itemSelector: ".product-item",
-    nameSelector: ".product-name a",
-    priceSelector: ".price:not(:contains('0.00'))",
-    imageSelector: ".product-image-wrapper img",
-    URLSelector: "a",
-    colorSelector: ".swatch-option.color",
-    specificItemSelector: ".slick-track",
-    imageItemSelector: ".img_zoom",
-  },
   // "H&O":
   //   {
   //     itemSelector: ".product_addtocart_form",
@@ -54,63 +119,11 @@ const websitesToScrape = {
   //     imageSelector: ".product-image-photo",
   //     URLSelector: "a",
   //     colorSelector: ".inline-block",
-  //     specificItemSelector: ".relative",
+  //     imagesItemSelector: ".relative",
   //     imageItemSelector: ".absolute",
   //   },
-  Studiopasha: {
-    itemSelector: ".product-item",
-    nameSelector: ".product-item-name a",
-    priceSelector: ".price:not(:contains('0.00'))",
-    imageSelector: ".product-image-photo",
-    URLSelector: "a",
-    colorSelector: ".swatch-option[style*=background]",
-    specificItemSelector: ".fotorama__stage__shaft",
-    imageItemSelector: ".fotorama__img",
-  },
-  Urbanica: {
-    itemSelector: ".product",
-    nameSelector: ".product-name a",
-    priceSelector:
-      '.price-wrapper[data-price-amount]:not([data-price-amount=""])',
-    imageSelector: ".product-image-photo",
-    URLSelector: "a",
-    colorSelector: ".swatch-attribute-options .swatch-option",
-    specificItemSelector: ".slick-track",
-    imageItemSelector: ".img_zoom",
-  },
-  Twentyfourseven: {
-    itemSelector: ".product",
-    nameSelector: ".product_default_link",
-    priceSelector: ".price .value",
-    imageSelector: ".tile-image",
-    URLSelector: "a",
-    colorSelector: ".swatch-circle",
-    specificItemSelector: ".owl-stage",
-    imageItemSelector: ".main-image__carousel-image",
-  },
-  Hoodies: {
-    itemSelector: ".product",
-    nameSelector: ".product-category-name",
-    priceSelector: ".price-wrapper .price:not(:contains('0.00'))",
-    imageSelector: ".gallery-img",
-    URLSelector: "a",
-    colorSelector: ".swatch-option",
-    specificItemSelector: ".slick-track",
-    imageItemSelector: ".img_zoom",
-  },
-  Yanga: {
-    itemSelector: ".listing-product_3mjp",
-    nameSelector: ".title_3ZxJ",
-    priceSelector: ".final-price_8CiX",
-    imageSelector: ".image_3k9y",
-    URLSelector: ".tx-link-a",
-    colorSelector: ".color-item_1Y2Y",
-    specificItemSelector: "div.thumb_2ID9",
-    imageItemSelector: "img",
-  },
 };
 
-const [website, config] = Object.entries(websitesToScrape)[0];
 // // var url = getUrl("Women", "Pants", "M", "White");
 // // console.log(url);
 // const scrapedData = await scrapeWebsite(
@@ -123,8 +136,12 @@ const [website, config] = Object.entries(websitesToScrape)[0];
 // );
 // console.log(scrapedData);
 
-const img = await getImages("https://www.castro.com/65103623700", config);
-console.log(img);
+// const [website, config] = Object.entries(websitesToScrape)[7];
+// const img = await getImagesAndColors(
+//   "https://www.terminalx.com/brands/yanga/w256790005?color=10",
+//   config
+// );
+// console.log(img);
 
 const getConfig = (store) => {
   return websitesToScrape[store];
