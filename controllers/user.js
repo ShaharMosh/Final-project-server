@@ -1,7 +1,7 @@
 import userService from "../services/user.js";
 
 const getDetails = async (req, res) => {
-  const details = await userService.getDetails(req, req.headers.authorization);
+  const details = await userService.getDetails(req.headers.authorization);
 
   if (details !== null) {
     res.json({
