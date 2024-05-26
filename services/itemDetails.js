@@ -16,10 +16,8 @@ const getItemDetails = async (id) => {
       const config = getConfig(store.name);
       const url = item.url;
 
-      const img_col = await getImagesAndColors(url, config);
-      console.log("img_col", img_col);
-      const images = img_col[0];
-      const colors = img_col[1];
+      const [images, colors] = await getImagesAndColors(url, config);
+      console.log("img_col", images, colors);
 
       const itemDetails = {
         id: item.id,

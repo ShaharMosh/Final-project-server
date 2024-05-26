@@ -136,12 +136,13 @@ const websitesToScrape = {
 // );
 // console.log(scrapedData);
 
-// const [website, config] = Object.entries(websitesToScrape)[7];
-// const img = await getImagesAndColors(
-//   "https://www.terminalx.com/brands/yanga/w256790005?color=10",
+// const [website, config] = Object.entries(websitesToScrape)[0];
+// const [img, col] = await getImagesAndColors(
+//   "https://www.castro.com/sale-products/71118010100",
 //   config
 // );
 // console.log(img);
+// console.log(col);
 
 const getConfig = (store) => {
   return websitesToScrape[store];
