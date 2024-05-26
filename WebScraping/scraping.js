@@ -122,10 +122,6 @@ async function getImagesAndColors(url, config) {
 
     await page.goto(url, { waitUntil: "networkidle" });
 
-    // Wait explicitly for the elements you are interested in
-    await page.waitForSelector(config.imagesItemSelector);
-    await page.waitForSelector(config.colorsItemSelector);
-
     // Extract data from the webpage using Playwright's API
     const content = await page.content();
     const $ = cheerio.load(content);

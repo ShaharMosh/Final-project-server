@@ -8,6 +8,7 @@ import Color from "../models/color.js";
 const getItemDetails = async (id) => {
   try {
     const item = await Item.findById(id);
+
     if (item) {
       console.log("item-service:", item);
       const store = await Store.findById(item.store);
@@ -17,7 +18,6 @@ const getItemDetails = async (id) => {
       const url = item.url;
 
       const [images, colors] = await getImagesAndColors(url, config);
-      console.log("img_col", images, colors);
 
       const itemDetails = {
         id: item.id,
@@ -30,9 +30,11 @@ const getItemDetails = async (id) => {
         colors: colors,
         images: images,
       };
+
       console.log("itemDetails", itemDetails);
       return itemDetails;
     }
+
     return null;
   } catch (err) {
     console.error(err);

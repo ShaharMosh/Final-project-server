@@ -138,7 +138,7 @@ const websitesToScrape = {
 
 // const [website, config] = Object.entries(websitesToScrape)[0];
 // const [img, col] = await getImagesAndColors(
-//   "https://www.castro.com/sale-products/71118010100",
+//   "https://www.castro.com/sale-products/71117889024",
 //   config
 // );
 // console.log(img);
