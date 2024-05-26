@@ -10,7 +10,7 @@ const websitesToScrape = {
     URLSelector: ".quickview a.product_quickview",
     // colorSelector: ".swatch-option",
     imagesItemSelector: ".slick-track",
-    imageSelector: ".img_zoom",
+    imageItemSelector: ".img_zoom",
     colorsItemSelector: ".swatch-attribute-options.clearfix",
     colorSelector: ".swatch-option.image",
   },
@@ -23,7 +23,7 @@ const websitesToScrape = {
     URLSelector: "a",
     // colorSelector: ".swatch[src]",
     imagesItemSelector: ".owl-stage",
-    imageSelector: ".main-image__carousel-image",
+    imageItemSelector: ".main-image__carousel-image",
     colorsItemSelector: ".attribute__color-container",
     colorSelector: ".swatch-value",
   },
@@ -136,12 +136,13 @@ const websitesToScrape = {
 // );
 // console.log(scrapedData);
 
-// const [website, config] = Object.entries(websitesToScrape)[7];
-// const img = await getImagesAndColors(
-//   "https://www.terminalx.com/brands/yanga/w256790005?color=10",
+// const [website, config] = Object.entries(websitesToScrape)[0];
+// const [img, col] = await getImagesAndColors(
+//   "https://www.castro.com/sale-products/71117889024",
 //   config
 // );
 // console.log(img);
+// console.log(col);
 
 const getConfig = (store) => {
   return websitesToScrape[store];
