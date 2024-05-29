@@ -57,6 +57,7 @@ import Size from "../models/size.js";
 import Color from "../models/color.js";
 
 const getItemDetails = async (id) => {
+
     try {
         const item = await Item.findById(id);
         if (item) {
@@ -105,12 +106,8 @@ const getItemDetails = async (id) => {
     } catch (err) {
         console.error(err);
         return null;
-    }
-};
+
 
 export default {
-    getItemDetails
+  getItemDetails,
 };
-
-
-

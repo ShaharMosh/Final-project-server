@@ -26,7 +26,7 @@ async function scrapeWebsite(url, config, gender, category, size, color) {
     const browser = await chromium.launch();
     const page = await browser.newPage();
 
-    await page.goto(url);
+    await page.goto(url, { waitUntil: "networkidle" });
 
     // Extract data from the webpage using Playwright's API
     const content = await page.content();
@@ -120,7 +120,7 @@ async function getImagesAndColors(url, config) {
     const browser = await chromium.launch();
     const page = await browser.newPage();
 
-    await page.goto(url);
+    await page.goto(url, { waitUntil: "networkidle" });
 
     // Extract data from the webpage using Playwright's API
     const content = await page.content();
@@ -167,7 +167,7 @@ async function getImagesAndColors(url, config) {
     return [images, colors];
   } catch (error) {
     console.error("Error scraping ${url}:", error.message);
-    return [];
+    return [[], []];
   }
 }
 
