@@ -28,6 +28,8 @@ import reset from "./routes/resetPass.js";
 import itemDetails from "./routes/itemDetails.js";
 import storeRoutes from "./routes/addresses.js";
 
+import popularSearches from "./services/popularSearches.js"
+
 app.use("/api", userRegister);
 app.use("/api", userLogin);
 app.use("/api", user);
@@ -50,5 +52,12 @@ try {
 } catch (error) {
   console.error("Error connecting to the database", error);
 }
+
+// Call the createPopularSearches function after the database connection is established
+popularSearches.createPopularSearches().then(() => {
+}).catch(err => {
+  console.error('Error initializing popular searches', err);
+});
+
 const server = http.createServer(app);
 server.listen(process.env.PORT);
