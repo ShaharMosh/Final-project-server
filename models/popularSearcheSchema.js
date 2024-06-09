@@ -11,25 +11,27 @@ const popularSearchesSchema = mongoose.Schema({
     ref: "Category",
     required: true,
   },
-  color:
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Color",
-      required: true,
-    },
-  size: 
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Size",
-      required: true,
-    },
+  color: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Color",
+    required: true,
+  },
+  size: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Size",
+    required: true,
+  },
   store: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Store",
     required: true,
   },
 });
-const PopularSearches = mongoose.model("PopularSearches", popularSearchesSchema);
+
+const PopularSearches = mongoose.model(
+  "PopularSearches",
+  popularSearchesSchema
+);
 
 // Connect to the MongoDB server
 mongoose.connect("mongodb://127.0.0.1:27017/db_server", {

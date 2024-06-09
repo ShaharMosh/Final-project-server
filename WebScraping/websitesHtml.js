@@ -1,5 +1,5 @@
 import { scrapeWebsite, getImagesAndColors } from "./scraping.js";
-// import { getUrl } from "./Create_url/castro.js";
+import { getUrl } from "./Create_url/castro.js";
 
 const websitesToScrape = {
   Castro: {
@@ -124,17 +124,19 @@ const websitesToScrape = {
   //   },
 };
 
-// // var url = getUrl("Women", "Pants", "M", "White");
-// // console.log(url);
-// const scrapedData = await scrapeWebsite(
-//   "https://www.renuar.co.il/%D7%A0%D7%A9%D7%99%D7%9D/%D7%91%D7%92%D7%93%D7%99%D7%9D/%D7%98%D7%99%D7%A9%D7%99%D7%A8%D7%98%D7%99%D7%9D/?prefn1=color&prefv1=%D7%A1%D7%9C%D7%93%D7%99%D7%9F&prefn2=size&prefv2=46",
-//   config,
-//   "Women",
-//   "Pants",
-//   "M",
-//   "White"
-// );
-// console.log(scrapedData);
+var url = getUrl("Women", "Suits", "S", "Blue");
+console.log(url);
+const [website, config] = Object.entries(websitesToScrape)[0];
+
+const scrapedData = await scrapeWebsite(
+  url[1],
+  config,
+  "Women",
+  "Suits",
+  "S",
+  "Blue"
+);
+console.log(scrapedData);
 
 // const [website, config] = Object.entries(websitesToScrape)[0];
 // const [img, col] = await getImagesAndColors(
