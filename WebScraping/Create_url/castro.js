@@ -45,7 +45,7 @@ let sizes = {
 let categoriesWomen = {
   Jeans: "jeans",
   Pants: "pants/long_pants",
-  Dresses: "dresses",
+  Dresses: "dresses_/_jumpsuits",
   Skirts: "skirts",
   Sweaters: "jumpers_/_knits/knits",
   Sweatshirts: "jumpers_/_knits/jumpers",
@@ -53,6 +53,7 @@ let categoriesWomen = {
   Shirts: "tops_/_bodysuits",
   Shoes: "shoes",
   Shorts: "pants/shorts",
+  Suits: "",
 };
 
 let categoriesMen = {
@@ -72,7 +73,8 @@ function getUrl(gender, category, size, color) {
     return null;
   }
 
-  let url = "https://www.castro.com/" + gender.toLowerCase() + "/categories/";
+  let begin = "https://www.castro.com/" + gender.toLowerCase() + "/";
+  let url = begin + "categories/";
   let urls = [];
   let rest = "?color_group=" + colors[color] + "&size=" + sizes[size];
 
@@ -81,7 +83,20 @@ function getUrl(gender, category, size, color) {
       return null;
     }
 
-    url += categoriesWomen[category] + rest;
+    if (category == "Suits") {
+      urls = [
+        begin + "our_favorites/suits" + rest,
+        url + categoriesWomen["Dresses"] + "/jumpsuits" + rest,
+      ];
+    } else if (category == "Dresses") {
+      urls = [
+        url + categoriesWomen["Dresses"] + "/maxi_dresses" + rest,
+        url + categoriesWomen["Dresses"] + "/midi_dresses" + rest,
+        url + categoriesWomen["Dresses"] + "/mini_dresses" + rest,
+      ];
+    } else {
+      url += categoriesWomen[category] + rest;
+    }
   } else if (gender == "Men") {
     if (categoriesMen[category] == undefined) {
       return null;

@@ -28,7 +28,8 @@ import reset from "./routes/resetPass.js";
 import itemDetails from "./routes/itemDetails.js";
 import storeRoutes from "./routes/addresses.js";
 
-import popularSearches from "./services/popularSearches.js"
+import popularSearches from "./services/popularSearches.js";
+import popularSearchesWS from "./WebScraping/popularSearchesWS.js";
 
 app.use("/api", userRegister);
 app.use("/api", userLogin);
@@ -39,7 +40,7 @@ app.use("/api", searchResults);
 app.use("/api", email);
 app.use("/api", reset);
 app.use("/api", itemDetails);
-app.use('/api', storeRoutes);
+app.use("/api", storeRoutes);
 
 app.use(express.static("public"));
 
@@ -54,10 +55,14 @@ try {
 }
 
 // Call the createPopularSearches function after the database connection is established
-popularSearches.createPopularSearches().then(() => {
-}).catch(err => {
-  console.error('Error initializing popular searches', err);
-});
+popularSearches
+  .createPopularSearches()
+  .then(() => {})
+  .catch((err) => {
+    console.error("Error initializing popular searches", err);
+  });
+
+popularSearchesWS.savePopularSearches();
 
 const server = http.createServer(app);
 server.listen(process.env.PORT);

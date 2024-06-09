@@ -7,7 +7,7 @@ import Color from "../models/color.js";
 import Category from "../models/category.js";
 import Gender from "../models/gender.js";
 
-const { ObjectId } = mongoose.Types;
+// const { ObjectId } = mongoose.Types;
 
 const getSearchParmsFromUser = async (req, res) => {
   const { gender, category, colors, sizes, stores } = req.body;
@@ -43,7 +43,6 @@ const getSearchParmsFromUser = async (req, res) => {
 
         // There is no item with these parameters in the DB, so get the data from the site
         if (existingItems.length === 0) {
-
           let results = await searchResults.searchResults(
             gender,
             category,
@@ -66,7 +65,6 @@ const getSearchParmsFromUser = async (req, res) => {
           existingItems.forEach((item) => {
             allResults.push(item);
           });
-
         } else {
           // There are items that match the parameters in the DB
           existingItems.forEach((item) => {
@@ -78,25 +76,26 @@ const getSearchParmsFromUser = async (req, res) => {
   }
 
   if (allResults.length !== 0) {
-    const responseItems = await Promise.all(allResults.map(async item => {
-      const store = await Store.findById(item.store);
-      console.log("store", store);
-      console.log("item.store", item.store);
-      return {
-        id: item.id,
-        image: item.image,
-        price: item.price,
-        company: store.name,
-        name: item.name
-      };
-    }));
+    const responseItems = await Promise.all(
+      allResults.map(async (item) => {
+        const store = await Store.findById(item.store);
+        console.log("store", store);
+        console.log("item.store", item.store);
+        return {
+          id: item.id,
+          image: item.image,
+          price: item.price,
+          company: store.name,
+          name: item.name,
+        };
+      })
+    );
     console.log(responseItems);
-  
+
     res.json(responseItems);
   } else {
     res.json({ error: "Items not found" });
   }
-  
 };
 
 export { getSearchParmsFromUser };

@@ -42,17 +42,30 @@ const searchResults = async (gender, category, color, size, store) => {
       break;
   }
 
-  console.log(urls);
+  if (urls != null && urls.length > 0) {
+    for (const url of urls) {
+      console.log(url);
 
-  for (const url of urls) {
-    var items = await scrapeWebsite(url, config, gender, category, size, color);
+      var items = await scrapeWebsite(
+        url,
+        config,
+        gender,
+        category,
+        size,
+        color
+      );
 
-    for (const item of items) {
-      if (item.name !== "N/A") {
-        scrapedData = scrapedData.concat(item);
+      for (const item of items) {
+        if (item.name !== "N/A") {
+          scrapedData = scrapedData.concat(item);
+        }
       }
     }
+  } else {
+    console.log("ho");
   }
+
+  console.log(scrapedData);
 
   return scrapedData;
 };
