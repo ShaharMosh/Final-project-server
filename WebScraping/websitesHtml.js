@@ -1,5 +1,5 @@
 import { scrapeWebsite, getImagesAndColors } from "./scraping.js";
-import { getUrl } from "./Create_url/castro.js";
+// import { getUrl } from "./Create_url/golf.js";
 
 const websitesToScrape = {
   Castro: {
@@ -124,19 +124,19 @@ const websitesToScrape = {
   //   },
 };
 
-var url = getUrl("Women", "Suits", "S", "Blue");
-console.log(url);
-const [website, config] = Object.entries(websitesToScrape)[0];
+// var url = getUrl("Men", "Shirts", "L", "Black");
+// console.log(url);
+// const [website, config] = Object.entries(websitesToScrape)[2];
 
-const scrapedData = await scrapeWebsite(
-  url[1],
-  config,
-  "Women",
-  "Suits",
-  "S",
-  "Blue"
-);
-console.log(scrapedData);
+// const scrapedData = await scrapeWebsite(
+//   url[0],
+//   config,
+//   "Men",
+//   "Shirts",
+//   "L",
+//   "Black"
+// );
+// console.log(scrapedData);
 
 // const [website, config] = Object.entries(websitesToScrape)[0];
 // const [img, col] = await getImagesAndColors(

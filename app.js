@@ -62,7 +62,7 @@ popularSearches
     console.error("Error initializing popular searches", err);
   });
 
-// popularSearchesWS.savePopularSearches();
+popularSearchesWS.savePopularSearches();
 
 const server = http.createServer(app);
 server.listen(process.env.PORT);
