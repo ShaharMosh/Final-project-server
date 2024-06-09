@@ -27,6 +27,8 @@ const createPopularSearches = async () => {
         const categoryDresses = await Category.findOne({ name: "Dresses" });
         const categoryShoes = await Category.findOne({ name: "Shoes" });
 
+        const hoodies = await Store.findOne({name: "Hoodies"});
+
         const stores = await Promise.all([
             Store.findOne({ name: "Castro" }),
             Store.findOne({ name: "Renuar" }),
@@ -149,10 +151,10 @@ const createPopularSearches = async () => {
             }
         }
 
-        const stores_not_urbanica = await Store.find({ name: { $ne: "Urbanica" } });
+        const stores_shorts = await Store.find({ name: { $nin: [ "Urbanica", "Hoodies"] } });
 
         // Create searches for black and blue shorts for women.
-        for (const store of stores_not_urbanica) {
+        for (const store of stores_shorts) {
             for (const size of women_pants_sizes) {
                 for (const color of black_blue) {
                     if (store && genderWomen && size && color && categoryShorts) {
@@ -168,6 +170,22 @@ const createPopularSearches = async () => {
                 }
             }
         }
+
+        // Create searches for black and blue shorts for women in hoodies.
+            for (const size of shirt_dressesSizes) {
+                for (const color of black_blue) {
+                    if (hoodies && genderWomen && size && color && categoryShorts) {
+                        const popularSearch = new PopularSearches({
+                            store: hoodies._id,
+                            gender: genderWomen._id,
+                            size: size._id,
+                            color: color._id,
+                            category: categoryShorts._id
+                        });
+                        await popularSearch.save();
+                    }
+                }
+            }
 
         const shorts_men_stores = await Store.find({ name: { $nin: [ "Yanga", "Studiopasha"] } });
 
@@ -273,7 +291,7 @@ const createPopularSearches = async () => {
         const women_jeans_sizes = await Promise.all([
             Size.findOne({ name: "34" }),
             Size.findOne({ name: "36" }),
-            Size.findOne({ name: "37" }),
+            Size.findOne({ name: "38" }),
         ]);
 
 
