@@ -1,5 +1,5 @@
 import { scrapeWebsite, getImagesAndColors } from "./scraping.js";
-// import { getUrl } from "./Create_url/golf.js";
+import { getUrl } from "./Create_url/castro.js";
 
 const websitesToScrape = {
   Castro: {
@@ -124,16 +124,16 @@ const websitesToScrape = {
   //   },
 };
 
-// var url = getUrl("Men", "Shirts", "L", "Black");
+// var url = getUrl("Men", "Pants", "32", "Black");
 // console.log(url);
 // const [website, config] = Object.entries(websitesToScrape)[2];
 
 // const scrapedData = await scrapeWebsite(
-//   url[0],
+//   "https://www.golf-il.co.il/men/pants/long-pants?color_group=2285&size=2773",
 //   config,
 //   "Men",
-//   "Shirts",
-//   "L",
+//   "Pants",
+//   "32",
 //   "Black"
 // );
 // console.log(scrapedData);

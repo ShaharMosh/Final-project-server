@@ -19,30 +19,42 @@ async function savePopularSearches() {
         .populate("store");
 
       for (const search of popularSearches) {
-        console.log("Gender:", search.gender._doc.name);
-        console.log("Category:", search.category._doc.name);
-        console.log("Color:", search.color._doc.name);
-        console.log("Size:", search.size._doc.name);
-        console.log("Store:", search.store._doc.name);
-        console.log("-----------------------------");
+        let gender = search.gender._doc.name;
+        let category = search.category._doc.name;
+        let color = search.color._doc.name;
+        let size = search.size._doc.name;
+        let store = search.store._doc.name;
 
         // Perform the search and wait for the results
         let results = await searchResults.searchResults(
-          search.gender._doc.name,
-          search.category._doc.name,
-          search.color._doc.name,
-          search.size._doc.name,
-          search.store._doc.name
+          gender,
+          category,
+          color,
+          size,
+          store
         );
 
         if (results.length > 0) {
-          if (results.length < 5) {
-            console.log("5");
+          if (results.length === 1) {
+            console.log("Gender:", gender);
+            console.log("Category:", category);
+            console.log("Color:", color);
+            console.log("Size:", size);
+            console.log("Store:", store);
+            console.log(results);
+            console.log("-----------------------------");
           }
+
           // Add the results to the DB and wait for the operation to complete
           await itemService.createItem(results);
         } else {
-          console.log("empty");
+          // The results are empty
+          console.log("Gender:", gender);
+          console.log("Category:", category);
+          console.log("Color:", color);
+          console.log("Size:", size);
+          console.log("Store:", store);
+          console.log("-----------------------------");
         }
       }
     }

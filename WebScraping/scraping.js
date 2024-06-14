@@ -22,11 +22,13 @@ function extractUrlFromBackground(backgroundStyle) {
 
 // Function to perform the web scraping for a website
 async function scrapeWebsite(url, config, gender, category, size, color) {
+  let browser;
+
   try {
-    const browser = await chromium.launch();
+    browser = await chromium.launch();
     const page = await browser.newPage();
 
-    await page.goto(url, { waitUntil: "networkidle" });
+    await page.goto(url, { waitUntil: "networkidle", timeout: 200000 });
 
     // Extract data from the webpage using Playwright's API
     const content = await page.content();
@@ -109,6 +111,9 @@ async function scrapeWebsite(url, config, gender, category, size, color) {
     return productInfo;
   } catch (error) {
     console.error("Error scraping ${url}:", error.message);
+    if (browser) {
+      await browser.close();
+    }
     return [];
   }
 }
