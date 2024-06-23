@@ -56,6 +56,11 @@ const createPopularSearches = async () => {
       Store.findOne({ name: "Hoodies" }),
     ]);
 
+        const urbanica_hoodies = await Promise.all([
+      Store.findOne({ name: "Urbanica" }),
+      Store.findOne({ name: "Hoodies" }),
+      Store.findOne({ name: "Yanga" }),
+    ]);
     // Fetch sizes
     const shirt_dressesSizes = await Promise.all([
       Size.findOne({ name: "S" }),
@@ -83,6 +88,12 @@ const createPopularSearches = async () => {
       Size.findOne({ name: "M" }),
       Size.findOne({ name: "L" }),
     ]);
+    const men_pants_sizes_nums = await Promise.all([
+      Size.findOne({ name: "28" }),
+      Size.findOne({ name: "30" }),
+      Size.findOne({ name: "32" }),
+    ]);
+
 
     const men_pants_sizes = await Promise.all([
       Size.findOne({ name: "S" }),
@@ -379,11 +390,7 @@ const createPopularSearches = async () => {
       }
     }
 
-    const urbanica_hoodies = await Promise.all([
-      Store.findOne({ name: "Urbanica" }),
-      Store.findOne({ name: "Hoodies" }),
-      Store.findOne({ name: "Yanga" }),
-    ]);
+
 
     // Create searches for black pants for women only in sizes S M l for Urbanica and Hoodies and yanga.
     for (const store of urbanica_hoodies) {
@@ -530,12 +537,6 @@ const createPopularSearches = async () => {
         await popularSearch.save();
       }
     }
-
-    const men_pants_sizes_nums = await Promise.all([
-      Size.findOne({ name: "28" }),
-      Size.findOne({ name: "30" }),
-      Size.findOne({ name: "32" }),
-    ]);
 
     // Create searches for black pants for men in nums sizes in golf.
     for (const size of men_pants_sizes_nums) {
