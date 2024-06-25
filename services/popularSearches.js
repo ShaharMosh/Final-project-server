@@ -24,10 +24,9 @@ const createPopularSearches = async () => {
     const storeRenuar = await Store.findOne({ name: "Renuar" });
     const storeYanga = await Store.findOne({ name: "Yanga" });
     const storeHoodies = await Store.findOne({ name: "Hoodies" });
-    const storeTwentyfourseven = await Store.findOne({ name: "Twentyfourseven" });
-
-
-
+    const storeTwentyfourseven = await Store.findOne({
+      name: "Twentyfourseven",
+    });
 
     const categoryShirts = await Category.findOne({ name: "Shirts" });
     const categoryPants = await Category.findOne({ name: "Pants" });
@@ -56,7 +55,7 @@ const createPopularSearches = async () => {
       Store.findOne({ name: "Hoodies" }),
     ]);
 
-        const urbanica_hoodies = await Promise.all([
+    const urbanica_hoodies = await Promise.all([
       Store.findOne({ name: "Urbanica" }),
       Store.findOne({ name: "Hoodies" }),
       Store.findOne({ name: "Yanga" }),
@@ -93,7 +92,6 @@ const createPopularSearches = async () => {
       Size.findOne({ name: "30" }),
       Size.findOne({ name: "32" }),
     ]);
-
 
     const men_pants_sizes = await Promise.all([
       Size.findOne({ name: "S" }),
@@ -191,7 +189,18 @@ const createPopularSearches = async () => {
       }
     }
 
-    const stores_not_urbanica_golf = await Store.find({ name: { $nin: ["Golf", "Urbanica", "Renuar", "Yanga", "Hoodies", "Twentyfourseven"] } });
+    const stores_not_urbanica_golf = await Store.find({
+      name: {
+        $nin: [
+          "Golf",
+          "Urbanica",
+          "Renuar",
+          "Yanga",
+          "Hoodies",
+          "Twentyfourseven",
+        ],
+      },
+    });
 
     // Create searches for black and blue shorts for women.
     for (const store of stores_not_urbanica_golf) {
@@ -210,8 +219,6 @@ const createPopularSearches = async () => {
         }
       }
     }
-
-
 
     // Create searches for black and blue shorts for women only in num sizes in golf, renuar.
     for (const store of Renuar_Golf) {
@@ -247,7 +254,13 @@ const createPopularSearches = async () => {
 
     // Create searches for blue shorts for women only in num sizes in twenty for seven.
     for (const size of women_pants_sizes_letters) {
-      if (storeTwentyfourseven && genderWomen && size && colorBlue && categoryShorts) {
+      if (
+        storeTwentyfourseven &&
+        genderWomen &&
+        size &&
+        colorBlue &&
+        categoryShorts
+      ) {
         const popularSearch = new PopularSearches({
           store: storeTwentyfourseven._id,
           gender: genderWomen._id,
@@ -261,7 +274,13 @@ const createPopularSearches = async () => {
 
     // Create searches for black shorts for women only in all sizes in twenty for seven.
     for (const size of women_pants_sizes_letters) {
-      if (storeTwentyfourseven && genderWomen && size && colorBlack && categoryShorts) {
+      if (
+        storeTwentyfourseven &&
+        genderWomen &&
+        size &&
+        colorBlack &&
+        categoryShorts
+      ) {
         const popularSearch = new PopularSearches({
           store: storeTwentyfourseven._id,
           gender: genderWomen._id,
@@ -302,7 +321,16 @@ const createPopularSearches = async () => {
     }
 
     const shorts_men_stores = await Store.find({
-      name: { $nin: ["Yanga", "Studiopasha", "Urbanica", "Renuar", "Hoodies", "Twentyfourseven"] },
+      name: {
+        $nin: [
+          "Yanga",
+          "Studiopasha",
+          "Urbanica",
+          "Renuar",
+          "Hoodies",
+          "Twentyfourseven",
+        ],
+      },
     });
 
     // Create searches for black and blue shorts for men.
@@ -355,7 +383,6 @@ const createPopularSearches = async () => {
       }
     }
 
-
     // Create searches for black shorts for men in all sizes only in renuar.
     for (const size of men_pants_sizes) {
       if (storeRenuar && genderMen && size && colorBlack && categoryShorts) {
@@ -389,8 +416,6 @@ const createPopularSearches = async () => {
         }
       }
     }
-
-
 
     // Create searches for black pants for women only in sizes S M l for Urbanica and Hoodies and yanga.
     for (const store of urbanica_hoodies) {
@@ -466,9 +491,10 @@ const createPopularSearches = async () => {
       }
     }
 
-
     const men_stores_pants = await Store.find({
-      name: { $nin: ["Urbanica", "Golf", "Renuar", "Hoodies", "Twentyfourseven"] },
+      name: {
+        $nin: ["Urbanica", "Golf", "Renuar", "Hoodies", "Twentyfourseven"],
+      },
     });
 
     // Create searches for black pants for men in all sizes execpt urbanica, golf, renuar, hoodies.
@@ -522,7 +548,6 @@ const createPopularSearches = async () => {
         await popularSearch.save();
       }
     }
-
 
     // Create searches for blue pants for men in all sizes in urbanica.
     for (const size of men_pants_sizes) {
@@ -587,8 +612,6 @@ const createPopularSearches = async () => {
       }
     }
 
-
-
     const stores_jeans = await Store.find({
       name: { $nin: ["Hoodies", "Urbanica", "Studiopasha", "Golf", "Castro"] },
     });
@@ -610,9 +633,6 @@ const createPopularSearches = async () => {
         }
       }
     }
-
-
-
 
     const jeans_no_all_sizes_women_stores = await Promise.all([
       Store.findOne({ name: "Golf" }),
