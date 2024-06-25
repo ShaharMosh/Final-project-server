@@ -35,26 +35,8 @@ async function savePopularSearches() {
         );
 
         if (results.length > 0) {
-          if (results.length === 1) {
-            console.log("Gender:", gender);
-            console.log("Category:", category);
-            console.log("Color:", color);
-            console.log("Size:", size);
-            console.log("Store:", store);
-            console.log(results);
-            console.log("-----------------------------");
-          }
-
           // Add the results to the DB and wait for the operation to complete
           await itemService.createItem(results);
-        } else {
-          // The results are empty
-          console.log("Gender:", gender);
-          console.log("Category:", category);
-          console.log("Color:", color);
-          console.log("Size:", size);
-          console.log("Store:", store);
-          console.log("-----------------------------");
         }
       }
     }
