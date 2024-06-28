@@ -1,7 +1,6 @@
 import searchResults from "../services/searchResults.js";
 import itemService from "../services/item.js";
 import Store from "../models/store.js";
-import mongoose from "mongoose";
 import Size from "../models/size.js";
 import Color from "../models/color.js";
 import Category from "../models/category.js";
@@ -13,15 +12,7 @@ import DailySearches from "../models/dailySearches.js";
 const getSearchParmsFromUser = async (req, res) => {
   const { gender, category, colors, sizes, stores } = req.body;
 
-
-  /////////////////////////////CHECK//////////////////////////////////////////
-  // Save the request to the daily searches table.
-  const newSearch = new DailySearches({ gender, category, colors, sizes, stores });
-  await newSearch.save();
-
-
   var allResults = [];
-
   var genderId = await Gender.findOne({ name: gender });
   genderId = genderId._id;
   var categoryId = await Category.findOne({ name: category });
@@ -39,6 +30,16 @@ const getSearchParmsFromUser = async (req, res) => {
       for (const color of colors) {
         var colorId = await Color.findOne({ name: color });
         colorId = colorId._id;
+
+        // Save the request to the daily searches table.
+        const newSearch = new DailySearches({
+          gender: genderId,
+          category: categoryId,
+          color: colorId,
+          size: sizeId,
+          store: storeId,
+        });
+        await newSearch.save();
 
         const existingItems = await itemService.findItems(
           genderId,

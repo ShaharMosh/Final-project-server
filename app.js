@@ -1,4 +1,3 @@
-
 import express from "express";
 import customEnv from "custom-env";
 import http from "http";
@@ -18,7 +17,7 @@ import storeRoutes from "./routes/addresses.js";
 
 import popularSearches from "./services/popularSearches.js";
 import popularSearchesWS from "./WebScraping/popularSearchesWS.js";
-import { scheduleNightlyScraper } from './WebScraping/nightScrap.js';
+import { scheduleNightlyScraper } from "./WebScraping/nightScrap.js";
 
 const app = express();
 
