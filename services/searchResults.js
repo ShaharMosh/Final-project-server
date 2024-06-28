@@ -44,8 +44,6 @@ const searchResults = async (gender, category, color, size, store) => {
 
   if (urls != null && urls.length > 0) {
     for (const url of urls) {
-      console.log(url);
-
       var items = await scrapeWebsite(
         url,
         config,
@@ -61,11 +59,7 @@ const searchResults = async (gender, category, color, size, store) => {
         }
       }
     }
-  } else {
-    console.log("ho");
   }
-
-  console.log(scrapedData);
 
   return scrapedData;
 };
