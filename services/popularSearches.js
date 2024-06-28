@@ -111,8 +111,6 @@ const createPopularSearches = async () => {
                 }
             }
         }
-      }
-    }
 
     // Create searches for black and white shirts for men.
     for (const store of men_stores) {
@@ -168,9 +166,8 @@ const createPopularSearches = async () => {
                     }
                 }
             }
-        }
       }
-    }
+    
 
         // Create searches for black and blue shorts for women in hoodies.
             for (const size of shirt_dressesSizes) {
@@ -207,8 +204,7 @@ const createPopularSearches = async () => {
                 }
             }
         }
-      }
-    }
+    
 
     const pants_women_stores = await Store.find({
       name: { $nin: ["Urbanica", "Hoodies"] },
@@ -319,8 +315,7 @@ const createPopularSearches = async () => {
                 }
             }
         }
-      }
-    }
+   
 
     const jeans_men_stores = await Store.find({
       name: {

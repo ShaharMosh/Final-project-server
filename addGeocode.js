@@ -1,6 +1,6 @@
 import axios from 'axios';
 import mongoose from 'mongoose';
-import Adress from './models/addresses.js'; // Ensure this path is correct
+import Address from './models/addresses.js'; // Ensure this path is correct
 
 const geocodeAddress = async (address) => {
   const response = await axios.get('https://nominatim.openstreetmap.org/search', {
@@ -20,13 +20,21 @@ const geocodeAddress = async (address) => {
   }
 };
 
-mongoose.connect('mongodb://127.0.0.1:27017/db_server');
+mongoose.connect('mongodb://127.0.0.1:27017/db_server', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 const geocodeAndUpdateAddresses = async () => {
   try {
-    const addresses = await Adress.find({});
+    const addresses = await Address.find({});
     for (const addressData of addresses) {
       try {
+        if (addressData.latitude && addressData.longitude) {
+          console.log(`Skipping: ${addressData.name} already has latitude and longitude`);
+          continue; // Skip geocoding if latitude and longitude are already set
+        }
+        
         const location = await geocodeAddress(addressData.address);
         addressData.latitude = location.lat;
         addressData.longitude = location.lng;
