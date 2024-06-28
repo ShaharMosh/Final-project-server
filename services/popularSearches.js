@@ -150,8 +150,6 @@ const createPopularSearches = async () => {
             await popularSearch.save();
           }
         }
-      }
-    }
 
     // Create searches for black and white shirts for men.
     for (const store of men_stores) {
@@ -189,6 +187,26 @@ const createPopularSearches = async () => {
       }
     }
 
+
+        const stores_shorts = await Store.find({ name: { $nin: [ "Urbanica", "Hoodies"] } });
+
+        // Create searches for black and blue shorts for women.
+        for (const store of stores_shorts) {
+            for (const size of women_pants_sizes) {
+                for (const color of black_blue) {
+                    if (store && genderWomen && size && color && categoryShorts) {
+                        const popularSearch = new PopularSearches({
+                            store: store._id,
+                            gender: genderWomen._id,
+                            size: size._id,
+                            color: color._id,
+                            category: categoryShorts._id
+                        });
+                        await popularSearch.save();
+                    }
+                }
+            }
+
     const stores_not_urbanica_golf = await Store.find({
       name: {
         $nin: [
@@ -218,7 +236,7 @@ const createPopularSearches = async () => {
           }
         }
       }
-    }
+    
 
     // Create searches for black and blue shorts for women only in num sizes in golf, renuar.
     for (const store of Renuar_Golf) {
@@ -235,8 +253,7 @@ const createPopularSearches = async () => {
             await popularSearch.save();
           }
         }
-      }
-    }
+    
 
     // Create searches for black shorts for women only in num sizes in yanga.
     for (const size of women_pants_sizes_letters) {
@@ -662,8 +679,7 @@ const createPopularSearches = async () => {
             await popularSearch.save();
           }
         }
-      }
-    }
+   
 
     const jeans_men_stores = await Store.find({
       name: {
