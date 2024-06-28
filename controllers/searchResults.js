@@ -6,12 +6,19 @@ import Size from "../models/size.js";
 import Color from "../models/color.js";
 import Category from "../models/category.js";
 import Gender from "../models/gender.js";
+import DailySearches from "../models/dailySearches.js";
 
 // const { ObjectId } = mongoose.Types;
 
 const getSearchParmsFromUser = async (req, res) => {
   const { gender, category, colors, sizes, stores } = req.body;
-  console.log("req.body", req.body);
+
+
+  /////////////////////////////CHECK//////////////////////////////////////////
+  // Save the request to the daily searches table.
+  const newSearch = new DailySearches({ gender, category, colors, sizes, stores });
+  await newSearch.save();
+
 
   var allResults = [];
 
