@@ -10,10 +10,9 @@ import { getUrl as getHoodiesUrl } from "../WebScraping/Create_url/hoodies.js";
 import { getUrl as getYangaUrl } from "../WebScraping/Create_url/yanga.js";
 
 const searchResults = async (gender, category, color, size, store) => {
-  var scrapedData = [];
-  var urls = [];
-
+  let scrapedData = [];
   const config = getConfig(store);
+  let urls = [];
 
   switch (store) {
     case "Castro":
@@ -42,23 +41,16 @@ const searchResults = async (gender, category, color, size, store) => {
       break;
   }
 
-  if (urls != null && urls.length > 0) {
-    for (const url of urls) {
-      var items = await scrapeWebsite(
-        url,
-        config,
-        gender,
-        category,
-        size,
-        color
-      );
+  if (urls && urls.length > 0) {
+    // Parallelize URL scraping
+    const scrapePromises = urls.map((url) =>
+      scrapeWebsite(url, config, gender, category, size, color)
+    );
 
-      for (const item of items) {
-        if (item.name !== "N/A") {
-          scrapedData = scrapedData.concat(item);
-        }
-      }
-    }
+    const results = await Promise.all(scrapePromises);
+
+    // Flatten the results and filter out items with the name "N/A"
+    scrapedData = results.flat().filter((item) => item.name !== "N/A");
   }
 
   return scrapedData;

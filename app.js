@@ -63,7 +63,7 @@ popularSearches
 popularSearchesWS.savePopularSearches();
 
 // Schedule the nightly scraper
-scheduleNightlyScraper();
+// scheduleNightlyScraper();
 
 const server = http.createServer(app);
 server.listen(process.env.PORT);
