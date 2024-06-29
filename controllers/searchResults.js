@@ -7,102 +7,113 @@ import Category from "../models/category.js";
 import Gender from "../models/gender.js";
 import DailySearches from "../models/dailySearches.js";
 
-// const { ObjectId } = mongoose.Types;
-
 const getSearchParmsFromUser = async (req, res) => {
   const { gender, category, colors, sizes, stores } = req.body;
 
-  var allResults = [];
-  var genderId = await Gender.findOne({ name: gender });
-  genderId = genderId._id;
-  var categoryId = await Category.findOne({ name: category });
-  categoryId = categoryId._id;
+  try {
+    // Fetch gender and category IDs in parallel
+    const [genderRecord, categoryRecord] = await Promise.all([
+      Gender.findOne({ name: gender }),
+      Category.findOne({ name: category }),
+    ]);
 
-  // Check if items that meet the search criteria appear in the DB
-  for (const store of stores) {
-    var storeId = await Store.findOne({ name: store });
-    storeId = storeId._id;
-
-    for (const size of sizes) {
-      var sizeId = await Size.findOne({ name: size });
-      sizeId = sizeId._id;
-
-      for (const color of colors) {
-        var colorId = await Color.findOne({ name: color });
-        colorId = colorId._id;
-
-        // Save the request to the daily searches table.
-        const newSearch = new DailySearches({
-          gender: genderId,
-          category: categoryId,
-          color: colorId,
-          size: sizeId,
-          store: storeId,
-        });
-        await newSearch.save();
-
-        const existingItems = await itemService.findItems(
-          genderId,
-          categoryId,
-          colorId,
-          sizeId,
-          storeId
-        );
-
-        // There is no item with these parameters in the DB, so get the data from the site
-        if (existingItems.length === 0) {
-          let results = await searchResults.searchResults(
-            gender,
-            category,
-            color,
-            size,
-            store
-          );
-
-          // Add the results to the DB
-          await itemService.createItem(results);
-
-          const existingItems = await itemService.findItems(
-            genderId,
-            categoryId,
-            colorId,
-            sizeId,
-            storeId
-          );
-
-          existingItems.forEach((item) => {
-            allResults.push(item);
-          });
-        } else {
-          // There are items that match the parameters in the DB
-          existingItems.forEach((item) => {
-            allResults.push(item);
-          });
-        }
-      }
+    if (!genderRecord || !categoryRecord) {
+      return res.status(404).json({ error: "Invalid gender or category" });
     }
-  }
 
-  if (allResults.length !== 0) {
-    const responseItems = await Promise.all(
-      allResults.map(async (item) => {
-        const store = await Store.findById(item.store);
-        console.log("store", store);
-        console.log("item.store", item.store);
-        return {
-          id: item.id,
-          image: item.image,
-          price: item.price,
-          company: store.name,
-          name: item.name,
-        };
+    const genderId = genderRecord._id;
+    const categoryId = categoryRecord._id;
+
+    let allResults = [];
+
+    // Use Promise.all to fetch store, size, and color IDs in parallel for optimization
+    await Promise.all(
+      stores.map(async (store) => {
+        const storeId = (await Store.findOne({ name: store }))._id;
+
+        await Promise.all(
+          sizes.map(async (size) => {
+            const sizeId = (await Size.findOne({ name: size }))._id;
+
+            await Promise.all(
+              colors.map(async (color) => {
+                const colorId = (await Color.findOne({ name: color }))._id;
+
+                // Save the request to the daily searches table.
+                const newSearch = new DailySearches({
+                  gender: genderId,
+                  category: categoryId,
+                  color: colorId,
+                  size: sizeId,
+                  store: storeId,
+                });
+                await newSearch.save();
+
+                // Check if items with these parameters exist in the DB
+                let existingItems = await itemService.findItems(
+                  genderId,
+                  categoryId,
+                  colorId,
+                  sizeId,
+                  storeId
+                );
+
+                if (existingItems.length === 0) {
+                  // If no items found in the DB, retrieve data from the external source
+                  let results = await searchResults.searchResults(
+                    gender,
+                    category,
+                    color,
+                    size,
+                    store
+                  );
+
+                  // Add the results to the DB
+                  await itemService.createItem(results);
+
+                  // Fetch items again after adding them to the DB
+                  existingItems = await itemService.findItems(
+                    genderId,
+                    categoryId,
+                    colorId,
+                    sizeId,
+                    storeId
+                  );
+                }
+
+                // There are items that match the parameters in the DB
+                existingItems.forEach((item) => {
+                  allResults.push(item);
+                });
+              })
+            );
+          })
+        );
       })
     );
-    console.log(responseItems);
 
-    res.json(responseItems);
-  } else {
-    res.json({ error: "Items not found" });
+    if (allResults.length > 0) {
+      const responseItems = await Promise.all(
+        allResults.map(async (item) => {
+          const store = await Store.findById(item.store);
+          return {
+            id: item.id,
+            image: item.image,
+            price: item.price,
+            company: store.name,
+            name: item.name,
+          };
+        })
+      );
+      console.log(responseItems);
+
+      res.json(responseItems);
+    } else {
+      res.json({ error: "Items not found" });
+    }
+  } catch (error) {
+    console.error("Error in processing:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 

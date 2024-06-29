@@ -28,7 +28,19 @@ async function scrapeWebsite(url, config, gender, category, size, color) {
     browser = await chromium.launch();
     const page = await browser.newPage();
 
-    await page.goto(url, { waitUntil: "networkidle", timeout: 200000 });
+    // Disable unnecessary resource loading
+    await page.route("**/*", (route) => {
+      const request = route.request();
+      const type = request.resourceType();
+      // Abort loading of stylesheets, fonts, and images
+      if (["stylesheet", "font", "image"].includes(type)) {
+        route.abort();
+      } else {
+        route.continue();
+      }
+    });
+
+    await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });
 
     // Extract data from the webpage using Playwright's API
     const content = await page.content();
@@ -110,10 +122,12 @@ async function scrapeWebsite(url, config, gender, category, size, color) {
 
     return productInfo;
   } catch (error) {
-    console.error("Error scraping ${url}:", error.message);
+    console.error(`Error scraping ${url}:`, error.message);
+
     if (browser) {
       await browser.close();
     }
+
     return [];
   }
 }
@@ -121,11 +135,13 @@ async function scrapeWebsite(url, config, gender, category, size, color) {
 // The function receives the URL of a particular item and the configuration.
 // Returns an array that contains an array of images and an array of colors.
 async function getImagesAndColors(url, config) {
+  let browser;
+
   try {
-    const browser = await chromium.launch();
+    browser = await chromium.launch();
     const page = await browser.newPage();
 
-    await page.goto(url, { waitUntil: "networkidle" });
+    await page.goto(url, { waitUntil: "networkidle", timeout: 60000 });
 
     // Extract data from the webpage using Playwright's API
     const content = await page.content();
@@ -135,15 +151,16 @@ async function getImagesAndColors(url, config) {
     const colors = [];
 
     $(config.imagesItemSelector).each((index, element) => {
-      var productImages = $(element).find(config.imageItemSelector);
-      productImages.each(function () {
-        const image = $(this).attr("src");
+      $(element)
+        .find(config.imageItemSelector)
+        .each((i, img) => {
+          const image = $(img).attr("src");
 
-        // Check if the image does not exist in the array
-        if (image !== undefined && !images.includes(image)) {
-          images.push(image);
-        }
-      });
+          // Check if the image does not exist in the array
+          if (image && !images.includes(image)) {
+            images.push(image);
+          }
+        });
     });
 
     $(config.colorsItemSelector)
@@ -172,6 +189,11 @@ async function getImagesAndColors(url, config) {
     return [images, colors];
   } catch (error) {
     console.error("Error scraping ${url}:", error.message);
+
+    if (browser) {
+      await browser.close();
+    }
+
     return [[], []];
   }
 }

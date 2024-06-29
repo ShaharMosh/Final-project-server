@@ -8,38 +8,62 @@ async function savePopularSearches() {
     // Count the number of documents in the PopularSearches collection
     const count = await item.countDocuments();
 
-    // If count is zero, the collection is empty
-    if (count === 0) {
-      // Find all documents in the PopularSearches collection and populate the referenced fields
-      const popularSearches = await PopularSearches.find()
-        .populate("gender")
-        .populate("category")
-        .populate("color")
-        .populate("size")
-        .populate("store");
+    // If count is not zero, no need to fetch and process
+    if (count !== 0) {
+      return;
+    }
 
-      for (const search of popularSearches) {
-        let gender = search.gender._doc.name;
-        let category = search.category._doc.name;
-        let color = search.color._doc.name;
-        let size = search.size._doc.name;
-        let store = search.store._doc.name;
+    // Find all documents in the PopularSearches collection and populate the referenced fields
+    const popularSearches = await PopularSearches.find()
+      .populate("gender")
+      .populate("category")
+      .populate("color")
+      .populate("size")
+      .populate("store");
+
+    // for (const search of popularSearches) {
+
+    // Process each popular search asynchronously
+    await Promise.all(
+      popularSearches.map(async (search) => {
+        const { gender, category, color, size, store } = search;
+
+        // Extract names from populated objects
+        const genderName = gender._doc.name;
+        const categoryName = category._doc.name;
+        const colorName = color._doc.name;
+        const sizeName = size._doc.name;
+        const storeName = store._doc.name;
+
+        const results = await searchResults.searchResults(
+          genderName,
+          categoryName,
+          colorName,
+          sizeName,
+          storeName
+        );
+
+        // const gender = search.gender._doc.name;
+        // const category = search.category._doc.name;
+        // const color = search.color._doc.name;
+        // const size = search.size._doc.name;
+        // const store = search.store._doc.name;
 
         // Perform the search and wait for the results
-        let results = await searchResults.searchResults(
-          gender,
-          category,
-          color,
-          size,
-          store
-        );
+        // const results = await searchResults.searchResults(
+        //   gender,
+        //   category,
+        //   color,
+        //   size,
+        //   store
+        // );
 
         if (results.length > 0) {
           // Add the results to the DB and wait for the operation to complete
           await itemService.createItem(results);
         }
-      }
-    }
+      })
+    );
   } catch (error) {
     console.error("Error fetching popular searches:", error);
   }
