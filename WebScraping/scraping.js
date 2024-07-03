@@ -154,7 +154,14 @@ async function getImagesAndColors(url, config) {
       $(element)
         .find(config.imageItemSelector)
         .each((i, img) => {
-          const image = $(img).attr("src");
+          let image = $(img).attr("src");
+
+          if (url.includes("terminalx")) {
+            let newText = "f112238e8de94b6d480bd02e7a9501b8";
+
+            // Use a regular expression to replace the text
+            image = image.replace(/cache\/.*?\//, `cache/${newText}/`);
+          }
 
           // Check if the image does not exist in the array
           if (image && !images.includes(image)) {

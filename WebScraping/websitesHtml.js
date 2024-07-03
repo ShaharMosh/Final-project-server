@@ -138,9 +138,9 @@ const websitesToScrape = {
 // );
 // console.log(scrapedData);
 
-// const [website, config] = Object.entries(websitesToScrape)[0];
+// const [website, config] = Object.entries(websitesToScrape)[7];
 // const [img, col] = await getImagesAndColors(
-//   "https://www.castro.com/sale-products/71117889024",
+//   "https://www.terminalx.com/brands/yanga/w241990021?color=467",
 //   config
 // );
 // console.log(img);
