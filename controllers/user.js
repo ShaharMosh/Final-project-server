@@ -22,6 +22,7 @@ const updateUserWishlist = async (req, res) => {
   );
 
   if (result.success) {
+    
     res.json({ success: true, wishlist: result.wishlist });
   } else {
     res.status(500).json({ error: result.message });
@@ -44,6 +45,7 @@ const wishlistPage = async (req, res) => {
   if (result.success) {
     res.json({ success: true, items: result.items });
   } else {
+    
     res.status(500).json({ error: result.message });
   }
 };
