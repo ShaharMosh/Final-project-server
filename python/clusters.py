@@ -13,7 +13,7 @@ users_collection = db['users']
 items_collection = db['items']
 
 # Specify the user ID
-user_id = '65ae422393749024a7954b65'  
+user_id = '65ae422393749024a7954b65'
 object_id = ObjectId(user_id)
 
 # Fetch the specific user
@@ -41,6 +41,7 @@ if user:
 
     # Convert wishlist items to DataFrame for analysis
     wishlist_db = pd.DataFrame(wishlist_items)
+    wishlist_ids = [item['item_id'] for item in wishlist_items]
 else:
     wishlist_db = pd.DataFrame()
 
@@ -56,7 +57,7 @@ if not wishlist_db.empty:
     # Encode the unique color_category combinations
     encoder = OneHotEncoder(sparse_output=False)
     encoded_features = encoder.fit_transform(wishlist_db[['color_category']])
-  
+
     X = encoded_features
 
     # Ensure number of clusters is equal to number of unique color_category combinations
@@ -71,7 +72,7 @@ if not wishlist_db.empty:
 
     # Sort clusters by number of items
     sorted_clusters = sorted(clusters.items(), key=lambda x: len(x[1]), reverse=True)
-    
+
     # If there are less than 3 clusters
     if len(sorted_clusters) < 3:
         selected_items = [random.choice(cluster[1]) for cluster in sorted_clusters]
@@ -80,6 +81,14 @@ if not wishlist_db.empty:
         selected_items = [random.choice(cluster[1]) for cluster in top_3_clusters]
 
     # Output the selected items as JSON
-    print(json.dumps({"selected_items": selected_items}))
+    output = {
+        "selected_items": selected_items,
+        "wishlist_ids": wishlist_ids
+    }
+    print(json.dumps(output))
 else:
-    print(json.dumps({"selected_items": []}))
+    output = {
+        "selected_items": [],
+        "wishlist_ids": []
+    }
+    print(json.dumps(output))

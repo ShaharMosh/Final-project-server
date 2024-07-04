@@ -36,6 +36,7 @@ const getDetails = async (authorization) => {
 const updateUserWishlist = async (req, authorization) => {
   try {
     if (!authorization || !authorization.startsWith("Bearer ")) {
+      console.log("service invalid token")
       return { success: false, message: "Invalid token" };
     }
 
@@ -44,7 +45,14 @@ const updateUserWishlist = async (req, authorization) => {
     const action = req.body.action;
     const decodedToken = jwt.decode(token);
 
+    // Print the values of token, itemId, and action
+    console.log("Token:", token);
+    console.log("Item ID:", itemId);
+    console.log("Action:", action);
+
+
     if (!decodedToken || !decodedToken.userId) {
+      console.log("service invalid token")
       return { success: false, message: "Invalid token" };
     }
 
@@ -59,6 +67,7 @@ const updateUserWishlist = async (req, authorization) => {
           }
           break;
         case "remove":
+          
           if (user.wishlist) {
             const indexToRemove = user.wishlist
               ? user.wishlist.findIndex(
@@ -131,26 +140,35 @@ const wishlistPage = async (authorization) => {
     const user = await userPassName.findById(decodedToken.userId);
 
     if (user) {
+     
       const wishlistItems = user.wishlist;
-
       // Assuming 'Item' is your mongoose model for items
       const itemList = await Item.find({
         _id: { $in: wishlistItems },
       }).populate("store");
+ 
+       
+      const items = itemList.map((item) => {
+        const storeName = item.store ? item.store.name : "Unknown";
+    
+        return {
+          id: item.id,
+          image: item.image,
+          price: item.price,
+          company: storeName,
+          name: item.name,
+        };
+      });
 
-      const items = itemList.map((item) => ({
-        id: item.id,
-        image: item.image,
-        price: item.price,
-        company: item.store.name,
-        name: item.name,
-      }));
-
+   
       return { success: true, items: items };
     } else {
+      
+    console.log("cont User not found")
       return { success: false, message: "User not found" };
     }
   } catch (error) {
+    console.log("Internal server error")
     return { success: false, message: "Internal server error" };
   }
 };
