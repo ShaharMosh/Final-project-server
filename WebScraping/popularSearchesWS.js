@@ -14,56 +14,37 @@ async function savePopularSearches() {
     }
 
     // Find all documents in the PopularSearches collection and populate the referenced fields
-    const popularSearches = await PopularSearches.find()
-      .populate("gender")
-      .populate("category")
-      .populate("color")
-      .populate("size")
-      .populate("store");
+    const popularSearches = await PopularSearches.find().populate([
+      "gender",
+      "category",
+      "color",
+      "size",
+      "store",
+    ]);
 
-    // for (const search of popularSearches) {
+    for (const search of popularSearches) {
+      const { gender, category, color, size, store } = search;
 
-    // Process each popular search asynchronously
-    await Promise.all(
-      popularSearches.map(async (search) => {
-        const { gender, category, color, size, store } = search;
+      // Extract names from populated objects
+      const genderName = gender._doc.name;
+      const categoryName = category._doc.name;
+      const colorName = color._doc.name;
+      const sizeName = size._doc.name;
+      const storeName = store._doc.name;
 
-        // Extract names from populated objects
-        const genderName = gender._doc.name;
-        const categoryName = category._doc.name;
-        const colorName = color._doc.name;
-        const sizeName = size._doc.name;
-        const storeName = store._doc.name;
+      const results = await searchResults.searchResults(
+        genderName,
+        categoryName,
+        colorName,
+        sizeName,
+        storeName
+      );
 
-        const results = await searchResults.searchResults(
-          genderName,
-          categoryName,
-          colorName,
-          sizeName,
-          storeName
-        );
-
-        // const gender = search.gender._doc.name;
-        // const category = search.category._doc.name;
-        // const color = search.color._doc.name;
-        // const size = search.size._doc.name;
-        // const store = search.store._doc.name;
-
-        // Perform the search and wait for the results
-        // const results = await searchResults.searchResults(
-        //   gender,
-        //   category,
-        //   color,
-        //   size,
-        //   store
-        // );
-
-        if (results.length > 0) {
-          // Add the results to the DB and wait for the operation to complete
-          await itemService.createItem(results);
-        }
-      })
-    );
+      if (results.length > 0) {
+        // Add the results to the DB and wait for the operation to complete
+        await itemService.createItem(results);
+      }
+    }
   } catch (error) {
     console.error("Error fetching popular searches:", error);
   }

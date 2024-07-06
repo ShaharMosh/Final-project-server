@@ -1,12 +1,14 @@
-import { exec } from 'child_process';
+import { exec } from "child_process";
 
-export const runPythonScript = (scriptPath, args = '') => {
+export const runPythonScript = (scriptPath, args = "") => {
   console.log(`Executing Python script: python ${scriptPath} ${args}`);
   return new Promise((resolve, reject) => {
     exec(`python ${scriptPath} ${args}`, (error, stdout, stderr) => {
       if (error) {
         console.error(`Error executing Python script: ${error.message}`);
-        return reject(new Error(`Error executing Python script: ${error.message}`));
+        return reject(
+          new Error(`Error executing Python script: ${error.message}`)
+        );
       }
       if (stderr) {
         console.error(`Python script stderr: ${stderr}`);
