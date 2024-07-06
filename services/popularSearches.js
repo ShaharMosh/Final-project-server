@@ -60,7 +60,7 @@ const createPopularSearches = async () => {
       Store.findOne({ name: "Hoodies" }),
       Store.findOne({ name: "Yanga" }),
     ]);
-    // Fetch sizes
+
     const shirt_dressesSizes = await Promise.all([
       Size.findOne({ name: "S" }),
       Size.findOne({ name: "M" }),
@@ -120,7 +120,6 @@ const createPopularSearches = async () => {
       Size.findOne({ name: "43" }),
     ]);
 
-    // Fetch colors
     const black_white = await Promise.all([
       Color.findOne({ name: "Black" }),
       Color.findOne({ name: "White" }),
