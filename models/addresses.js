@@ -27,7 +27,6 @@ const AdressesSchema = new mongoose.Schema({
 });
 const Adress = mongoose.model("Adress", AdressesSchema);
 
-
 // Connect to the MongoDB server
 mongoose.connect("mongodb://127.0.0.1:27017/db_server", {
   useNewUrlParser: true,

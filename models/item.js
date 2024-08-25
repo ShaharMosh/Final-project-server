@@ -46,12 +46,6 @@ const ItemSchema = mongoose.Schema({
     ref: "Store",
     required: true,
   },
-  // color_url: [
-  //   {
-  //     type: String,
-  //     required: true,
-  //   },
-  // ],
   images: { type: [String], default: [] },
   colors: { type: [String], default: [] },
   color_url: { type: [String], default: [] },

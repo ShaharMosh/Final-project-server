@@ -5,8 +5,6 @@ import Email from "../models/email.js";
 const checkEmail = async (req, res) => {
   // Function to generate a random reset token
   const generateResetToken = () => {
-    // Implement your logic to generate a random token (e.g., using a library like `uuid`)
-    // For simplicity, let's assume it generates a random string for now
     return (
       Math.random().toString(36).substring(2, 15) +
       Math.random().toString(36).substring(2, 15)
