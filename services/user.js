@@ -142,7 +142,6 @@ const wishlistPage = async (authorization) => {
     if (user) {
      
       const wishlistItems = user.wishlist;
-      // Assuming 'Item' is your mongoose model for items
       const itemList = await Item.find({
         _id: { $in: wishlistItems },
       }).populate("store");

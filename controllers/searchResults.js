@@ -105,8 +105,6 @@ const getSearchParmsFromUser = async (req, res) => {
           };
         })
       );
-      // console.log(responseItems);
-
       res.json(responseItems);
     } else {
       res.json({ error: "Items not found" });
