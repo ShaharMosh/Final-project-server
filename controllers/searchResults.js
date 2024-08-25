@@ -105,7 +105,7 @@ const getSearchParmsFromUser = async (req, res) => {
           };
         })
       );
-      console.log(responseItems);
+      // console.log(responseItems);
 
       res.json(responseItems);
     } else {
