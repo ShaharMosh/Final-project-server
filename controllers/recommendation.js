@@ -5,7 +5,9 @@ import Item from "../models/item.js";
 export const runRecommendationScripts = async (req, res) => {
   try {
     console.log("Running first Python script...");
-    const output = await runPythonScript("python/clusters.py");
+    const scriptPath = "../python/clusters.py";
+    //scriptPath = "python/clusters.py";
+    const output = await runPythonScript(scriptPath);
     const selectedItems = output.selected_items;
     const wishlistItems = output.wishlist_ids;
     console.log("Selected items:", selectedItems);
