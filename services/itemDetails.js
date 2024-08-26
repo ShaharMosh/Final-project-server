@@ -31,6 +31,7 @@ const getItemDetails = async (id) => {
         url,
         config
       );
+
       console.log("Fetched images and colors:", {
         fetchedImages,
         fetchedColors,

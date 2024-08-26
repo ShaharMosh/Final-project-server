@@ -5,21 +5,6 @@ function capitalizeFirstLetter(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-function extractUrlFromBackground(backgroundStyle) {
-  // Regular expression to extract the URL
-  const regex = /url\((.*?)\)/;
-
-  // Match the regex against the string
-  const match = backgroundStyle.match(regex);
-
-  // Extract the URL from the match
-  if (match && match[1]) {
-    return match[1];
-  }
-
-  return null;
-}
-
 // Function to perform the web scraping for a website
 async function scrapeWebsite(url, config, gender, category, size, color) {
   let browser;
@@ -132,6 +117,13 @@ async function scrapeWebsite(url, config, gender, category, size, color) {
   }
 }
 
+function extractUrlFromBackground(backgroundStyle) {
+  // Regular expression to extract the URL
+  const regex = /url\((.*?)\)/;
+  const match = backgroundStyle.match(regex);
+  return match && match[1] ? match[1] : null;
+}
+
 // The function receives the URL of a particular item and the configuration.
 // Returns an array that contains an array of images and an array of colors.
 async function getImagesAndColors(url, config) {
@@ -139,7 +131,8 @@ async function getImagesAndColors(url, config) {
 
   try {
     browser = await chromium.launch();
-    const page = await browser.newPage();
+    const context = await browser.newContext();
+    const page = await context.newPage();
 
     await page.goto(url, { waitUntil: "networkidle", timeout: 60000 });
 
@@ -147,55 +140,106 @@ async function getImagesAndColors(url, config) {
     const content = await page.content();
     const $ = cheerio.load(content);
 
-    const images = [];
-    const colors = [];
+    const imageSet = new Set();
 
-    $(config.imagesItemSelector).each((index, element) => {
-      $(element)
-        .find(config.imageItemSelector)
-        .each((i, img) => {
-          let image = $(img).attr("src");
+    $(config.imagesItemSelector)
+      .find(config.imageItemSelector)
+      .each((i, img) => {
+        let image = $(img).attr("src");
 
-          if (url.includes("terminalx")) {
-            let newText = "f112238e8de94b6d480bd02e7a9501b8";
+        if (image && url.includes("terminalx")) {
+          const newText = "f112238e8de94b6d480bd02e7a9501b8";
+          image = image.replace(/cache\/.*?\//, `cache/${newText}/`);
+        }
 
-            // Use a regular expression to replace the text
-            image = image.replace(/cache\/.*?\//, `cache/${newText}/`);
-          }
-
-          // Check if the image does not exist in the array
-          if (image && !images.includes(image)) {
-            images.push(image);
-          }
-        });
-    });
-
-    $(config.colorsItemSelector)
-      .first()
-      .find(config.colorSelector)
-      .each(function () {
-        var backgroundColor =
-          $(this).attr("option-tooltip-value") ||
-          $(this).css("background") ||
-          $(this).css("background-image") ||
-          $(this).css("background-color");
-
-        if (backgroundColor) {
-          if (backgroundColor.includes("url")) {
-            backgroundColor = extractUrlFromBackground(backgroundColor);
-          }
-
-          if (backgroundColor != "null") {
-            colors.push(backgroundColor);
-          }
+        if (image) {
+          imageSet.add(image); // Add to the Set to ensure uniqueness
         }
       });
 
-    await browser.close();
+    // Convert the Set back to an array if needed
+    const images = Array.from(imageSet);
 
+    // const imageTask = new Promise((resolve) => {
+    //   const imageSet = new Set();
+
+    //   $(config.imagesItemSelector)
+    //     .find(config.imageItemSelector)
+    //     .each((i, img) => {
+    //       let image = $(img).attr("src");
+
+    //       if (image && url.includes("terminalx")) {
+    //         const newText = "f112238e8de94b6d480bd02e7a9501b8";
+    //         image = image.replace(/cache\/.*?\//, `cache/${newText}/`);
+    //       }
+
+    //       if (image) {
+    //         imageSet.add(image); // Add to the Set to ensure uniqueness
+    //       }
+    //     });
+
+    //   resolve(Array.from(imageSet)); // Resolve with the images array
+    // });
+
+    const colors = [];
+
+    const colorElements = $(config.colorsItemSelector)
+      .first()
+      .find(config.colorSelector);
+
+    colorElements.each(function () {
+      const $this = $(this);
+
+      let backgroundColor =
+        $this.attr("option-tooltip-value") ||
+        $this.css("background") ||
+        $this.css("background-image") ||
+        $this.css("background-color");
+
+      if (backgroundColor && backgroundColor !== "null") {
+        if (backgroundColor.includes("url")) {
+          backgroundColor = extractUrlFromBackground(backgroundColor);
+        }
+
+        colors.push(backgroundColor);
+      }
+    });
+
+    // const colorTask = new Promise((resolve) => {
+    //   const colors = [];
+
+    //   const colorElements = $(config.colorsItemSelector)
+    //     .first()
+    //     .find(config.colorSelector);
+
+    //   colorElements.each(function () {
+    //     const $this = $(this);
+
+    //     let backgroundColor =
+    //       $this.attr("option-tooltip-value") ||
+    //       $this.css("background") ||
+    //       $this.css("background-image") ||
+    //       $this.css("background-color");
+
+    //     if (backgroundColor && backgroundColor !== "null") {
+    //       if (backgroundColor.includes("url")) {
+    //         backgroundColor = extractUrlFromBackground(backgroundColor);
+    //       }
+
+    //       colors.push(backgroundColor);
+    //     }
+    //   });
+
+    //   resolve(colors); // Resolve with the colors array
+    // });
+
+    // const [images, colors] = await Promise.all([imageTask, colorTask]);
+
+    await browser.close();
     return [images, colors];
+    // return { images, colors };
   } catch (error) {
-    console.error("Error scraping ${url}:", error.message);
+    console.error(`Error scraping ${url}:`, error.message);
 
     if (browser) {
       await browser.close();
