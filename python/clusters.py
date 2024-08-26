@@ -13,8 +13,8 @@ users_collection = db['users']
 items_collection = db['items']
 
 # Specify the user ID
-# user_id = '65ae422393749024a7954b65'
-user_id = '662b664f3034a21aeec1745f'
+user_id = '65ae422393749024a7954b65'
+# user_id = '662b664f3034a21aeec1745f'
 object_id = ObjectId(user_id)
 
 # Fetch the specific user
