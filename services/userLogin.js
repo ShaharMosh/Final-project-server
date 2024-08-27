@@ -1,6 +1,8 @@
 import userRegister from "../models/userRegister.js";
 import jwt from "jsonwebtoken";
 
+let userId;
+
 const isLogin = async (email, password) => {
   // Validate the username and password against the User model
   const user = await userRegister.findOne({ email, password });
@@ -8,6 +10,8 @@ const isLogin = async (email, password) => {
     return null;
   }
   const name = user.firstName;
+
+  userId = user._id;
 
   // Generate a token
   const token = jwt.sign({ userId: user._id }, process.env.KEY, {
@@ -17,6 +21,11 @@ const isLogin = async (email, password) => {
   return { name, token };
 };
 
+const getUserId = () => {
+  return userId;
+};
+
 export default {
   isLogin,
+  getUserId,
 };

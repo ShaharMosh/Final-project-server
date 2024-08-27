@@ -1,22 +1,27 @@
 import { runPythonScript } from "../services/recommendation.js";
 import { ObjectId } from "mongodb";
 import Item from "../models/item.js";
+import userLogin from "../services/userLogin.js";
+
+const { getUserId } = userLogin;
 
 export const runRecommendationScripts = async (req, res) => {
   try {
     console.log("Running first Python script...");
-    const scriptPath = "../python/clusters.py";
-    //scriptPath = "python/clusters.py";
-    const output = await runPythonScript(scriptPath);
+
+    const scriptPath = "python/clusters.py";
+    const userId = getUserId();
+    const output = await runPythonScript(scriptPath, userId);
+
     const selectedItems = output.selected_items;
     const wishlistItems = output.wishlist_ids;
     console.log("Selected items:", selectedItems);
     console.log("Wishlist items:", wishlistItems);
 
+    console.log("Running second Python script...");
+
     // Combine selectedItems and wishlistItems into one argument string
     const args = `${selectedItems.join(",")} ${wishlistItems.join(",")}`;
-
-    console.log("Running second Python script...");
     const similarItemsOutput = await runPythonScript(
       "python/suggestions.py",
       args

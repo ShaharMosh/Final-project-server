@@ -36,7 +36,7 @@ const getDetails = async (authorization) => {
 const updateUserWishlist = async (req, authorization) => {
   try {
     if (!authorization || !authorization.startsWith("Bearer ")) {
-      console.log("service invalid token")
+      console.log("service invalid token");
       return { success: false, message: "Invalid token" };
     }
 
@@ -50,9 +50,8 @@ const updateUserWishlist = async (req, authorization) => {
     console.log("Item ID:", itemId);
     console.log("Action:", action);
 
-
     if (!decodedToken || !decodedToken.userId) {
-      console.log("service invalid token")
+      console.log("service invalid token");
       return { success: false, message: "Invalid token" };
     }
 
@@ -67,7 +66,6 @@ const updateUserWishlist = async (req, authorization) => {
           }
           break;
         case "remove":
-          
           if (user.wishlist) {
             const indexToRemove = user.wishlist
               ? user.wishlist.findIndex(
@@ -140,16 +138,14 @@ const wishlistPage = async (authorization) => {
     const user = await userPassName.findById(decodedToken.userId);
 
     if (user) {
-     
       const wishlistItems = user.wishlist;
       const itemList = await Item.find({
         _id: { $in: wishlistItems },
       }).populate("store");
- 
-       
+
       const items = itemList.map((item) => {
         const storeName = item.store ? item.store.name : "Unknown";
-    
+
         return {
           id: item.id,
           image: item.image,
@@ -159,15 +155,13 @@ const wishlistPage = async (authorization) => {
         };
       });
 
-   
       return { success: true, items: items };
     } else {
-      
-    console.log("cont User not found")
+      console.log("cont User not found");
       return { success: false, message: "User not found" };
     }
   } catch (error) {
-    console.log("Internal server error")
+    console.log("Internal server error");
     return { success: false, message: "Internal server error" };
   }
 };
