@@ -32,8 +32,12 @@ export const runRecommendationScripts = async (req, res) => {
       (id) => new ObjectId(id)
     );
 
-    // Fetch items and ensure they are in the same order as itemIds
-    const items = await Item.find({ _id: { $in: itemIds } });
+    // Fetch items and populate the store field
+    const items = await Item.find({ _id: { $in: itemIds } })
+    .populate('store') // Populate store field
+    .exec();
+
+                            
     const orderedItems = itemIds.map((id) =>
       items.find((item) => item._id.equals(id))
     );
@@ -50,3 +54,4 @@ export const runRecommendationScripts = async (req, res) => {
     res.status(500).send(`Error in runRecommendationScripts: ${error.message}`);
   }
 };
+
