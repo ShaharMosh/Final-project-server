@@ -60,7 +60,7 @@ async function initialize() {
     await popularSearchesWS.savePopularSearches();
 
     // Schedule the nightly scraper
-    // scheduleNightlyScraper();
+    scheduleNightlyScraper();
   } catch (error) {
     console.error("Error initializing the application", error);
   }
