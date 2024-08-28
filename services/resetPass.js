@@ -11,7 +11,6 @@ const isToken = async (email, token) => {
     }
 
     // Check if the provided token matches the stored token
-
     if (user.token !== token) {
       return false;
     }

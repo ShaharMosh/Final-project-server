@@ -21,12 +21,6 @@ const isValidDetails = (email, firstName, lastName) => {
   if (lastName === "") {
     errorList.push("last name");
   }
-  //   if (!checkPassword(password)) {
-  //     errorList.push("password");
-  //   }
-  //   if(!CheckConfirmPassword(password, confirmPassword)){
-  //     errorList.push("confirm password");
-  //   }
   return errorList.join(", ");
 };
 

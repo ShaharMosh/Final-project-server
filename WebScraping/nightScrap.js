@@ -118,37 +118,23 @@ async function updateItems() {
 
 // Schedule the task to run every day at 3:00 AM
 async function scheduleNightlyScraper() {
-  //  function scheduleNightlyScraper() {
-  cron.schedule('0 3 * * *', async () => {
-    console.log('Running nightly scraper');
+  cron.schedule("0 3 * * *", async () => {
+    console.log("Running nightly scraper");
     try {
       await saveNightScrapResults();
       await updateItems();
 
-      fs.unlinkSync(filePath);
-      console.log('Deleted searchResults.json');
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+        console.log("Deleted searchResults.json");
+      }
 
       await dailySearches.deleteMany({});
-      console.log('Cleared the dailySearches table');
+      console.log("Cleared the dailySearches table");
     } catch (error) {
       console.error("Error in night scrapping", error);
     }
   });
-
-  try {
-    await saveNightScrapResults();
-    await updateItems();
-
-    if (fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
-      console.log("Deleted searchResults.json");
-    }
-
-    await dailySearches.deleteMany({});
-    console.log("Cleared the dailySearches table");
-  } catch (error) {
-    console.error("Error in night scrapping", error);
-  }
 }
 
 export { scheduleNightlyScraper };
