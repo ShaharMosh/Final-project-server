@@ -160,27 +160,6 @@ async function getImagesAndColors(url, config) {
     // Convert the Set back to an array if needed
     const images = Array.from(imageSet);
 
-    // const imageTask = new Promise((resolve) => {
-    //   const imageSet = new Set();
-
-    //   $(config.imagesItemSelector)
-    //     .find(config.imageItemSelector)
-    //     .each((i, img) => {
-    //       let image = $(img).attr("src");
-
-    //       if (image && url.includes("terminalx")) {
-    //         const newText = "f112238e8de94b6d480bd02e7a9501b8";
-    //         image = image.replace(/cache\/.*?\//, `cache/${newText}/`);
-    //       }
-
-    //       if (image) {
-    //         imageSet.add(image); // Add to the Set to ensure uniqueness
-    //       }
-    //     });
-
-    //   resolve(Array.from(imageSet)); // Resolve with the images array
-    // });
-
     const colors = [];
 
     const colorElements = $(config.colorsItemSelector)
@@ -204,36 +183,6 @@ async function getImagesAndColors(url, config) {
         colors.push(backgroundColor);
       }
     });
-
-    // const colorTask = new Promise((resolve) => {
-    //   const colors = [];
-
-    //   const colorElements = $(config.colorsItemSelector)
-    //     .first()
-    //     .find(config.colorSelector);
-
-    //   colorElements.each(function () {
-    //     const $this = $(this);
-
-    //     let backgroundColor =
-    //       $this.attr("option-tooltip-value") ||
-    //       $this.css("background") ||
-    //       $this.css("background-image") ||
-    //       $this.css("background-color");
-
-    //     if (backgroundColor && backgroundColor !== "null") {
-    //       if (backgroundColor.includes("url")) {
-    //         backgroundColor = extractUrlFromBackground(backgroundColor);
-    //       }
-
-    //       colors.push(backgroundColor);
-    //     }
-    //   });
-
-    //   resolve(colors); // Resolve with the colors array
-    // });
-
-    // const [images, colors] = await Promise.all([imageTask, colorTask]);
 
     await browser.close();
     return [images, colors];

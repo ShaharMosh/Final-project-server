@@ -15,9 +15,6 @@ items_collection = db['items']
 
 # Specify the user ID
 user_id = sys.argv[1]
-
-# user_id = '66327b0bc9832a77d3553082'
-# user_id = '662b664f3034a21aeec1745f'
 object_id = ObjectId(user_id)
 
 # Fetch the specific user
