@@ -51,7 +51,6 @@ async function initialize() {
   try {
     // Connect to the MongoDB server
     await client.connect();
-    console.log("Connected to the database");
 
     // Call the createPopularSearches function after the database connection is established
     await popularSearches.createPopularSearches();

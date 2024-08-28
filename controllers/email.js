@@ -56,7 +56,6 @@ const checkEmail = async (req, res) => {
           console.error("Error sending email:", error);
           res.status(500).json({ error: "Internal Server Error" });
         } else {
-          console.log("Email sent:", info.response);
           res.json(req.body.email);
         }
       });

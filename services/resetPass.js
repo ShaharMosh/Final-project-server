@@ -41,7 +41,6 @@ const isValidPassword = (newPassword) => {
   if (!checkPassword(newPassword)) {
     errorList.push("new password");
   }
-  console.log(errorList);
 
   return errorList.join(", ");
 };

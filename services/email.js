@@ -1,7 +1,6 @@
 import user from "../models/user.js";
 
 const errorMessage = async (email) => {
-  console.log("enter error");
   const errorList = [];
 
   try {

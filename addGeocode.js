@@ -44,9 +44,6 @@ const geocodeAndUpdateAddresses = async () => {
         addressData.latitude = location.lat;
         addressData.longitude = location.lng;
         await addressData.save();
-        console.log(
-          `Updated: ${addressData.name} at ${addressData.latitude}, ${addressData.longitude}`
-        );
       } catch (err) {
         console.error(
           `Error updating address for ID ${addressData.id}: ${err.message}`

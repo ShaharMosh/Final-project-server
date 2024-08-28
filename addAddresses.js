@@ -790,15 +790,12 @@ const seedAddresses = async () => {
     const db = mongoose.connection;
 
     db.once("open", async () => {
-      console.log("Connected to MongoDB");
-
       // Check if the adresses collection exists and drop it if it does
       const collections = await db.db
         .listCollections({ name: "adresses" })
         .toArray();
       if (collections.length > 0) {
         await db.db.collection("adresses").drop();
-        console.log("Adresses collection cleared");
       }
 
       // Fetch all stores
@@ -826,8 +823,6 @@ const seedAddresses = async () => {
 
       // Insert updated addresses into the Address collection
       await Address.insertMany(updatedAddresses);
-      console.log("Addresses seeded successfully");
-
       mongoose.connection.close();
     });
   } catch (error) {
