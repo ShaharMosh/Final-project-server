@@ -3,7 +3,7 @@ import { exec } from "child_process";
 export const runPythonScript = (scriptPath, args = "") => {
   console.log(`Executing Python script: python ${scriptPath} ${args}`);
   return new Promise((resolve, reject) => {
-    exec(`py ${scriptPath} ${args}`, (error, stdout, stderr) => {
+    exec(`python ${scriptPath} ${args}`, (error, stdout, stderr) => {
       if (error) {
         console.error(`Error executing Python script: ${error.message}`);
         return reject(

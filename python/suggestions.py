@@ -4,6 +4,7 @@ from pymongo import MongoClient
 from bson import ObjectId
 import sys
 import json
+import numpy as np
 
 def get_top_similar_items(selected_ids, wishlist_ids):
     # Connect to MongoDB
@@ -30,18 +31,21 @@ def get_top_similar_items(selected_ids, wishlist_ids):
     # Extract the item names and other attributes into separate lists
     obj_ids = clothes['_id'].tolist()
 
-    # Create a combined list of attributes for each item
-    attributes = clothes.apply(lambda row: [row['category'], row['color'][0], row['gender'], row['size'][0]], axis=1).tolist()
+    # Set weights for category and color
+    category_weight = 3  # Example weight
+    color_weight = 3     # Example weight
 
-    # Create a bag of words representation of the item attributes
-    def create_bow(attribute_list):
+    # Create a combined list of attributes for each item
+    def create_bow(row):
         bow = {}
-        for attribute in attribute_list:
-            bow[attribute] = 1
+        bow[row['category']] = category_weight
+        bow[row['color'][0]] = color_weight
+        bow[row['gender']] = 1
+        bow[row['size'][0]] = 1
         return bow
 
     # Create a list of bags of words representations of the item attributes
-    bags_of_words = [create_bow(item_attributes) for item_attributes in attributes]
+    bags_of_words = clothes.apply(create_bow, axis=1).tolist()
 
     # Create a dataframe to store the bags of words representation of the item attributes
     attribute_df = pd.DataFrame(bags_of_words, index=obj_ids).fillna(0)
@@ -52,26 +56,31 @@ def get_top_similar_items(selected_ids, wishlist_ids):
     # Create a dataframe with the cosine similarity scores
     similarity_df = pd.DataFrame(cosine_sim, index=attribute_df.index, columns=attribute_df.index)
 
-    # List to store top 3 similar items for each object ID
+    # Precompute gender and wishlist mask for faster application inside the loop
+    genders = clothes['gender'].values
+    wishlist_set = set(wishlist_ids)
+
+    # Store top 3 similar items for each object ID
     all_top_items = []
     detailed_similar_items = {}
 
-    # Iterate over the provided selected ids
-    for obj_id in selected_ids:
-        # Convert obj_id to ObjectId
-        obj_id = ObjectId(obj_id)
+    # Convert selected_ids to ObjectId for matching with the DataFrame index
+    selected_ids = [ObjectId(id) for id in selected_ids]
 
+    for obj_id in selected_ids:
         # Find the index of the item in the similarity dataframe
         item_index = similarity_df.index.get_loc(obj_id)
 
         # Get the gender of the input item
-        input_gender = clothes.loc[clothes['_id'] == obj_id, 'gender'].iloc[0]
+        input_gender = genders[item_index]
 
-        # Adjust the similarity scores based on gender and exclude wishlist items
-        for idx, other_obj_id in enumerate(similarity_df.index):
-            item_gender = clothes.loc[clothes['_id'] == other_obj_id, 'gender'].iloc[0]
-            if item_gender != input_gender or other_obj_id == obj_id or str(other_obj_id) in wishlist_ids:
-                similarity_df.iloc[item_index, idx] = 0
+        # Create mask to zero out similarities with different gender and wishlist items
+        gender_mask = (genders == input_gender)
+        wishlist_mask = np.array([str(oid) not in wishlist_set for oid in similarity_df.index])
+        mask = gender_mask & wishlist_mask
+
+        # Zero out non-matching items directly in the similarity matrix
+        similarity_df.iloc[item_index] *= mask
 
         # Get the top 3 most similar items to the item
         top_3 = similarity_df.iloc[item_index].sort_values(ascending=False)[0:3]
