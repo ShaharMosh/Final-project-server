@@ -15,8 +15,8 @@ export const runRecommendationScripts = async (req, res) => {
 
     const selectedItems = output.selected_items;
     const wishlistItems = output.wishlist_ids;
-    console.log("Selected items:", selectedItems);
-    console.log("Wishlist items:", wishlistItems);
+    // console.log("Selected items:", selectedItems);
+    // console.log("Wishlist items:", wishlistItems);
 
     console.log("Running second Python script...");
 
@@ -26,7 +26,7 @@ export const runRecommendationScripts = async (req, res) => {
       "python/suggestions.py",
       args
     );
-    console.log("Similar items output:", similarItemsOutput);
+    //console.log("Similar items output:", similarItemsOutput);
 
     const itemIds = similarItemsOutput.similar_items.map(
       (id) => new ObjectId(id)
@@ -43,10 +43,10 @@ export const runRecommendationScripts = async (req, res) => {
     );
 
     // Print out the fields of the items
-    console.log("Fetched items fields:");
-    orderedItems.forEach((item) => {
-      console.log(item);
-    });
+    // console.log("Fetched items fields:");
+    // orderedItems.forEach((item) => {
+    //   console.log(item);
+    // });
 
     res.json({ selected_items: selectedItems, similar_items: orderedItems });
   } catch (error) {
