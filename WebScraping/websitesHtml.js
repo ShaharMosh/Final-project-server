@@ -1,6 +1,3 @@
-import { scrapeWebsite, getImagesAndColors } from "./scraping.js";
-import { getUrl } from "./Create_url/castro.js";
-
 const websitesToScrape = {
   Castro: {
     itemSelector: ".products.list.items.product-items li",

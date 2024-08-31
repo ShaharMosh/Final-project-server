@@ -1,16 +1,15 @@
 import mongoose from "mongoose";
 
 const AdressesSchema = new mongoose.Schema({
-
-    id: {
+  id: {
     type: Number,
     required: true,
     unique: true,
   },
   name: {
-    type: mongoose.Schema.Types.ObjectId, 
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: 'Store',
+    ref: "Store",
   },
   address: {
     type: String,

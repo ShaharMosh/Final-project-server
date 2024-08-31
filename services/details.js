@@ -46,8 +46,6 @@ const updateUser = async (req, oldEmail, authorization) => {
   const token = authorization.split(" ")[1];
   jwt.verify(token, process.env.KEY);
 
-  const email = req.body.oldEmail;
-
   const result = await User.updateOne(
     { email: oldEmail }, // Search for the user with the old email
     {
