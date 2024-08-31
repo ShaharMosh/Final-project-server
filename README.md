@@ -33,3 +33,22 @@ When the user clicks a heart button for a particular item, the client sends that
 ### Recommendations
 
 
+## Installation
+
+Before installing this project, you need to install on your computer:
+
+- Git
+- Python
+
+Then open a terminal and clone the project:
+```
+git clone https://github.com/adi-ben-yehuda/android_chat.git
+```
+
+To run the server, write: 
+```
+node addAddresses.js
+node addGeocode.js
+node app.js
+```
+
