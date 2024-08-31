@@ -1,4 +1,4 @@
-import StoreService from '../services/addresses.js';
+import StoreService from "../services/addresses.js";
 
 const getStoreByName = async (req, res) => {
   const { store } = req.params;
@@ -6,9 +6,8 @@ const getStoreByName = async (req, res) => {
   try {
     const storeData = await StoreService.findStoreByName(store);
     if (!storeData) {
-      return res.status(404).json({ message: 'Store not found' });
+      return res.status(404).json({ message: "Store not found" });
     }
-
 
     const addresses = await StoreService.findAddressesByStoreId(storeData._id);
 
