@@ -1,4 +1,5 @@
 import dailySearches from "../models/dailySearches.js";
+import popularSearches from "../models/popularSearcheSchema.js";
 import searchResults from "../services/searchResults.js";
 import item from "../models/item.js";
 import fs from "fs";
@@ -15,7 +16,7 @@ async function saveNightScrapResults() {
   try {
     let allResults = [];
 
-    // Find all documents in the PopularSearches collection and populate the referenced fields
+    // Find all documents in the DailySearches collection and populate the referenced fields
     const dailyResults = await dailySearches
       .find()
       .populate("gender")
@@ -24,7 +25,19 @@ async function saveNightScrapResults() {
       .populate("size")
       .populate("store");
 
-    for (const search of dailyResults) {
+    // Find all documents in the PopularSearches collection and populate the referenced fields
+    const popularResults = await popularSearches
+      .find()
+      .populate("gender")
+      .populate("category")
+      .populate("color")
+      .populate("size")
+      .populate("store");
+
+    // Combine dailyResults and popularResults
+    const combinedResults = [...dailyResults, ...popularResults];
+
+    for (const search of combinedResults) {
       let gender = search.gender._doc.name;
       let category = search.category._doc.name;
       let color = search.color._doc.name;
@@ -118,7 +131,7 @@ async function updateItems() {
 
 // Schedule the task to run every day at 3:00 AM
 async function scheduleNightlyScraper() {
-  cron.schedule("0 3 * * *", async () => {
+  cron.schedule("15 14 * * *", async () => {
     console.log("Running nightly scraper");
     try {
       await saveNightScrapResults();
