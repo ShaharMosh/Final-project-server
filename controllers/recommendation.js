@@ -15,29 +15,31 @@ export const runRecommendationScripts = async (req, res) => {
 
     const selectedItems = output.selected_items;
     const wishlistItems = output.wishlist_ids;
+    let orderedItems = [];
 
-    console.log("Running second Python script...");
+    if (wishlistItems && wishlistItems.length > 0) {
+      console.log("Running second Python script...");
 
-    // Combine selectedItems and wishlistItems into one argument string
-    const args = `${selectedItems.join(",")} ${wishlistItems.join(",")}`;
-    const similarItemsOutput = await runPythonScript(
-      "python/suggestions.py",
-      args
-    );
+      // Combine selectedItems and wishlistItems into one argument string
+      const args = `${selectedItems.join(",")} ${wishlistItems.join(",")}`;
+      const similarItemsOutput = await runPythonScript(
+        "python/suggestions.py",
+        args
+      );
 
-    const itemIds = similarItemsOutput.similar_items.map(
-      (id) => new ObjectId(id)
-    );
+      const itemIds = similarItemsOutput.similar_items.map(
+        (id) => new ObjectId(id)
+      );
 
-    // Fetch items and populate the store field
-    const items = await Item.find({ _id: { $in: itemIds } })
-      .populate("store")
-      .exec();
+      // Fetch items and populate the store field
+      const items = await Item.find({ _id: { $in: itemIds } })
+        .populate("store")
+        .exec();
 
-    const orderedItems = itemIds.map((id) =>
-      items.find((item) => item._id.equals(id))
-    );
-
+      orderedItems = itemIds.map((id) =>
+        items.find((item) => item._id.equals(id))
+      );
+    }
     res.json({ selected_items: selectedItems, similar_items: orderedItems });
   } catch (error) {
     console.error(`Error in runRecommendationScripts: ${error.message}`);
