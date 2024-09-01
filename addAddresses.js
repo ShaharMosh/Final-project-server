@@ -807,11 +807,11 @@ const seedAddresses = async () => {
         storeMap[store.name] = store._id;
       });
 
-      // Update addresses with the correct ObjectId and include latitude and longitude if provided
+      // Update addresses with the correct ObjectId 
       const updatedAddresses = addresses.map((addr) => {
         const updatedAddr = {
           id: addr.id,
-          name: storeMap[addr.name], // Set the name field to the corresponding ObjectId
+          name: storeMap[addr.name], 
           address: addr.address,
         };
         if (addr.latitude && addr.longitude) {

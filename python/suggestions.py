@@ -32,8 +32,8 @@ def get_top_similar_items(selected_ids, wishlist_ids):
     obj_ids = clothes['_id'].tolist()
 
     # Set weights for category and color
-    category_weight = 3  # Example weight
-    color_weight = 3     # Example weight
+    category_weight = 3  
+    color_weight = 3     
 
     # Create a combined list of attributes for each item
     def create_bow(row):
@@ -97,7 +97,6 @@ def get_top_similar_items(selected_ids, wishlist_ids):
     return all_top_items, detailed_similar_items
 
 if __name__ == "__main__":
-    # Get the list of selected item IDs from the command-line arguments
     args = sys.argv[1:]
     selected_item_ids = args[0].split(',')
     wishlist_item_ids = args[1].split(',')

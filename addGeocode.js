@@ -37,7 +37,7 @@ const geocodeAndUpdateAddresses = async () => {
           console.log(
             `Skipping: ${addressData.name} already has latitude and longitude`
           );
-          continue; // Skip geocoding if latitude and longitude are already set
+          continue; // Skip geocoding if already set
         }
 
         const location = await geocodeAddress(addressData.address);
