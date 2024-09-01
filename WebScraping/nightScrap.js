@@ -131,7 +131,7 @@ async function updateItems() {
 
 // Schedule the task to run every day at 3:00 AM
 async function scheduleNightlyScraper() {
-  cron.schedule("15 14 * * *", async () => {
+  cron.schedule("0 3 * * *", async () => {
     console.log("Running nightly scraper");
     try {
       await saveNightScrapResults();
