@@ -34,6 +34,7 @@ Searching for a store is implemented as follows: First, the addresses of the sto
 
 ### Recommendations
 The recommendation system is implemented as follows: Two scripts are run. The first script classifies the items in the wishlist into clusters using the K-Means algorithm, and from the three largest clusters, one item is selected. The three selected items are then passed to the second script, where the three most similar items are found for each from the item database. This is done using a representation method based on Bag of Words and Cosine Similarity. The items are represented as vectors, with specific weights assigned to each parameter, and the most similar vectors are selected.
+We used the [following guide](https://medium.com/@prateekgaurav/step-by-step-content-based-recommendation-system-823bbfd0541c) as help in building the recommendation system.
 
 ## Installation
 
