@@ -8,7 +8,7 @@ In this repository, there is a server-side using Node JS and a client-side using
 The client sends the following details to the server: email, first name, last name, password and password verification. If the email does not exist in the user table in the DB, then a new record will be created in the user table with the details of the new user. If the email exists then send an appropriate error message to the customer.
 
 ### Login
-The client sends the email and password that the user entered in the application to the server. If they exist in the user table then the server will answer 200 and the client will move the user to the home screen. If the details do not exist in the user table then an appropriate error message will be returned to the client.
+The client sends the email and password that the user entered in the application to the server. If they exist in the user table the server will generate a JWT and include it in the response. The server will then answer with a 200 status code, and the client will move the user to the home screen. The user attaches the token to the Authorization header when making subsequent requests to the server, allowing the server to verify the user's identity without requiring them to re-enter their credentials. If the details do not exist in the user table then an appropriate error message will be returned to the client.
 
 ### Password reset by sending an email
 
