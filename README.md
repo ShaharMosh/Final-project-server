@@ -44,9 +44,10 @@ Then open a terminal and clone the project:
 ```
 git clone https://github.com/ShaharMosh/server.git
 ```
-Before running this project, you need to install this Node.js and pthron libraries:
+Before running this project, you need to install this Node.js and python libraries:
 ```
 npm install express dotenv http cors body-parser axios nodemailer jsonwebtoken child_process fs mongodb mongoose node-cron cheerio playwright
+```
 ```
 pip install pandas random json sys sklearn pymongo bson
 ```
